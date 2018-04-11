@@ -7,9 +7,11 @@
 //
 
 #import "ViewController.h"
+#import <CoreData/CoreData.h>
 
 @interface ViewController ()
-
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray *dataArray;
 @end
 
 @implementation ViewController
@@ -17,8 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    NSPersistentStoreCoordinator * coorinateor;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

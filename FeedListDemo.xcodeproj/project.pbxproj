@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A3E2B33964C7E0968429DB2F /* Pods_FeedListDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D196658357A77764BD1F13 /* Pods_FeedListDemo.framework */; };
 		B12F4AFB207DDEE200A9D871 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4AFA207DDEE200A9D871 /* AppDelegate.m */; };
 		B12F4AFE207DDEE200A9D871 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4AFD207DDEE200A9D871 /* ViewController.m */; };
 		B12F4B01207DDEE200A9D871 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B12F4AFF207DDEE200A9D871 /* Main.storyboard */; };
@@ -15,6 +16,13 @@
 		B12F4B09207DDEE200A9D871 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B08207DDEE200A9D871 /* main.m */; };
 		B12F4B13207DDEE200A9D871 /* FeedListDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B12207DDEE200A9D871 /* FeedListDemoTests.m */; };
 		B12F4B1E207DDEE200A9D871 /* FeedListDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B1D207DDEE200A9D871 /* FeedListDemoUITests.m */; };
+		B12F4B2E207DDF6400A9D871 /* MTListAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B2D207DDF6400A9D871 /* MTListAdapter.m */; };
+		B12F4B30207DF15200A9D871 /* json.json in Resources */ = {isa = PBXBuildFile; fileRef = B12F4B2F207DF15200A9D871 /* json.json */; };
+		B12F4B33207DF3E700A9D871 /* Recommend.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B31207DF3E700A9D871 /* Recommend.xcdatamodeld */; };
+		B12F4B39207DF6BB00A9D871 /* MTRecommendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B38207DF6BB00A9D871 /* MTRecommendModel.m */; };
+		B12F4B3C207DF91500A9D871 /* MTUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B3B207DF91500A9D871 /* MTUserModel.m */; };
+		B12F4B4A207DFF3900A9D871 /* Recommend+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B48207DFF3900A9D871 /* Recommend+CoreDataClass.m */; };
+		B12F4B4B207DFF3900A9D871 /* Recommend+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B49207DFF3900A9D871 /* Recommend+CoreDataProperties.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1CA81F7F7AE7ACB8BD8BB2CE /* Pods-FeedListDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedListDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		B12F4AF6207DDEE200A9D871 /* FeedListDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedListDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B12F4AF9207DDEE200A9D871 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B12F4AFA207DDEE200A9D871 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -51,6 +60,20 @@
 		B12F4B19207DDEE200A9D871 /* FeedListDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedListDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B12F4B1D207DDEE200A9D871 /* FeedListDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedListDemoUITests.m; sourceTree = "<group>"; };
 		B12F4B1F207DDEE200A9D871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B12F4B2C207DDF6400A9D871 /* MTListAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListAdapter.h; sourceTree = "<group>"; };
+		B12F4B2D207DDF6400A9D871 /* MTListAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTListAdapter.m; sourceTree = "<group>"; };
+		B12F4B2F207DF15200A9D871 /* json.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = json.json; sourceTree = "<group>"; };
+		B12F4B32207DF3E700A9D871 /* Recommend.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Recommend.xcdatamodel; sourceTree = "<group>"; };
+		B12F4B37207DF6BB00A9D871 /* MTRecommendModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MTRecommendModel.h; path = FeedListDemo/MTRecommendModel.h; sourceTree = SOURCE_ROOT; };
+		B12F4B38207DF6BB00A9D871 /* MTRecommendModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MTRecommendModel.m; path = FeedListDemo/MTRecommendModel.m; sourceTree = SOURCE_ROOT; };
+		B12F4B3A207DF91500A9D871 /* MTUserModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MTUserModel.h; path = FeedListDemo/MTUserModel.h; sourceTree = SOURCE_ROOT; };
+		B12F4B3B207DF91500A9D871 /* MTUserModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MTUserModel.m; path = FeedListDemo/MTUserModel.m; sourceTree = SOURCE_ROOT; };
+		B12F4B46207DFF3900A9D871 /* Recommend+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Recommend+CoreDataProperties.h"; sourceTree = "<group>"; };
+		B12F4B47207DFF3900A9D871 /* Recommend+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Recommend+CoreDataClass.h"; sourceTree = "<group>"; };
+		B12F4B48207DFF3900A9D871 /* Recommend+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Recommend+CoreDataClass.m"; sourceTree = "<group>"; };
+		B12F4B49207DFF3900A9D871 /* Recommend+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Recommend+CoreDataProperties.m"; sourceTree = "<group>"; };
+		C8D196658357A77764BD1F13 /* Pods_FeedListDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedListDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FDD58B3CDB69FC8408BA5B31 /* Pods-FeedListDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedListDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3E2B33964C7E0968429DB2F /* Pods_FeedListDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,13 +102,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23BF8F07C792336158A1315B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C8D196658357A77764BD1F13 /* Pods_FeedListDemo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8B2310F7D680B6D9035BE4A2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1CA81F7F7AE7ACB8BD8BB2CE /* Pods-FeedListDemo.debug.xcconfig */,
+				FDD58B3CDB69FC8408BA5B31 /* Pods-FeedListDemo.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B12F4AED207DDEE200A9D871 = {
 			isa = PBXGroup;
 			children = (
+				B12F4B2B207DDF2F00A9D871 /* MTListAdapter */,
 				B12F4AF8207DDEE200A9D871 /* FeedListDemo */,
 				B12F4B11207DDEE200A9D871 /* FeedListDemoTests */,
 				B12F4B1C207DDEE200A9D871 /* FeedListDemoUITests */,
 				B12F4AF7207DDEE200A9D871 /* Products */,
+				8B2310F7D680B6D9035BE4A2 /* Pods */,
+				23BF8F07C792336158A1315B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +145,7 @@
 		B12F4AF8207DDEE200A9D871 /* FeedListDemo */ = {
 			isa = PBXGroup;
 			children = (
+				B12F4B34207DF4B300A9D871 /* Class */,
 				B12F4AF9207DDEE200A9D871 /* AppDelegate.h */,
 				B12F4AFA207DDEE200A9D871 /* AppDelegate.m */,
 				B12F4AFC207DDEE200A9D871 /* ViewController.h */,
@@ -110,6 +155,8 @@
 				B12F4B04207DDEE200A9D871 /* LaunchScreen.storyboard */,
 				B12F4B07207DDEE200A9D871 /* Info.plist */,
 				B12F4B08207DDEE200A9D871 /* main.m */,
+				B12F4B2F207DF15200A9D871 /* json.json */,
+				B12F4B31207DF3E700A9D871 /* Recommend.xcdatamodeld */,
 			);
 			path = FeedListDemo;
 			sourceTree = "<group>";
@@ -132,6 +179,46 @@
 			path = FeedListDemoUITests;
 			sourceTree = "<group>";
 		};
+		B12F4B2B207DDF2F00A9D871 /* MTListAdapter */ = {
+			isa = PBXGroup;
+			children = (
+				B12F4B2C207DDF6400A9D871 /* MTListAdapter.h */,
+				B12F4B2D207DDF6400A9D871 /* MTListAdapter.m */,
+			);
+			path = MTListAdapter;
+			sourceTree = "<group>";
+		};
+		B12F4B34207DF4B300A9D871 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				B12F4B35207DF4B300A9D871 /* Model */,
+				B12F4B36207DF4B300A9D871 /* ViewController */,
+			);
+			path = Class;
+			sourceTree = SOURCE_ROOT;
+		};
+		B12F4B35207DF4B300A9D871 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B12F4B46207DFF3900A9D871 /* Recommend+CoreDataProperties.h */,
+				B12F4B49207DFF3900A9D871 /* Recommend+CoreDataProperties.m */,
+				B12F4B47207DFF3900A9D871 /* Recommend+CoreDataClass.h */,
+				B12F4B48207DFF3900A9D871 /* Recommend+CoreDataClass.m */,
+				B12F4B37207DF6BB00A9D871 /* MTRecommendModel.h */,
+				B12F4B38207DF6BB00A9D871 /* MTRecommendModel.m */,
+				B12F4B3A207DF91500A9D871 /* MTUserModel.h */,
+				B12F4B3B207DF91500A9D871 /* MTUserModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B12F4B36207DF4B300A9D871 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,9 +226,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B12F4B22207DDEE200A9D871 /* Build configuration list for PBXNativeTarget "FeedListDemo" */;
 			buildPhases = (
+				E5D18E7081BED2315D77E730 /* [CP] Check Pods Manifest.lock */,
 				B12F4AF2207DDEE200A9D871 /* Sources */,
 				B12F4AF3207DDEE200A9D871 /* Frameworks */,
 				B12F4AF4207DDEE200A9D871 /* Resources */,
+				64CEFD4DDE79B943E57ADCE4 /* [CP] Embed Pods Frameworks */,
+				D0477D219AB387BB991B9462 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -199,6 +289,7 @@
 				TargetAttributes = {
 					B12F4AF5207DDEE200A9D871 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
 					};
 					B12F4B0D207DDEE200A9D871 = {
 						CreatedOnToolsVersion = 9.3;
@@ -238,6 +329,7 @@
 				B12F4B06207DDEE200A9D871 /* LaunchScreen.storyboard in Resources */,
 				B12F4B03207DDEE200A9D871 /* Assets.xcassets in Resources */,
 				B12F4B01207DDEE200A9D871 /* Main.storyboard in Resources */,
+				B12F4B30207DF15200A9D871 /* json.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,13 +349,73 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		64CEFD4DDE79B943E57ADCE4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0477D219AB387BB991B9462 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E5D18E7081BED2315D77E730 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FeedListDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B12F4AF2207DDEE200A9D871 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B12F4B2E207DDF6400A9D871 /* MTListAdapter.m in Sources */,
 				B12F4AFE207DDEE200A9D871 /* ViewController.m in Sources */,
+				B12F4B4A207DFF3900A9D871 /* Recommend+CoreDataClass.m in Sources */,
+				B12F4B4B207DFF3900A9D871 /* Recommend+CoreDataProperties.m in Sources */,
+				B12F4B3C207DF91500A9D871 /* MTUserModel.m in Sources */,
 				B12F4B09207DDEE200A9D871 /* main.m in Sources */,
+				B12F4B39207DF6BB00A9D871 /* MTRecommendModel.m in Sources */,
+				B12F4B33207DF3E700A9D871 /* Recommend.xcdatamodeld in Sources */,
 				B12F4AFB207DDEE200A9D871 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -431,34 +583,45 @@
 		};
 		B12F4B23207DDEE200A9D871 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1CA81F7F7AE7ACB8BD8BB2CE /* Pods-FeedListDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T4654Y4Z9R;
 				INFOPLIST_FILE = FeedListDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = LV.FeedListDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FeedListDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		B12F4B24207DDEE200A9D871 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FDD58B3CDB69FC8408BA5B31 /* Pods-FeedListDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T4654Y4Z9R;
 				INFOPLIST_FILE = FeedListDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = LV.FeedListDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "FeedListDemo-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -577,6 +740,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B12F4B31207DF3E700A9D871 /* Recommend.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B12F4B32207DF3E700A9D871 /* Recommend.xcdatamodel */,
+			);
+			currentVersion = B12F4B32207DF3E700A9D871 /* Recommend.xcdatamodel */;
+			path = Recommend.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B12F4AEE207DDEE200A9D871 /* Project object */;
 }
