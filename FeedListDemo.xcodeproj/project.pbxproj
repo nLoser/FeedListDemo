@@ -26,6 +26,10 @@
 		B12F4B94207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B91207F463400A9D871 /* FeedModel.xcdatamodeld */; };
 		B12F4B99207F46EC00A9D871 /* Recommend+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B96207F46EC00A9D871 /* Recommend+CoreDataProperties.m */; };
 		B12F4B9A207F46EC00A9D871 /* Recommend+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B98207F46EC00A9D871 /* Recommend+CoreDataClass.m */; };
+		B12F4B9E207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */; };
+		B12F4B9F207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */; };
+		B12F4BA6207F729200A9D871 /* MTFetchBatchUpdateData.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4BA5207F729200A9D871 /* MTFetchBatchUpdateData.m */; };
+		B12F4BA7207F729200A9D871 /* MTFetchBatchUpdateData.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4BA5207F729200A9D871 /* MTFetchBatchUpdateData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +81,12 @@
 		B12F4B96207F46EC00A9D871 /* Recommend+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Recommend+CoreDataProperties.m"; path = "/Users/meipai_lv/Documents/GitHub/FeedListDemo/Class/Model/Recommend+CoreDataProperties.m"; sourceTree = "<absolute>"; };
 		B12F4B97207F46EC00A9D871 /* Recommend+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Recommend+CoreDataClass.h"; path = "/Users/meipai_lv/Documents/GitHub/FeedListDemo/Class/Model/Recommend+CoreDataClass.h"; sourceTree = "<absolute>"; };
 		B12F4B98207F46EC00A9D871 /* Recommend+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Recommend+CoreDataClass.m"; path = "/Users/meipai_lv/Documents/GitHub/FeedListDemo/Class/Model/Recommend+CoreDataClass.m"; sourceTree = "<absolute>"; };
+		B12F4B9C207F666400A9D871 /* MTFetchMOCAdapterUpdater.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchMOCAdapterUpdater.h; sourceTree = "<group>"; };
+		B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTFetchMOCAdapterUpdater.m; sourceTree = "<group>"; };
+		B12F4BA3207F71C700A9D871 /* MTFetchResultUpdaterDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchResultUpdaterDelegate.h; sourceTree = "<group>"; };
+		B12F4BA4207F729200A9D871 /* MTFetchBatchUpdateData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchBatchUpdateData.h; sourceTree = "<group>"; };
+		B12F4BA5207F729200A9D871 /* MTFetchBatchUpdateData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTFetchBatchUpdateData.m; sourceTree = "<group>"; };
+		B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchBatchUpdateState.h; sourceTree = "<group>"; };
 		C8D196658357A77764BD1F13 /* Pods_FeedListDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedListDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD58B3CDB69FC8408BA5B31 /* Pods-FeedListDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedListDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -161,7 +171,7 @@
 				B12F4B07207DDEE200A9D871 /* Info.plist */,
 				B12F4B08207DDEE200A9D871 /* main.m */,
 				B12F4B2F207DF15200A9D871 /* json.json */,
-				B12F4B91207F463400A9D871 /* FeedModel.xcdatamodeld */,
+				B12F4B9B207F4CCF00A9D871 /* xcdatamodel */,
 			);
 			path = FeedListDemo;
 			sourceTree = "<group>";
@@ -189,6 +199,12 @@
 			children = (
 				B12F4B2C207DDF6400A9D871 /* MTListAdapter.h */,
 				B12F4B2D207DDF6400A9D871 /* MTListAdapter.m */,
+				B12F4B9C207F666400A9D871 /* MTFetchMOCAdapterUpdater.h */,
+				B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */,
+				B12F4BA3207F71C700A9D871 /* MTFetchResultUpdaterDelegate.h */,
+				B12F4BA4207F729200A9D871 /* MTFetchBatchUpdateData.h */,
+				B12F4BA5207F729200A9D871 /* MTFetchBatchUpdateData.m */,
+				B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */,
 			);
 			path = MTListAdapter;
 			sourceTree = "<group>";
@@ -224,6 +240,14 @@
 				B12F4B7B207F311400A9D871 /* FeedLiveViewCell.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		B12F4B9B207F4CCF00A9D871 /* xcdatamodel */ = {
+			isa = PBXGroup;
+			children = (
+				B12F4B91207F463400A9D871 /* FeedModel.xcdatamodeld */,
+			);
+			path = xcdatamodel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -421,8 +445,10 @@
 				B12F4B99207F46EC00A9D871 /* Recommend+CoreDataProperties.m in Sources */,
 				B12F4AFE207DDEE200A9D871 /* ViewController.m in Sources */,
 				B12F4B5E207F11A300A9D871 /* MTUserModel.m in Sources */,
+				B12F4B9E207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */,
 				B12F4B9A207F46EC00A9D871 /* Recommend+CoreDataClass.m in Sources */,
 				B12F4B09207DDEE200A9D871 /* main.m in Sources */,
+				B12F4BA6207F729200A9D871 /* MTFetchBatchUpdateData.m in Sources */,
 				B12F4B5D207F11A300A9D871 /* MTRecommendModel.m in Sources */,
 				B12F4AFB207DDEE200A9D871 /* AppDelegate.m in Sources */,
 			);
@@ -441,7 +467,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B12F4B7D207F311400A9D871 /* FeedLiveViewCell.m in Sources */,
+				B12F4BA7207F729200A9D871 /* MTFetchBatchUpdateData.m in Sources */,
 				B12F4B1E207DDEE200A9D871 /* FeedListDemoUITests.m in Sources */,
+				B12F4B9F207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */,
 				B12F4B94207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -597,6 +625,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T4654Y4Z9R;
 				INFOPLIST_FILE = FeedListDemo/Info.plist;
@@ -607,6 +636,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = LV.FeedListDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "FeedListDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -620,6 +651,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T4654Y4Z9R;
 				INFOPLIST_FILE = FeedListDemo/Info.plist;
@@ -630,6 +662,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = LV.FeedListDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "FeedListDemo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

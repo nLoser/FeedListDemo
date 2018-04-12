@@ -8,7 +8,6 @@
 
 #import "FeedLiveViewCell.h"
 #import <YYKit/YYLabel.h>
-#import <YYKit/UIImageView+YYWebImage.h>
 #import <YYKit/CALayer+YYWebImage.h>
 
 NSString *const kFeedLiveViewCellReuseIndentifier = @"kFeedLiveViewCell";
@@ -56,6 +55,7 @@ NSString *const kFeedLiveViewCellReuseIndentifier = @"kFeedLiveViewCell";
         _bgImageLayer.rasterizationScale = [UIScreen mainScreen].scale;
         _bgImageLayer.shouldRasterize = YES;
         _bgImageLayer.opaque = YES;
+        _bgImageLayer.contentsGravity = kCAGravityResize;
     }
     return _bgImageLayer;
 }
@@ -83,12 +83,12 @@ NSString *const kFeedLiveViewCellReuseIndentifier = @"kFeedLiveViewCell";
 
 - (YYLabel *)indexLabel {
     if (!_indexLabel) {
-        _indexLabel = [[YYLabel alloc] initWithFrame:CGRectMake(0, 0, 60, 100)];
+        _indexLabel = [[YYLabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 100)];
         _indexLabel.textAlignment = NSTextAlignmentCenter;
         _indexLabel.textColor = [UIColor blackColor];
         _indexLabel.shadowColor = [UIColor whiteColor];
         _indexLabel.shadowOffset = CGSizeMake(0, 0);
-        _indexLabel.font = [UIFont systemFontOfSize:24];
+        _indexLabel.font = [UIFont systemFontOfSize:30];
         _indexLabel.shadowBlurRadius = 2;
         _indexLabel.center = CGPointMake(self.frame.size.width/2.f, self.frame.size.height/2.f);
     }

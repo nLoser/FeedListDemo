@@ -14,7 +14,7 @@
 
 #import "FeedLiveViewCell.h"
 
-@interface ViewController ()<NSFetchedResultsControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource>
+@interface ViewController ()<NSFetchedResultsControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) NSManagedObjectContext *moContext;
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultController;
 @property (nonatomic, strong) UITableView *tableView;
@@ -45,10 +45,12 @@
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        layout.minimumLineSpacing = 2;
-        layout.minimumInteritemSpacing = 0;
-        layout.sectionInset = UIEdgeInsetsZero;
+        layout.minimumInteritemSpacing = 1;
+        layout.minimumLineSpacing = 1;
+        layout.sectionInset = UIEdgeInsetsMake(0, 0, 1, 0);
+    
         _collectionView = [[UICollectionView alloc] initWithFrame:[UIScreen mainScreen].bounds collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.alwaysBounceVertical = YES;
@@ -63,7 +65,11 @@
     if(!_moContext) return;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Recommend"];
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
-    _fetchedResultController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_moContext sectionNameKeyPath:@"index" cacheName:nil];
+    _fetchedResultController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                   managedObjectContext:_moContext
+                                                                     sectionNameKeyPath:nil
+                                                                              cacheName:nil];
+    
     _fetchedResultController.delegate = self;
     NSError *error = nil;
     [_fetchedResultController performFetch:&error];
@@ -143,37 +149,47 @@
     Recommend *rec = [_fetchedResultController objectAtIndexPath:indexPath];
     MTRecommendLiveModel *model = [MTRecommendLiveModel modelWithJSON:rec.live];
     cell.model = model;
-    cell.indexString = [NSString stringWithFormat:@"%ld_%ld",(long)indexPath.section,(long)indexPath.row];
+    cell.indexString = [NSString stringWithFormat:@"%ld_%d",(long)indexPath.section,rec.index];
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake([UIScreen mainScreen].bounds.size.width/2.f, [UIScreen mainScreen].bounds.size.width/2.f * 1.2);
+    CGFloat width = [UIScreen mainScreen].bounds.size.width/2.f-0.5;
+    return CGSizeMake(width, width * 1.2);
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(nullable NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(nullable NSIndexPath *)newIndexPath {
-    NSLog(@"【3.2-object】didChangeObject\n%@\n%@\n%@\n%lu\n",anObject, newIndexPath,indexPath,(unsigned long)type);
+    NSLog(@"【2_object】%ld_%@",newIndexPath.row,logStataus(type));
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-    NSLog(@"【3.1-section】\n-------------------\n%@\n%@\n%@\n-------------------",sectionInfo.name,sectionInfo.indexTitle,sectionInfo.objects);
-}
-
-- (nullable NSString *)controller:(NSFetchedResultsController *)controller sectionIndexTitleForSectionName:(NSString *)sectionName {
-    NSLog(@"【1】sectionIndexTitleForSectionName : %@",sectionName);
-    //TODO:初始化加载数据，然后开始刷新
-    return sectionName;
+static NSString * logStataus(NSFetchedResultsChangeType type) {
+    switch (type) {
+        case 1:
+            return @"ChangeInsert";
+            break;
+        case 2:
+            return @"ChangeDelete";
+            break;
+        case 3:
+            return @"ChangeMove";
+            break;
+        case 4:
+            return @"ChangeUpdate";
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    NSLog(@"【2】controllerWillChangeContent");
+    NSLog(@"【1】controllerWillChangeContent");
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    NSLog(@"【4】controllerDidChangeContent");
-    //[self.collectionView reloadData];
+    NSLog(@"【3】controllerDidChangeContent");
+    [self.collectionView reloadData];
 }
-
 @end
