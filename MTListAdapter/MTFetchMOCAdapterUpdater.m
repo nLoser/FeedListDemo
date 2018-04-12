@@ -21,9 +21,9 @@
 
 #pragma mark - LifeCycle
 
-- (instancetype)createDefaultFetchWithContext:(NSString*)contextName
-                                       entity:(NSString *)entityName
-                                    sortDescs:(NSArray *)sortDescs {
+- (instancetype)initWithFetchWithContext:(NSString*)contextName
+                                  entity:(NSString *)entityName
+                               sortDescs:(NSArray *)sortDescs {
     return [self initWithContext:contextName
                           entity:entityName
                        sortDescs:sortDescs
@@ -43,6 +43,9 @@
         _updateState = MTFetchBatchUpdateState_Idle;
         
         _bacthUpdateData = nil;
+        
+        [self setupManagedObjectContextWithContextName:contextName sqliteName:sqliteName];
+        [self bindMangedObjectContextBySortDescs:sortDescs];
     }
     return self;
 }
@@ -111,7 +114,6 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
         case 4:
             return @"ChangeUpdate";
             break;
-            
         default:
             break;
     }
@@ -122,6 +124,7 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     NSLog(@"【1】controllerWillChangeContent");
     _updateState = MTFetchBatchUpdateState_WillChangeContext;
+    
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
@@ -132,6 +135,24 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(nullable NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(nullable NSIndexPath *)newIndexPath {
     NSLog(@"【2_object】%ld_%@",newIndexPath.row,logStataus(type));
+    
+    switch (type) {
+        case NSFetchedResultsChangeDelete: {
+            
+        }
+            break;
+        case NSFetchedResultsChangeInsert: {
+            
+        }
+            break;
+        case NSFetchedResultsChangeUpdate: {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end

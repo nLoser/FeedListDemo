@@ -18,12 +18,14 @@
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-- (instancetype)createDefaultFetchWithContext:(NSString*)contextName
-                                       entity:(NSString *)entityName
-                                    sortDescs:(NSArray *)sortDescs;
+- (instancetype)initWithFetchWithContext:(NSString*)contextName
+                                  entity:(NSString *)entityName
+                               sortDescs:(NSArray *)sortDescs;
 
 @property (nonatomic, strong, readonly) NSManagedObjectContext *moContext;
+
 @property (nonatomic, strong, readonly) NSFetchedResultsController *fetchController;
+
 @property (nonatomic, strong, readonly) NSString *entityName;
 @property (nonatomic, assign, readonly) NSUInteger pageSize;
 

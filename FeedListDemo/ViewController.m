@@ -14,11 +14,11 @@
 
 #import "FeedLiveViewCell.h"
 
-@interface ViewController ()<NSFetchedResultsControllerDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
-@property (nonatomic, strong) NSManagedObjectContext *moContext;
-@property (nonatomic, strong) NSFetchedResultsController *fetchedResultController;
+#import "MTListAdapter.h"
+
+@interface ViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@property (nonatomic, strong) MTListAdapter *adapter;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray<MTRecommendItemModel *> *dataArray;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, assign) int pageIndex; // pagesize = 5
 @end
@@ -28,14 +28,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    _dataArray = [NSMutableArray array];
     _pageIndex = 0;
+    
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+    MTFetchMOCAdapterUpdater *updater = [[MTFetchMOCAdapterUpdater alloc] initWithFetchWithContext:@"FeedModel"
+                                                                                            entity:@"Recommend"
+                                                                                         sortDescs:@[descriptor]];
+    _adapter = [[MTListAdapter alloc] initWithUpdater:updater viewController:self];
 
     [self.view addSubview:self.collectionView];
 
-    [self createCoreDataContext];
-    [self createFRCBindMOC];
-    
     [self.collectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(testLoadData)]];
 }
 
@@ -61,45 +63,6 @@
 
 #pragma mark - Private
 
-- (void)createFRCBindMOC {
-    if(!_moContext) return;
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Recommend"];
-    request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
-    _fetchedResultController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
-                                                                   managedObjectContext:_moContext
-                                                                     sectionNameKeyPath:nil
-                                                                              cacheName:nil];
-    
-    _fetchedResultController.delegate = self;
-    NSError *error = nil;
-    [_fetchedResultController performFetch:&error];
-    if (error) {
-        NSLog(@"##Bind OMContext failed : %@",error);
-        return;
-    }
-}
-
-- (void)createCoreDataContext {
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"FeedModel" withExtension:@"momd"];
-    if(!modelURL) return;
-    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    
-    NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-    NSString *dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"data.sqlite"];
-    NSURL *dbURL = [NSURL fileURLWithPath:dbPath];
-    
-    NSError *error = nil;
-    [coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:dbURL options:nil error:&error];
-    if (error) {
-        NSLog(@"##Open database failed : %@", error);
-        return;
-    }
-    
-    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator = coordinator;
-    _moContext = context;
-}
-
 #pragma mark - UIEvents
 
 - (void)testLoadData {
@@ -108,16 +71,15 @@
     MTRecommendProgramsModel *programs = [MTRecommendProgramsModel modelWithJSON:jsonData];
     
     [self insertDataBase:programs.programs];
-    [_dataArray addObjectsFromArray:programs.programs];
     
     _pageIndex ++;
 }
 
 - (void)insertDataBase:(NSArray<MTRecommendItemModel *> *)programs {
-    if(!_moContext) return;
+    if(!_adapter) return;
     int index = 1 + _pageIndex * 5;
     for (MTRecommendItemModel *item in programs) {
-        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:@"Recommend" inManagedObjectContext:_moContext];
+        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:@"Recommend" inManagedObjectContext:_adapter.updater.moContext];
         recommend.recommend_caption = item.recommend_caption;
         recommend.recommend_cover_pic = item.recommend_cover_pic;
         recommend.recommend_cover_pic_size = item.recommend_cover_pic_size;
@@ -128,7 +90,7 @@
     }
     
     NSError *error = nil;
-    [_moContext save:&error];
+    [_adapter.updater.moContext save:&error];
     if (error) {
         NSLog(@"##Insert data failed : %@",error);
     }
@@ -137,16 +99,16 @@
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return _fetchedResultController.sections.count;
+    return _adapter.updater.fetchController.sections.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _fetchedResultController.sections[section].numberOfObjects;
+    return _adapter.updater.fetchController.sections[section].numberOfObjects;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     FeedLiveViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFeedLiveViewCellReuseIndentifier forIndexPath:indexPath];
-    Recommend *rec = [_fetchedResultController objectAtIndexPath:indexPath];
+    Recommend *rec = [_adapter.updater.fetchController objectAtIndexPath:indexPath];
     MTRecommendLiveModel *model = [MTRecommendLiveModel modelWithJSON:rec.live];
     cell.model = model;
     cell.indexString = [NSString stringWithFormat:@"%ld_%d",(long)indexPath.section,rec.index];
@@ -158,38 +120,4 @@
     return CGSizeMake(width, width * 1.2);
 }
 
-#pragma mark - NSFetchedResultsControllerDelegate
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(nullable NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(nullable NSIndexPath *)newIndexPath {
-    NSLog(@"【2_object】%ld_%@",newIndexPath.row,logStataus(type));
-}
-
-static NSString * logStataus(NSFetchedResultsChangeType type) {
-    switch (type) {
-        case 1:
-            return @"ChangeInsert";
-            break;
-        case 2:
-            return @"ChangeDelete";
-            break;
-        case 3:
-            return @"ChangeMove";
-            break;
-        case 4:
-            return @"ChangeUpdate";
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    NSLog(@"【1】controllerWillChangeContent");
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    NSLog(@"【3】controllerDidChangeContent");
-    [self.collectionView reloadData];
-}
 @end
