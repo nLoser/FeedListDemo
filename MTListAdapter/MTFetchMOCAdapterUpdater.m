@@ -14,7 +14,11 @@
 @property (nonatomic, strong, readwrite) NSFetchedResultsController *fetchController;
 @property (nonatomic, strong, readwrite) NSString *entityName;
 @property (nonatomic, assign, readwrite) NSUInteger pageSize;
-@property (nonatomic, strong, readwrite) MTFetchBatchUpdateData *bacthUpdateData;
+@property (nonatomic, assign, readwrite) MTFetchBatchUpdateState updateState;
+
+@property (nonatomic, strong) NSMutableArray *deleteSet;
+@property (nonatomic, strong) NSMutableArray *insertSet;
+@property (nonatomic, strong) NSMutableArray *updateSet;
 @end
 
 @implementation MTFetchMOCAdapterUpdater
@@ -42,7 +46,9 @@
         
         _updateState = MTFetchBatchUpdateState_Idle;
         
-        _bacthUpdateData = nil;
+        _updateSet = [NSMutableArray array];
+        _insertSet = [NSMutableArray array];
+        _deleteSet = [NSMutableArray array];
         
         [self setupManagedObjectContextWithContextName:contextName sqliteName:sqliteName];
         [self bindMangedObjectContextBySortDescs:sortDescs];
@@ -50,7 +56,13 @@
     return self;
 }
 
-#pragma mark - Public
+#pragma mark - Custom Accessors
+
+- (void)setCollectionView:(UICollectionView *)collectionView {
+    if (_collectionView != collectionView ) {
+        _collectionView = collectionView;
+    }
+}
 
 #pragma mark - Private
 
@@ -98,6 +110,30 @@
     return [_moContext countForFetchRequest:fetchRequest error:nil];
 }
 
+- (void)performBatchUpdatesWithCollectionView:(UICollectionView *)collectionView {
+    if(!collectionView) return;
+    __weak typeof(self) weakSelf = self;
+    void (^executeUpdateBlock)() = ^{
+        weakSelf.updateState = MTFetchBatchUpdateState_ExectingBatchUpdateBlock;
+        
+        [collectionView reloadItemsAtIndexPaths:weakSelf.updateSet];
+        [collectionView deleteItemsAtIndexPaths:weakSelf.deleteSet];
+        [collectionView insertItemsAtIndexPaths:weakSelf.insertSet];
+        
+        weakSelf.updateState = MTFetchBatchUpdateState_ExectingBatchUpdateBlock;
+    };
+    
+    [collectionView performBatchUpdates:executeUpdateBlock completion:^(BOOL finished) {
+        weakSelf.updateState = MTFetchBatchUpdateState_Idle;
+    }];
+}
+
+- (void)resetBatchUpdate {
+    [_updateSet removeAllObjects];
+    [_deleteSet removeAllObjects];
+    [_insertSet removeAllObjects];
+}
+
 #pragma mark - Private - inline
 
 static NSString * logStataus(NSFetchedResultsChangeType type) {
@@ -130,7 +166,8 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     NSLog(@"【3】controllerDidChangeContent");
     _updateState = MTFetchBatchUpdateState_DidChangeContext;
-    //TODO:Refresh
+    [self performBatchUpdatesWithCollectionView:_collectionView];
+    [self resetBatchUpdate];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(nullable NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(nullable NSIndexPath *)newIndexPath {
@@ -138,15 +175,15 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
     
     switch (type) {
         case NSFetchedResultsChangeDelete: {
-            
+            [_deleteSet addObject:newIndexPath];
         }
             break;
         case NSFetchedResultsChangeInsert: {
-            
+            [_insertSet addObject:newIndexPath];
         }
             break;
         case NSFetchedResultsChangeUpdate: {
-            
+            [_updateSet addObject:newIndexPath];
         }
             break;
             

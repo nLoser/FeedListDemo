@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
-#import "MTFetchBatchUpdateData.h"
 #import "MTFetchResultUpdaterDelegate.h"
 #import "MTFetchBatchUpdateState.h"
 
@@ -29,10 +29,10 @@
 @property (nonatomic, strong, readonly) NSString *entityName;
 @property (nonatomic, assign, readonly) NSUInteger pageSize;
 
-@property (nonatomic, strong, readonly) MTFetchBatchUpdateData *bacthUpdateData;
-
 @property (nonatomic, assign, readonly) MTFetchBatchUpdateState updateState;
 
 @property (nonatomic, weak) id <MTFetchResultUpdaterDelegate> delegate;
+
+@property (nonatomic, weak) UICollectionView *collectionView;
 
 @end

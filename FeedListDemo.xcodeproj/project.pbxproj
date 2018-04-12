@@ -10,7 +10,6 @@
 		A3E2B33964C7E0968429DB2F /* Pods_FeedListDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C8D196658357A77764BD1F13 /* Pods_FeedListDemo.framework */; };
 		A9267C45207F99C40099E80D /* Recommend+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A9267C41207F99C40099E80D /* Recommend+CoreDataProperties.m */; };
 		A9267C46207F99C40099E80D /* Recommend+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A9267C42207F99C40099E80D /* Recommend+CoreDataClass.m */; };
-		A9267C4C207FB0250099E80D /* MTListAdapter+UICollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9267C4B207FB0250099E80D /* MTListAdapter+UICollectionView.m */; };
 		B12F4AFB207DDEE200A9D871 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4AFA207DDEE200A9D871 /* AppDelegate.m */; };
 		B12F4AFE207DDEE200A9D871 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4AFD207DDEE200A9D871 /* ViewController.m */; };
 		B12F4B01207DDEE200A9D871 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B12F4AFF207DDEE200A9D871 /* Main.storyboard */; };
@@ -19,7 +18,6 @@
 		B12F4B09207DDEE200A9D871 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B08207DDEE200A9D871 /* main.m */; };
 		B12F4B13207DDEE200A9D871 /* FeedListDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B12207DDEE200A9D871 /* FeedListDemoTests.m */; };
 		B12F4B1E207DDEE200A9D871 /* FeedListDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B1D207DDEE200A9D871 /* FeedListDemoUITests.m */; };
-		B12F4B2E207DDF6400A9D871 /* MTListAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B2D207DDF6400A9D871 /* MTListAdapter.m */; };
 		B12F4B30207DF15200A9D871 /* json.json in Resources */ = {isa = PBXBuildFile; fileRef = B12F4B2F207DF15200A9D871 /* json.json */; };
 		B12F4B5D207F11A300A9D871 /* MTRecommendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B5A207F11A300A9D871 /* MTRecommendModel.m */; };
 		B12F4B5E207F11A300A9D871 /* MTUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B5B207F11A300A9D871 /* MTUserModel.m */; };
@@ -29,8 +27,6 @@
 		B12F4B94207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B91207F463400A9D871 /* FeedModel.xcdatamodeld */; };
 		B12F4B9E207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */; };
 		B12F4B9F207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */; };
-		B12F4BA6207F729200A9D871 /* MTFetchBatchUpdateData.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4BA5207F729200A9D871 /* MTFetchBatchUpdateData.m */; };
-		B12F4BA7207F729200A9D871 /* MTFetchBatchUpdateData.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4BA5207F729200A9D871 /* MTFetchBatchUpdateData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,9 +52,6 @@
 		A9267C42207F99C40099E80D /* Recommend+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Recommend+CoreDataClass.m"; sourceTree = "<group>"; };
 		A9267C43207F99C40099E80D /* Recommend+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Recommend+CoreDataClass.h"; sourceTree = "<group>"; };
 		A9267C44207F99C40099E80D /* Recommend+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Recommend+CoreDataProperties.h"; sourceTree = "<group>"; };
-		A9267C49207FA6860099E80D /* MTListAdapterInternal.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; path = MTListAdapterInternal.h; sourceTree = "<group>"; };
-		A9267C4A207FB0250099E80D /* MTListAdapter+UICollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTListAdapter+UICollectionView.h"; sourceTree = "<group>"; };
-		A9267C4B207FB0250099E80D /* MTListAdapter+UICollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MTListAdapter+UICollectionView.m"; sourceTree = "<group>"; };
 		B12F4AF6207DDEE200A9D871 /* FeedListDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedListDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B12F4AF9207DDEE200A9D871 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B12F4AFA207DDEE200A9D871 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -75,8 +68,6 @@
 		B12F4B19207DDEE200A9D871 /* FeedListDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeedListDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B12F4B1D207DDEE200A9D871 /* FeedListDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedListDemoUITests.m; sourceTree = "<group>"; };
 		B12F4B1F207DDEE200A9D871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B12F4B2C207DDF6400A9D871 /* MTListAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListAdapter.h; sourceTree = "<group>"; };
-		B12F4B2D207DDF6400A9D871 /* MTListAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTListAdapter.m; sourceTree = "<group>"; };
 		B12F4B2F207DF15200A9D871 /* json.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = json.json; sourceTree = "<group>"; };
 		B12F4B59207F11A300A9D871 /* MTUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUserModel.h; sourceTree = "<group>"; };
 		B12F4B5A207F11A300A9D871 /* MTRecommendModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTRecommendModel.m; sourceTree = "<group>"; };
@@ -88,8 +79,6 @@
 		B12F4B9C207F666400A9D871 /* MTFetchMOCAdapterUpdater.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchMOCAdapterUpdater.h; sourceTree = "<group>"; };
 		B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTFetchMOCAdapterUpdater.m; sourceTree = "<group>"; };
 		B12F4BA3207F71C700A9D871 /* MTFetchResultUpdaterDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchResultUpdaterDelegate.h; sourceTree = "<group>"; };
-		B12F4BA4207F729200A9D871 /* MTFetchBatchUpdateData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchBatchUpdateData.h; sourceTree = "<group>"; };
-		B12F4BA5207F729200A9D871 /* MTFetchBatchUpdateData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTFetchBatchUpdateData.m; sourceTree = "<group>"; };
 		B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchBatchUpdateState.h; sourceTree = "<group>"; };
 		C8D196658357A77764BD1F13 /* Pods_FeedListDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedListDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD58B3CDB69FC8408BA5B31 /* Pods-FeedListDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedListDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -201,15 +190,8 @@
 		B12F4B2B207DDF2F00A9D871 /* MTListAdapter */ = {
 			isa = PBXGroup;
 			children = (
-				B12F4B2C207DDF6400A9D871 /* MTListAdapter.h */,
-				B12F4B2D207DDF6400A9D871 /* MTListAdapter.m */,
-				A9267C49207FA6860099E80D /* MTListAdapterInternal.h */,
-				A9267C4A207FB0250099E80D /* MTListAdapter+UICollectionView.h */,
-				A9267C4B207FB0250099E80D /* MTListAdapter+UICollectionView.m */,
 				B12F4B9C207F666400A9D871 /* MTFetchMOCAdapterUpdater.h */,
 				B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */,
-				B12F4BA4207F729200A9D871 /* MTFetchBatchUpdateData.h */,
-				B12F4BA5207F729200A9D871 /* MTFetchBatchUpdateData.m */,
 				B12F4BA3207F71C700A9D871 /* MTFetchResultUpdaterDelegate.h */,
 				B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */,
 			);
@@ -448,16 +430,13 @@
 			files = (
 				B12F4B93207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */,
 				A9267C45207F99C40099E80D /* Recommend+CoreDataProperties.m in Sources */,
-				B12F4B2E207DDF6400A9D871 /* MTListAdapter.m in Sources */,
 				B12F4B7C207F311400A9D871 /* FeedLiveViewCell.m in Sources */,
 				B12F4AFE207DDEE200A9D871 /* ViewController.m in Sources */,
 				B12F4B5E207F11A300A9D871 /* MTUserModel.m in Sources */,
 				A9267C46207F99C40099E80D /* Recommend+CoreDataClass.m in Sources */,
 				B12F4B9E207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */,
 				B12F4B09207DDEE200A9D871 /* main.m in Sources */,
-				B12F4BA6207F729200A9D871 /* MTFetchBatchUpdateData.m in Sources */,
 				B12F4B5D207F11A300A9D871 /* MTRecommendModel.m in Sources */,
-				A9267C4C207FB0250099E80D /* MTListAdapter+UICollectionView.m in Sources */,
 				B12F4AFB207DDEE200A9D871 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,7 +454,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B12F4B7D207F311400A9D871 /* FeedLiveViewCell.m in Sources */,
-				B12F4BA7207F729200A9D871 /* MTFetchBatchUpdateData.m in Sources */,
 				B12F4B1E207DDEE200A9D871 /* FeedListDemoUITests.m in Sources */,
 				B12F4B9F207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */,
 				B12F4B94207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */,

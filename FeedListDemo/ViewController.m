@@ -10,14 +10,14 @@
 #import <CoreData/CoreData.h>
 #import <YYKit/NSObject+YYModel.h>
 
+#import "MTFetchMOCAdapterUpdater.h"
+
 #import "MTRecommendModel.h"
 
 #import "FeedLiveViewCell.h"
 
-#import "MTListAdapter.h"
-
 @interface ViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
-@property (nonatomic, strong) MTListAdapter *adapter;
+@property (nonatomic, strong) MTFetchMOCAdapterUpdater *updater;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, assign) int pageIndex; // pagesize = 5
@@ -30,14 +30,14 @@
     
     _pageIndex = 0;
     
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
-    MTFetchMOCAdapterUpdater *updater = [[MTFetchMOCAdapterUpdater alloc] initWithFetchWithContext:@"FeedModel"
-                                                                                            entity:@"Recommend"
-                                                                                         sortDescs:@[descriptor]];
-    _adapter = [[MTListAdapter alloc] initWithUpdater:updater viewController:self];
-
     [self.view addSubview:self.collectionView];
 
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+    _updater = [[MTFetchMOCAdapterUpdater alloc] initWithFetchWithContext:@"FeedModel"
+                                                                   entity:@"Recommend"
+                                                                sortDescs:@[descriptor]];
+    _updater.collectionView = self.collectionView;
+    
     [self.collectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(testLoadData)]];
 }
 
@@ -76,10 +76,10 @@
 }
 
 - (void)insertDataBase:(NSArray<MTRecommendItemModel *> *)programs {
-    if(!_adapter) return;
+    if(!_updater) return;
     int index = 1 + _pageIndex * 5;
     for (MTRecommendItemModel *item in programs) {
-        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:@"Recommend" inManagedObjectContext:_adapter.updater.moContext];
+        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:@"Recommend" inManagedObjectContext:_updater.moContext];
         recommend.recommend_caption = item.recommend_caption;
         recommend.recommend_cover_pic = item.recommend_cover_pic;
         recommend.recommend_cover_pic_size = item.recommend_cover_pic_size;
@@ -90,7 +90,7 @@
     }
     
     NSError *error = nil;
-    [_adapter.updater.moContext save:&error];
+    [_updater.moContext save:&error];
     if (error) {
         NSLog(@"##Insert data failed : %@",error);
     }
@@ -99,16 +99,16 @@
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return _adapter.updater.fetchController.sections.count;
+    return _updater.fetchController.sections.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _adapter.updater.fetchController.sections[section].numberOfObjects;
+    return _updater.fetchController.sections[section].numberOfObjects;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     FeedLiveViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFeedLiveViewCellReuseIndentifier forIndexPath:indexPath];
-    Recommend *rec = [_adapter.updater.fetchController objectAtIndexPath:indexPath];
+    Recommend *rec = [_updater.fetchController objectAtIndexPath:indexPath];
     MTRecommendLiveModel *model = [MTRecommendLiveModel modelWithJSON:rec.live];
     cell.model = model;
     cell.indexString = [NSString stringWithFormat:@"%ld_%d",(long)indexPath.section,rec.index];
