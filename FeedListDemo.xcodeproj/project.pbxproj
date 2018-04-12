@@ -18,11 +18,14 @@
 		B12F4B1E207DDEE200A9D871 /* FeedListDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B1D207DDEE200A9D871 /* FeedListDemoUITests.m */; };
 		B12F4B2E207DDF6400A9D871 /* MTListAdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B2D207DDF6400A9D871 /* MTListAdapter.m */; };
 		B12F4B30207DF15200A9D871 /* json.json in Resources */ = {isa = PBXBuildFile; fileRef = B12F4B2F207DF15200A9D871 /* json.json */; };
-		B12F4B33207DF3E700A9D871 /* Recommend.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B31207DF3E700A9D871 /* Recommend.xcdatamodeld */; };
-		B12F4B39207DF6BB00A9D871 /* MTRecommendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B38207DF6BB00A9D871 /* MTRecommendModel.m */; };
-		B12F4B3C207DF91500A9D871 /* MTUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B3B207DF91500A9D871 /* MTUserModel.m */; };
-		B12F4B4A207DFF3900A9D871 /* Recommend+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B48207DFF3900A9D871 /* Recommend+CoreDataClass.m */; };
-		B12F4B4B207DFF3900A9D871 /* Recommend+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B49207DFF3900A9D871 /* Recommend+CoreDataProperties.m */; };
+		B12F4B5D207F11A300A9D871 /* MTRecommendModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B5A207F11A300A9D871 /* MTRecommendModel.m */; };
+		B12F4B5E207F11A300A9D871 /* MTUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B5B207F11A300A9D871 /* MTUserModel.m */; };
+		B12F4B7C207F311400A9D871 /* FeedLiveViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B7B207F311400A9D871 /* FeedLiveViewCell.m */; };
+		B12F4B7D207F311400A9D871 /* FeedLiveViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B7B207F311400A9D871 /* FeedLiveViewCell.m */; };
+		B12F4B93207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B91207F463400A9D871 /* FeedModel.xcdatamodeld */; };
+		B12F4B94207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B91207F463400A9D871 /* FeedModel.xcdatamodeld */; };
+		B12F4B99207F46EC00A9D871 /* Recommend+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B96207F46EC00A9D871 /* Recommend+CoreDataProperties.m */; };
+		B12F4B9A207F46EC00A9D871 /* Recommend+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B98207F46EC00A9D871 /* Recommend+CoreDataClass.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,15 +66,17 @@
 		B12F4B2C207DDF6400A9D871 /* MTListAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListAdapter.h; sourceTree = "<group>"; };
 		B12F4B2D207DDF6400A9D871 /* MTListAdapter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTListAdapter.m; sourceTree = "<group>"; };
 		B12F4B2F207DF15200A9D871 /* json.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = json.json; sourceTree = "<group>"; };
-		B12F4B32207DF3E700A9D871 /* Recommend.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Recommend.xcdatamodel; sourceTree = "<group>"; };
-		B12F4B37207DF6BB00A9D871 /* MTRecommendModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MTRecommendModel.h; path = FeedListDemo/MTRecommendModel.h; sourceTree = SOURCE_ROOT; };
-		B12F4B38207DF6BB00A9D871 /* MTRecommendModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MTRecommendModel.m; path = FeedListDemo/MTRecommendModel.m; sourceTree = SOURCE_ROOT; };
-		B12F4B3A207DF91500A9D871 /* MTUserModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MTUserModel.h; path = FeedListDemo/MTUserModel.h; sourceTree = SOURCE_ROOT; };
-		B12F4B3B207DF91500A9D871 /* MTUserModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MTUserModel.m; path = FeedListDemo/MTUserModel.m; sourceTree = SOURCE_ROOT; };
-		B12F4B46207DFF3900A9D871 /* Recommend+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Recommend+CoreDataProperties.h"; sourceTree = "<group>"; };
-		B12F4B47207DFF3900A9D871 /* Recommend+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Recommend+CoreDataClass.h"; sourceTree = "<group>"; };
-		B12F4B48207DFF3900A9D871 /* Recommend+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Recommend+CoreDataClass.m"; sourceTree = "<group>"; };
-		B12F4B49207DFF3900A9D871 /* Recommend+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Recommend+CoreDataProperties.m"; sourceTree = "<group>"; };
+		B12F4B59207F11A300A9D871 /* MTUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTUserModel.h; sourceTree = "<group>"; };
+		B12F4B5A207F11A300A9D871 /* MTRecommendModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTRecommendModel.m; sourceTree = "<group>"; };
+		B12F4B5B207F11A300A9D871 /* MTUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MTUserModel.m; sourceTree = "<group>"; };
+		B12F4B5C207F11A300A9D871 /* MTRecommendModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTRecommendModel.h; sourceTree = "<group>"; };
+		B12F4B7A207F311400A9D871 /* FeedLiveViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedLiveViewCell.h; sourceTree = "<group>"; };
+		B12F4B7B207F311400A9D871 /* FeedLiveViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedLiveViewCell.m; sourceTree = "<group>"; };
+		B12F4B92207F463400A9D871 /* FeedModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FeedModel.xcdatamodel; sourceTree = "<group>"; };
+		B12F4B95207F46EC00A9D871 /* Recommend+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Recommend+CoreDataProperties.h"; path = "/Users/meipai_lv/Documents/GitHub/FeedListDemo/Class/Model/Recommend+CoreDataProperties.h"; sourceTree = "<absolute>"; };
+		B12F4B96207F46EC00A9D871 /* Recommend+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Recommend+CoreDataProperties.m"; path = "/Users/meipai_lv/Documents/GitHub/FeedListDemo/Class/Model/Recommend+CoreDataProperties.m"; sourceTree = "<absolute>"; };
+		B12F4B97207F46EC00A9D871 /* Recommend+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Recommend+CoreDataClass.h"; path = "/Users/meipai_lv/Documents/GitHub/FeedListDemo/Class/Model/Recommend+CoreDataClass.h"; sourceTree = "<absolute>"; };
+		B12F4B98207F46EC00A9D871 /* Recommend+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "Recommend+CoreDataClass.m"; path = "/Users/meipai_lv/Documents/GitHub/FeedListDemo/Class/Model/Recommend+CoreDataClass.m"; sourceTree = "<absolute>"; };
 		C8D196658357A77764BD1F13 /* Pods_FeedListDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedListDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD58B3CDB69FC8408BA5B31 /* Pods-FeedListDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedListDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -156,7 +161,7 @@
 				B12F4B07207DDEE200A9D871 /* Info.plist */,
 				B12F4B08207DDEE200A9D871 /* main.m */,
 				B12F4B2F207DF15200A9D871 /* json.json */,
-				B12F4B31207DF3E700A9D871 /* Recommend.xcdatamodeld */,
+				B12F4B91207F463400A9D871 /* FeedModel.xcdatamodeld */,
 			);
 			path = FeedListDemo;
 			sourceTree = "<group>";
@@ -191,32 +196,34 @@
 		B12F4B34207DF4B300A9D871 /* Class */ = {
 			isa = PBXGroup;
 			children = (
-				B12F4B35207DF4B300A9D871 /* Model */,
-				B12F4B36207DF4B300A9D871 /* ViewController */,
+				B12F4B79207F30B800A9D871 /* View */,
+				B12F4B58207F11A300A9D871 /* Model */,
 			);
 			path = Class;
 			sourceTree = SOURCE_ROOT;
 		};
-		B12F4B35207DF4B300A9D871 /* Model */ = {
+		B12F4B58207F11A300A9D871 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B12F4B46207DFF3900A9D871 /* Recommend+CoreDataProperties.h */,
-				B12F4B49207DFF3900A9D871 /* Recommend+CoreDataProperties.m */,
-				B12F4B47207DFF3900A9D871 /* Recommend+CoreDataClass.h */,
-				B12F4B48207DFF3900A9D871 /* Recommend+CoreDataClass.m */,
-				B12F4B37207DF6BB00A9D871 /* MTRecommendModel.h */,
-				B12F4B38207DF6BB00A9D871 /* MTRecommendModel.m */,
-				B12F4B3A207DF91500A9D871 /* MTUserModel.h */,
-				B12F4B3B207DF91500A9D871 /* MTUserModel.m */,
+				B12F4B95207F46EC00A9D871 /* Recommend+CoreDataProperties.h */,
+				B12F4B97207F46EC00A9D871 /* Recommend+CoreDataClass.h */,
+				B12F4B98207F46EC00A9D871 /* Recommend+CoreDataClass.m */,
+				B12F4B96207F46EC00A9D871 /* Recommend+CoreDataProperties.m */,
+				B12F4B59207F11A300A9D871 /* MTUserModel.h */,
+				B12F4B5A207F11A300A9D871 /* MTRecommendModel.m */,
+				B12F4B5B207F11A300A9D871 /* MTUserModel.m */,
+				B12F4B5C207F11A300A9D871 /* MTRecommendModel.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
 		};
-		B12F4B36207DF4B300A9D871 /* ViewController */ = {
+		B12F4B79207F30B800A9D871 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B12F4B7A207F311400A9D871 /* FeedLiveViewCell.h */,
+				B12F4B7B207F311400A9D871 /* FeedLiveViewCell.m */,
 			);
-			path = ViewController;
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -408,14 +415,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B12F4B93207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */,
 				B12F4B2E207DDF6400A9D871 /* MTListAdapter.m in Sources */,
+				B12F4B7C207F311400A9D871 /* FeedLiveViewCell.m in Sources */,
+				B12F4B99207F46EC00A9D871 /* Recommend+CoreDataProperties.m in Sources */,
 				B12F4AFE207DDEE200A9D871 /* ViewController.m in Sources */,
-				B12F4B4A207DFF3900A9D871 /* Recommend+CoreDataClass.m in Sources */,
-				B12F4B4B207DFF3900A9D871 /* Recommend+CoreDataProperties.m in Sources */,
-				B12F4B3C207DF91500A9D871 /* MTUserModel.m in Sources */,
+				B12F4B5E207F11A300A9D871 /* MTUserModel.m in Sources */,
+				B12F4B9A207F46EC00A9D871 /* Recommend+CoreDataClass.m in Sources */,
 				B12F4B09207DDEE200A9D871 /* main.m in Sources */,
-				B12F4B39207DF6BB00A9D871 /* MTRecommendModel.m in Sources */,
-				B12F4B33207DF3E700A9D871 /* Recommend.xcdatamodeld in Sources */,
+				B12F4B5D207F11A300A9D871 /* MTRecommendModel.m in Sources */,
 				B12F4AFB207DDEE200A9D871 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -432,7 +440,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B12F4B7D207F311400A9D871 /* FeedLiveViewCell.m in Sources */,
 				B12F4B1E207DDEE200A9D871 /* FeedListDemoUITests.m in Sources */,
+				B12F4B94207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,13 +752,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		B12F4B31207DF3E700A9D871 /* Recommend.xcdatamodeld */ = {
+		B12F4B91207F463400A9D871 /* FeedModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B12F4B32207DF3E700A9D871 /* Recommend.xcdatamodel */,
+				B12F4B92207F463400A9D871 /* FeedModel.xcdatamodel */,
 			);
-			currentVersion = B12F4B32207DF3E700A9D871 /* Recommend.xcdatamodel */;
-			path = Recommend.xcdatamodeld;
+			currentVersion = B12F4B92207F463400A9D871 /* FeedModel.xcdatamodel */;
+			path = FeedModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

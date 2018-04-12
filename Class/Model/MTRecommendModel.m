@@ -27,3 +27,13 @@
 @implementation MTRecommendLiveModel
 
 @end
+
+@implementation MTRecommendItemModel
+
+@end
+
+@implementation MTRecommendProgramsModel
++ (NSDictionary *)modelContainerPropertyGenericClass {
+    return @{@"programs":[MTRecommendItemModel class]};
+}
+@end

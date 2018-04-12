@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MTUserModel.h"
+#import "Recommend+CoreDataProperties.h"
 
 @interface MTRecommendModel : NSObject
 
@@ -67,6 +68,14 @@
 @property (nonatomic, strong) MTRecommendPushInfoModel *push_info;
 @end
 
+@interface MTRecommendItemModel : MTRecommendModel
+@property (nonatomic, copy) NSString *recommend_caption;
+@property (nonatomic, copy) NSString *recommend_cover_pic;
+@property (nonatomic, copy) NSString *recommend_cover_pic_size;
+@property (nonatomic, copy) NSString *type;
+@property (nonatomic, strong) MTRecommendLiveModel *live;
+@end
 
-
-
+@interface MTRecommendProgramsModel : MTRecommendModel
+@property (nonatomic, copy) NSArray<MTRecommendItemModel *> *programs;
+@end
