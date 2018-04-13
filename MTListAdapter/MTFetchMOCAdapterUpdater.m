@@ -113,7 +113,7 @@
 - (void)performBatchUpdatesWithCollectionView:(UICollectionView *)collectionView {
     if(!collectionView) return;
     __weak typeof(self) weakSelf = self;
-    void (^executeUpdateBlock)() = ^{
+    void (^executeUpdateBlock)(void) = ^{
         weakSelf.updateState = MTFetchBatchUpdateState_ExectingBatchUpdateBlock;
         
         [collectionView reloadItemsAtIndexPaths:weakSelf.updateSet];
