@@ -7,10 +7,10 @@
 //
 
 typedef NS_ENUM(NSUInteger, MTFetchBatchUpdateState) {
-    MTFetchBatchUpdateState_Idle,
-    MTFetchBatchUpdateState_WillChangeContext,
-    MTFetchBatchUpdateState_DidChangeContext,
-    MTFetchBatchUpdateState_QueuedBatchUpdate,
-    MTFetchBatchUpdateState_ExectingBatchUpdateBlock,
-    MTFetchBatchUpdateState_ExectedBatchUpdateBlock
+    MTFetchBatchUpdateStateIdle,
+    MTFetchBatchUpdateStateWillChangeContext,
+    MTFetchBatchUpdateStateDidChangeContext,
+    MTFetchBatchUpdateStateQueuedBatchUpdate,
+    MTFetchBatchUpdateStateExectingBatchUpdateBlock,
+    MTFetchBatchUpdateStateExectedBatchUpdateBlock
 };

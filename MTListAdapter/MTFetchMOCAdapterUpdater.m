@@ -10,132 +10,99 @@
 #import <UIKit/UIKit.h>
 
 @interface MTFetchMOCAdapterUpdater()<NSFetchedResultsControllerDelegate>
-@property (nonatomic, strong, readwrite) NSManagedObjectContext *moContext;
+
 @property (nonatomic, strong, readwrite) NSFetchedResultsController *fetchController;
+
+@property (nonatomic, weak, readwrite) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, weak) UICollectionView *collectionView;
+
 @property (nonatomic, strong, readwrite) NSString *entityName;
-@property (nonatomic, assign, readwrite) NSUInteger pageSize;
 @property (nonatomic, assign, readwrite) MTFetchBatchUpdateState updateState;
 
-@property (nonatomic, strong) NSMutableArray *deleteSet;
-@property (nonatomic, strong) NSMutableArray *insertSet;
-@property (nonatomic, strong) NSMutableArray *updateSet;
+@property (nonatomic, strong) NSMutableArray *deleteArray;
+@property (nonatomic, strong) NSMutableArray *insertArray;
+@property (nonatomic, strong) NSMutableArray *updateArray;
+
 @end
 
 @implementation MTFetchMOCAdapterUpdater
 
 #pragma mark - LifeCycle
 
-- (instancetype)initWithFetchWithContext:(NSString*)contextName
-                                  entity:(NSString *)entityName
-                               sortDescs:(NSArray *)sortDescs {
-    return [self initWithContext:contextName
-                          entity:entityName
-                       sortDescs:sortDescs
-                        pageSize:20
-                          sqlite:@"data.sqlite"];
-}
-
-- (instancetype)initWithContext:(NSString *)contextName
-                         entity:(NSString *)entityName
-                      sortDescs:(NSArray *)sortDescs
-                       pageSize:(NSUInteger)pageSize
-                         sqlite:(NSString *)sqliteName {
+- (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context
+                                  entityName:(NSString *)entityName
+                            sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
+                              collectionView:(UICollectionView *)collectionView {
     if (self = [super init]) {
+        
         _entityName = entityName;
-        _pageSize = pageSize;
+        _updateState = MTFetchBatchUpdateStateIdle;
         
-        _updateState = MTFetchBatchUpdateState_Idle;
+        _updateArray = [NSMutableArray array];
+        _insertArray = [NSMutableArray array];
+        _deleteArray = [NSMutableArray array];
         
-        _updateSet = [NSMutableArray array];
-        _insertSet = [NSMutableArray array];
-        _deleteSet = [NSMutableArray array];
+        _collectionView = collectionView;
+        _managedObjectContext = context;
         
-        [self setupManagedObjectContextWithContextName:contextName sqliteName:sqliteName];
-        [self bindMangedObjectContextBySortDescs:sortDescs];
+        [self bindMangedObjectContextBySortDescs:sortDescriptions];
     }
     return self;
-}
+};
 
 #pragma mark - Custom Accessors
 
-- (void)setCollectionView:(UICollectionView *)collectionView {
-    if (_collectionView != collectionView ) {
-        _collectionView = collectionView;
-    }
-}
-
-- (int)entitysNumber {
+- (NSInteger)entitysNumber {
     return [self lookupEntitysNumber];
 }
 
 #pragma mark - Private
 
 - (void)bindMangedObjectContextBySortDescs:(NSArray *)sortDescs {
-    if(!_moContext || !sortDescs || sortDescs.count == 0) return;
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Recommend"];
+    if(!self.managedObjectContext || !sortDescs || sortDescs.count == 0) return;
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:self.entityName];
     request.sortDescriptors = sortDescs;
-    _fetchController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
-                                                                   managedObjectContext:_moContext
+    self.fetchController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
+                                                                   managedObjectContext:self.managedObjectContext
                                                                      sectionNameKeyPath:nil
                                                                               cacheName:nil];
     
-    _fetchController.delegate = self;
+    self.fetchController.delegate = self;
     NSError *error = nil;
-    [_fetchController performFetch:&error];
+    [self.fetchController performFetch:&error];
     if (error) {
         NSLog(@"##Bind OMContext failed : %@",error);
         return;
     }
 }
 
-- (void)setupManagedObjectContextWithContextName:(NSString *)contextName sqliteName:(NSString *)sqliteName{
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:contextName withExtension:@"momd"];
-    if(!modelURL) return;
-    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    
-    NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-    NSString *dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:sqliteName];
-    NSURL *dbURL = [NSURL fileURLWithPath:dbPath];
-    
-    NSError *error = nil;
-    [coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:dbURL options:nil error:&error];
-    if (error) {
-        NSLog(@"##Open database failed : %@", error);
-        return;
-    }
-    
-    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator = coordinator;
-    _moContext = context;
-}
-
-- (int)lookupEntitysNumber {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:_entityName];
-    return (int)[_moContext countForFetchRequest:fetchRequest error:nil];
+- (NSInteger)lookupEntitysNumber {
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:self.entityName];
+    return [self.managedObjectContext countForFetchRequest:fetchRequest error:nil];
 }
 
 - (void)performBatchUpdatesWithCollectionView:(UICollectionView *)collectionView {
     if(!collectionView) return;
     __weak typeof(self) weakSelf = self;
     void (^executeUpdateBlock)(void) = ^{
-        weakSelf.updateState = MTFetchBatchUpdateState_ExectingBatchUpdateBlock;
+        weakSelf.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
         
-        [collectionView reloadItemsAtIndexPaths:weakSelf.updateSet];
-        [collectionView deleteItemsAtIndexPaths:weakSelf.deleteSet];
-        [collectionView insertItemsAtIndexPaths:weakSelf.insertSet];
+        [collectionView reloadItemsAtIndexPaths:weakSelf.updateArray];
+        [collectionView deleteItemsAtIndexPaths:weakSelf.deleteArray];
+        [collectionView insertItemsAtIndexPaths:weakSelf.insertArray];
         
-        weakSelf.updateState = MTFetchBatchUpdateState_ExectingBatchUpdateBlock;
+        weakSelf.updateState = MTFetchBatchUpdateStateExectedBatchUpdateBlock;
     };
     
     [collectionView performBatchUpdates:executeUpdateBlock completion:^(BOOL finished) {
-        weakSelf.updateState = MTFetchBatchUpdateState_Idle;
+        weakSelf.updateState = MTFetchBatchUpdateStateIdle;
     }];
 }
 
 - (void)resetBatchUpdate {
-    [_updateSet removeAllObjects];
-    [_deleteSet removeAllObjects];
-    [_insertSet removeAllObjects];
+    [self.updateArray removeAllObjects];
+    [self.deleteArray removeAllObjects];
+    [self.insertArray removeAllObjects];
 }
 
 #pragma mark - Private - inline
@@ -163,14 +130,13 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     NSLog(@"【1】controllerWillChangeContent");
-    _updateState = MTFetchBatchUpdateState_WillChangeContext;
-    
+    self.updateState = MTFetchBatchUpdateStateWillChangeContext;
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     NSLog(@"【3】controllerDidChangeContent");
-    _updateState = MTFetchBatchUpdateState_DidChangeContext;
-    [self performBatchUpdatesWithCollectionView:_collectionView];
+    self.updateState = MTFetchBatchUpdateStateDidChangeContext;
+    [self performBatchUpdatesWithCollectionView:self.collectionView];
     [self resetBatchUpdate];
 }
 
@@ -180,17 +146,17 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
     switch (type) {
         case NSFetchedResultsChangeDelete: {
             if(!indexPath) return;
-            [_deleteSet addObject:indexPath];
+            [self.deleteArray addObject:indexPath];
         }
             break;
         case NSFetchedResultsChangeInsert: {
             if(!newIndexPath) return;
-            [_insertSet addObject:newIndexPath];
+            [self.insertArray addObject:newIndexPath];
         }
             break;
         case NSFetchedResultsChangeUpdate: {
             if(!indexPath) return;
-            [_updateSet addObject:indexPath];
+            [self.updateArray addObject:indexPath];
         }
             break;
             

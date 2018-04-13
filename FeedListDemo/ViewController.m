@@ -16,10 +16,13 @@
 
 #import "FeedLiveViewCell.h"
 
-@interface ViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface ViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext; ///< 此参数应该是代理
 @property (nonatomic, strong) MTFetchMOCAdapterUpdater *updater;
-@property (nonatomic, strong) UITableView *tableView;
+
 @property (nonatomic, strong) UICollectionView *collectionView;
+
 @end
 
 @implementation ViewController
@@ -27,15 +30,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.view addSubview:self.collectionView];
-
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
-    _updater = [[MTFetchMOCAdapterUpdater alloc] initWithFetchWithContext:@"FeedModel"
-                                                                   entity:@"Recommend"
-                                                                sortDescs:@[descriptor]];
-    _updater.collectionView = self.collectionView;
+    //Demo中全局managerObjectContext
+    [self setupManagedObjectContextWithContextName:@"FeedModel" sqliteName:@"data.sqlite"];
     
-    [self.collectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(testLoadData)]];
+    [self setupUI];
+    
+    //绑定NSFetchResultController
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+    self.updater = [[MTFetchMOCAdapterUpdater alloc] initWithManagedObjectContext:self.managedObjectContext
+                                                                       entityName:@"Recommend"
+                                                                 sortDescriptions:@[descriptor]
+                                                                   collectionView:self.collectionView];
 }
 
 #pragma mark - Custom Accessors
@@ -60,6 +65,74 @@
 
 #pragma mark - Private
 
+- (void)testDelteData {
+    NSFetchRequest *deleteRequest = [NSFetchRequest fetchRequestWithEntityName:_updater.entityName];
+    int index = random()%20 + 1;
+    NSPredicate *pre = [NSPredicate predicateWithFormat:@"index = %d",index];
+    deleteRequest.predicate = pre;
+    NSArray<Recommend *> *resultArray = [self.updater.managedObjectContext executeFetchRequest:deleteRequest error:nil];
+    if(resultArray.count == 0) return;
+    NSLog(@"索引:%d 数量:%lu",index,(unsigned long)resultArray.count);
+    
+    __weak typeof(self) weakSelf = self;
+    [resultArray enumerateObjectsUsingBlock:^(Recommend * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [weakSelf.updater.managedObjectContext deleteObject:obj];
+    }];
+    if (self.updater.managedObjectContext.hasChanges) {
+        [self.updater.managedObjectContext save:nil];
+    }
+}
+
+- (void)insertDataBase:(NSArray<MTRecommendItemModel *> *)programs {
+    if(!_updater) return;
+    NSInteger index = 1 + self.updater.entitysNumber;
+    for (MTRecommendItemModel *item in programs) {
+        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:self.updater.entityName inManagedObjectContext:self.updater.managedObjectContext];
+        recommend.recommend_caption = item.recommend_caption;
+        recommend.recommend_cover_pic = item.recommend_cover_pic;
+        recommend.recommend_cover_pic_size = item.recommend_cover_pic_size;
+        recommend.type = item.type;
+        recommend.live = [item.live modelToJSONString];
+        recommend.index = (int32_t)index;
+        index ++;
+    }
+    if (self.updater.managedObjectContext.hasChanges) {
+        [self.updater.managedObjectContext save:nil];
+    }
+}
+
+#pragma mark - Private - Setup
+
+- (void)setupUI {
+    [self.view addSubview:self.collectionView];
+    [self.collectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(testLoadData)]];
+}
+
+#pragma mark - Private - OpenDB
+
+- (void)setupManagedObjectContextWithContextName:(NSString *)contextName sqliteName:(NSString *)sqliteName{
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:contextName withExtension:@"momd"];
+    if(!modelURL) return;
+    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
+    NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    NSString *dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:sqliteName];
+    NSURL *dbURL = [NSURL fileURLWithPath:dbPath];
+    
+    NSError *error = nil;
+    [coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:dbURL options:nil error:&error];
+    if (error) {
+        NSLog(@"##Open database failed : %@", error);
+        self.managedObjectContext = nil;
+        return;
+    }
+    
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    context.persistentStoreCoordinator = coordinator;
+    
+    self.managedObjectContext = context;
+}
+
 #pragma mark - UIEvents
 
 - (void)testLoadData {
@@ -71,62 +144,19 @@
     [self testDelteData];
 }
 
-- (void)testDelteData {
-    NSFetchRequest *deleteRequest = [NSFetchRequest fetchRequestWithEntityName:_updater.entityName];
-    int index = random()%20 + 1;
-    NSPredicate *pre = [NSPredicate predicateWithFormat:@"index = %d",index];
-    deleteRequest.predicate = pre;
-    NSArray<Recommend *> *resultArray = [_updater.moContext executeFetchRequest:deleteRequest error:nil];
-    if(resultArray.count == 0) return;
-    
-    NSLog(@"index number : %lu",(unsigned long)resultArray.count);
-    NSLog(@"删除index : %d \n %@",index,resultArray);
-    
-    __weak typeof(self) weakSelf = self;
-    [resultArray enumerateObjectsUsingBlock:^(Recommend * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [weakSelf.updater.moContext deleteObject:obj];
-    }];
-    if (_updater.moContext.hasChanges) {
-        if (![_updater.moContext save:nil]) {
-            NSLog(@"Delete Object failed!");
-        }
-    }
-}
-
-- (void)insertDataBase:(NSArray<MTRecommendItemModel *> *)programs {
-    if(!_updater) return;
-    int index = 1 + _updater.entitysNumber;
-    for (MTRecommendItemModel *item in programs) {
-        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:_updater.entityName inManagedObjectContext:_updater.moContext];
-        recommend.recommend_caption = item.recommend_caption;
-        recommend.recommend_cover_pic = item.recommend_cover_pic;
-        recommend.recommend_cover_pic_size = item.recommend_cover_pic_size;
-        recommend.type = item.type;
-        recommend.live = [item.live modelToJSONString];
-        recommend.index = index;
-        index ++;
-    }
-    
-    NSError *error = nil;
-    [_updater.moContext save:&error];
-    if (error) {
-        NSLog(@"##Insert data failed : %@",error);
-    }
-}
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return _updater.fetchController.sections.count;
+    return self.updater.fetchController.sections.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return _updater.fetchController.sections[section].numberOfObjects;
+    return self.updater.fetchController.sections[section].numberOfObjects;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     FeedLiveViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFeedLiveViewCellReuseIndentifier forIndexPath:indexPath];
-    Recommend *rec = [_updater.fetchController objectAtIndexPath:indexPath];
+    Recommend *rec = [self.updater.fetchController objectAtIndexPath:indexPath];
     MTRecommendLiveModel *model = [MTRecommendLiveModel modelWithJSON:rec.live];
     cell.model = model;
     cell.indexString = [NSString stringWithFormat:@"%ld_%d",(long)indexPath.section,rec.index];
