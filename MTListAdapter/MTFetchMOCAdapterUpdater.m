@@ -64,6 +64,10 @@
     }
 }
 
+- (int)entitysNumber {
+    return [self lookupEntitysNumber];
+}
+
 #pragma mark - Private
 
 - (void)bindMangedObjectContextBySortDescs:(NSArray *)sortDescs {
@@ -105,7 +109,7 @@
     _moContext = context;
 }
 
-- (NSInteger)lookupEntitysNumber {
+- (int)lookupEntitysNumber {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:_entityName];
     return [_moContext countForFetchRequest:fetchRequest error:nil];
 }

@@ -77,7 +77,7 @@
 
 - (void)insertDataBase:(NSArray<MTRecommendItemModel *> *)programs {
     if(!_updater) return;
-    int index = 1 + _pageIndex * 5;
+    int index = 1 + _updater.entitysNumber;
     for (MTRecommendItemModel *item in programs) {
         Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:@"Recommend" inManagedObjectContext:_updater.moContext];
         recommend.recommend_caption = item.recommend_caption;

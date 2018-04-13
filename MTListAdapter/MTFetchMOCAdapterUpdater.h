@@ -28,6 +28,7 @@
 
 @property (nonatomic, strong, readonly) NSString *entityName;
 @property (nonatomic, assign, readonly) NSUInteger pageSize;
+@property (nonatomic, assign, readonly) int entitysNumber;
 
 @property (nonatomic, assign, readonly) MTFetchBatchUpdateState updateState;
 
