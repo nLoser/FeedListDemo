@@ -215,8 +215,8 @@
 				A9267C44207F99C40099E80D /* Recommend+CoreDataProperties.h */,
 				A9267C41207F99C40099E80D /* Recommend+CoreDataProperties.m */,
 				B12F4B59207F11A300A9D871 /* MTUserModel.h */,
-				B12F4B5A207F11A300A9D871 /* MTRecommendModel.m */,
 				B12F4B5B207F11A300A9D871 /* MTUserModel.m */,
+				B12F4B5A207F11A300A9D871 /* MTRecommendModel.m */,
 				B12F4B5C207F11A300A9D871 /* MTRecommendModel.h */,
 			);
 			path = Model;

@@ -20,15 +20,12 @@
 @property (nonatomic, strong) MTFetchMOCAdapterUpdater *updater;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, assign) int pageIndex; // pagesize = 5
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    _pageIndex = 0;
     
     [self.view addSubview:self.collectionView];
 
@@ -71,15 +68,36 @@
     MTRecommendProgramsModel *programs = [MTRecommendProgramsModel modelWithJSON:jsonData];
     
     [self insertDataBase:programs.programs];
+    [self testDelteData];
+}
+
+- (void)testDelteData {
+    NSFetchRequest *deleteRequest = [NSFetchRequest fetchRequestWithEntityName:_updater.entityName];
+    int index = random()%20 + 1;
+    NSPredicate *pre = [NSPredicate predicateWithFormat:@"index = %d",index];
+    deleteRequest.predicate = pre;
+    NSArray<Recommend *> *resultArray = [_updater.moContext executeFetchRequest:deleteRequest error:nil];
+    if(resultArray.count == 0) return;
     
-    _pageIndex ++;
+    NSLog(@"index number : %lu",(unsigned long)resultArray.count);
+    NSLog(@"删除index : %d \n %@",index,resultArray);
+    
+    __weak typeof(self) weakSelf = self;
+    [resultArray enumerateObjectsUsingBlock:^(Recommend * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [weakSelf.updater.moContext deleteObject:obj];
+    }];
+    if (_updater.moContext.hasChanges) {
+        if (![_updater.moContext save:nil]) {
+            NSLog(@"Delete Object failed!");
+        }
+    }
 }
 
 - (void)insertDataBase:(NSArray<MTRecommendItemModel *> *)programs {
     if(!_updater) return;
     int index = 1 + _updater.entitysNumber;
     for (MTRecommendItemModel *item in programs) {
-        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:@"Recommend" inManagedObjectContext:_updater.moContext];
+        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:_updater.entityName inManagedObjectContext:_updater.moContext];
         recommend.recommend_caption = item.recommend_caption;
         recommend.recommend_cover_pic = item.recommend_cover_pic;
         recommend.recommend_cover_pic_size = item.recommend_cover_pic_size;

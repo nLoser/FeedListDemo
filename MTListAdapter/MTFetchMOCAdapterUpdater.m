@@ -111,7 +111,7 @@
 
 - (int)lookupEntitysNumber {
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:_entityName];
-    return [_moContext countForFetchRequest:fetchRequest error:nil];
+    return (int)[_moContext countForFetchRequest:fetchRequest error:nil];
 }
 
 - (void)performBatchUpdatesWithCollectionView:(UICollectionView *)collectionView {
@@ -179,15 +179,18 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
     
     switch (type) {
         case NSFetchedResultsChangeDelete: {
-            [_deleteSet addObject:newIndexPath];
+            if(!indexPath) return;
+            [_deleteSet addObject:indexPath];
         }
             break;
         case NSFetchedResultsChangeInsert: {
+            if(!newIndexPath) return;
             [_insertSet addObject:newIndexPath];
         }
             break;
         case NSFetchedResultsChangeUpdate: {
-            [_updateSet addObject:newIndexPath];
+            if(!indexPath) return;
+            [_updateSet addObject:indexPath];
         }
             break;
             
