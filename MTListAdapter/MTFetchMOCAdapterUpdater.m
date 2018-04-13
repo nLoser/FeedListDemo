@@ -29,6 +29,17 @@
 
 #pragma mark - LifeCycle
 
+- (instancetype)initWithEntityName:(NSString *)entityName
+                  sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
+                    collectionView:(UICollectionView *)collectionView {
+    ///< 全局设定Context
+    NSManagedObjectContext * mainContext = nil;
+    return [self initWithManagedObjectContext:mainContext
+                                   entityName:entityName
+                             sortDescriptions:sortDescriptions
+                               collectionView:collectionView];
+}
+
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context
                                   entityName:(NSString *)entityName
                             sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions

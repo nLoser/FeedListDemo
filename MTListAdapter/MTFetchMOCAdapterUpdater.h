@@ -12,10 +12,16 @@
 
 #import "MTFetchBatchUpdateState.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MTFetchMOCAdapterUpdater : NSObject
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
+- (instancetype)initWithEntityName:(NSString *)entityName
+                  sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
+                    collectionView:(UICollectionView *)collectionView;
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context
                                   entityName:(NSString *)entityName
@@ -31,3 +37,5 @@
 @property (nonatomic, strong, readonly) NSString *entityName;
 
 @end
+
+NS_ASSUME_NONNULL_END
