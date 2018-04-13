@@ -33,7 +33,7 @@
                   sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
                     collectionView:(UICollectionView *)collectionView {
     ///< 全局设定Context
-    NSManagedObjectContext * mainContext = nil;
+    NSManagedObjectContext *mainContext = nil;
     return [self initWithManagedObjectContext:mainContext
                                    entityName:entityName
                              sortDescriptions:sortDescriptions
