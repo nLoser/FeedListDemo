@@ -11,15 +11,16 @@
 #import <YYKit/NSObject+YYModel.h>
 
 #import "MTFetchMOCAdapterUpdater.h"
+#import "MTListAdpter.h"
 
 #import "MTRecommendModel.h"
 
 #import "FeedLiveViewCell.h"
 
-@interface ViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface ViewController ()
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext; ///< 此参数应该是代理
-@property (nonatomic, strong) MTFetchMOCAdapterUpdater *updater;
+@property (nonatomic, strong) MTListAdpter *adpter;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
@@ -30,17 +31,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //Demo中全局managerObjectContext
-    [self setupManagedObjectContextWithContextName:@"FeedModel" sqliteName:@"data.sqlite"];
-    
     [self setupUI];
-    
-    //绑定NSFetchResultController
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
-    self.updater = [[MTFetchMOCAdapterUpdater alloc] initWithManagedObjectContext:self.managedObjectContext
-                                                                       entityName:@"Recommend"
-                                                                 sortDescriptions:@[descriptor]
-                                                                   collectionView:self.collectionView];
+    [self setupManagedObjectContextWithContextName:@"FeedModel" sqliteName:@"data.sqlite"];
+    [self setupAdpter];
 }
 
 #pragma mark - Custom Accessors
@@ -55,8 +48,6 @@
     
         _collectionView = [[UICollectionView alloc] initWithFrame:[UIScreen mainScreen].bounds collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
         _collectionView.alwaysBounceVertical = YES;
         [_collectionView registerClass:[FeedLiveViewCell class] forCellWithReuseIdentifier:kFeedLiveViewCellReuseIndentifier];
     }
@@ -66,28 +57,27 @@
 #pragma mark - Private
 
 - (void)testDelteData {
-    NSFetchRequest *deleteRequest = [NSFetchRequest fetchRequestWithEntityName:_updater.entityName];
+    NSFetchRequest *deleteRequest = [NSFetchRequest fetchRequestWithEntityName:@"Recommend"];
     int index = random()%20 + 1;
     NSPredicate *pre = [NSPredicate predicateWithFormat:@"index = %d",index];
     deleteRequest.predicate = pre;
-    NSArray<Recommend *> *resultArray = [self.updater.managedObjectContext executeFetchRequest:deleteRequest error:nil];
+    NSArray<Recommend *> *resultArray = [self.managedObjectContext executeFetchRequest:deleteRequest error:nil];
     if(resultArray.count == 0) return;
     NSLog(@"索引:%d 数量:%lu",index,(unsigned long)resultArray.count);
     
     __weak typeof(self) weakSelf = self;
     [resultArray enumerateObjectsUsingBlock:^(Recommend * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [weakSelf.updater.managedObjectContext deleteObject:obj];
+        [weakSelf.managedObjectContext deleteObject:obj];
     }];
-    if (self.updater.managedObjectContext.hasChanges) {
-        [self.updater.managedObjectContext save:nil];
+    if (self.managedObjectContext.hasChanges) {
+        [self.managedObjectContext save:nil];
     }
 }
 
 - (void)insertDataBase:(NSArray<MTRecommendItemModel *> *)programs {
-    if(!_updater) return;
-    NSInteger index = 1 + self.updater.entitysNumber;
+    NSInteger index = 1 + [self lookupEntitysNumber];
     for (MTRecommendItemModel *item in programs) {
-        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:self.updater.entityName inManagedObjectContext:self.updater.managedObjectContext];
+        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:@"Recommend" inManagedObjectContext:self.managedObjectContext];
         recommend.recommend_caption = item.recommend_caption;
         recommend.recommend_cover_pic = item.recommend_cover_pic;
         recommend.recommend_cover_pic_size = item.recommend_cover_pic_size;
@@ -96,9 +86,14 @@
         recommend.index = (int32_t)index;
         index ++;
     }
-    if (self.updater.managedObjectContext.hasChanges) {
-        [self.updater.managedObjectContext save:nil];
+    if (self.managedObjectContext.hasChanges) {
+        [self.managedObjectContext save:nil];
     }
+}
+
+- (NSInteger)lookupEntitysNumber {
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Recommend"];
+    return [self.managedObjectContext countForFetchRequest:fetchRequest error:nil];
 }
 
 #pragma mark - Private - Setup
@@ -107,8 +102,6 @@
     [self.view addSubview:self.collectionView];
     [self.collectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(testLoadData)]];
 }
-
-#pragma mark - Private - OpenDB
 
 - (void)setupManagedObjectContextWithContextName:(NSString *)contextName sqliteName:(NSString *)sqliteName{
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:contextName withExtension:@"momd"];
@@ -133,6 +126,15 @@
     self.managedObjectContext = context;
 }
 
+- (void)setupAdpter {
+    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
+    MTFetchMOCAdapterUpdater *updater = [[MTFetchMOCAdapterUpdater alloc] initWithManagedObjectContext:self.managedObjectContext
+                                                                                            entityName:@"Recommend"
+                                                                                      sortDescriptions:@[descriptor]];
+    MTListAdpter *adpter = [[MTListAdpter alloc] initWithUpdater:updater viewController:self];
+    adpter.collectionView = self.collectionView;
+}
+
 #pragma mark - UIEvents
 
 - (void)testLoadData {
@@ -145,7 +147,7 @@
 }
 
 #pragma mark - UICollectionViewDataSource
-
+#if 0
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return self.updater.fetchController.sections.count;
 }
@@ -167,5 +169,6 @@
     CGFloat width = [UIScreen mainScreen].bounds.size.width/2.f-0.5;
     return CGSizeMake(width, width * 1.2);
 }
+#endif
 
 @end

@@ -8,9 +8,9 @@
 
 #import "MTListAdpter+MTListAdpterInternal.h"
 
-@interface MTListAdpter()
-
-@property (nonatomic, strong, readwrite) id updater;
+@interface MTListAdpter() {
+    NSMapTable <id, id> *_viewSectionControllerMap;
+}
 
 @end
 
@@ -18,9 +18,12 @@
 
 #pragma mark - LifeCycle
 
-- (instancetype)initWithUpdater:(id)updater
+- (instancetype)initWithUpdater:(id<MTListUpdatingDelegate>)updater
                  viewController:(UIViewController *)viewController {
     if (self = [super init]) {
+        _viewSectionControllerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory|NSMapTableObjectPointerPersonality
+                                                          valueOptions:NSMapTableStrongMemory];
+        
         _updater = updater;
         _viewController = viewController;
     }
@@ -29,8 +32,8 @@
 
 - (void)dealloc {
     if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
-        _collectionView.dataSource = nil;
-        _collectionView.delegate = nil;
+        self.collectionView.dataSource = nil;
+        self.collectionView.delegate = nil;
     }
 }
 
@@ -77,10 +80,27 @@
     }
 }
 
+#pragma mark - Public
+
+- (void)performUpdateAnimated:(BOOL)animated completion:(MTListUpdateCompletion)completion {
+    UICollectionView *collectionView = self.collectionView;
+    if (collectionView == nil) {
+        if (completion) {
+            completion(NO);
+        }
+        return;
+    }
+    
+    //TODO:更新
+    [self.updater performUpdateAnimated:animated completion:^(BOOL finished) {
+        
+    }];
+}
+
 #pragma mark - Private - Supply Setter
 
 - (void)updateCollectionVierwDelegate {
-    _collectionView.delegate = (id<UICollectionViewDelegate>)self.delegateProxy ? : self;
+    self.collectionView.delegate = (id<UICollectionViewDelegate>)self.delegateProxy ? : self;
 }
 
 //TODO: Switch host View to handle latest change
@@ -89,9 +109,9 @@
 }
 
 - (void)createProxyAndUpdateCollectionViewDelegate {
-    _collectionView.delegate = nil;
-    self.delegateProxy = [[MTListAdpterProxy alloc] initWithCollectionTarget:_collectionViewDelegate
-                                                            scrollViewTarget:_scrollViewDelegate
+    self.collectionView.delegate = nil;
+    self.delegateProxy = [[MTListAdpterProxy alloc] initWithCollectionTarget:self.collectionViewDelegate
+                                                            scrollViewTarget:self.scrollViewDelegate
                                                                  interceptor:self];
     [self updateCollectionVierwDelegate];
 }

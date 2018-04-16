@@ -9,7 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+@protocol MTListUpdatingDelegate;
+
 NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^MTListUpdateCompletion)(BOOL finished);
 
 @interface MTListAdpter : NSObject
 
@@ -24,8 +28,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-- (instancetype)initWithUpdater:(id)updater
+- (instancetype)initWithUpdater:(id<MTListUpdatingDelegate>)updater
                  viewController:(UIViewController *)viewController NS_DESIGNATED_INITIALIZER;
+
+- (void)performUpdateAnimated:(BOOL)animated completion:(MTListUpdateCompletion)completion;
 
 @end
 
