@@ -13,6 +13,8 @@
 
 #import "MTListAdpter.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MTListAdpterProxy : NSProxy
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -23,3 +25,5 @@
                              interceptor:(MTListAdpter *)interceptor;
 
 @end
+
+NS_ASSUME_NONNULL_END

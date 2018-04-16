@@ -8,6 +8,14 @@
 
 #import "MTListAdpter.h"
 
-@interface MTListAdpter ()
+#import "MTListAdpter+UICollectionView.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface MTListAdpter () {
+    BOOL _isDequeueingCell; ///< 是否出队列
+}
 
 @end
+
+NS_ASSUME_NONNULL_END
