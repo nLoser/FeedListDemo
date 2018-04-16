@@ -30,6 +30,8 @@
 		B1F3648620843C38008A1F89 /* MTListAdpterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3648520843C38008A1F89 /* MTListAdpterProxy.m */; };
 		B1F3648920843C51008A1F89 /* MTListAdpter.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3648820843C51008A1F89 /* MTListAdpter.m */; };
 		B1F3648C208443D9008A1F89 /* MTListAdpter+UICollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3648B208443D9008A1F89 /* MTListAdpter+UICollectionView.m */; };
+		B1F3649720849BE6008A1F89 /* MTListSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3649620849BE6008A1F89 /* MTListSectionModel.m */; };
+		B1F3649B2084B495008A1F89 /* MTListSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3649A2084B495008A1F89 /* MTListSectionController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,8 +91,12 @@
 		B1F3648A208443D9008A1F89 /* MTListAdpter+UICollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTListAdpter+UICollectionView.h"; sourceTree = "<group>"; };
 		B1F3648B208443D9008A1F89 /* MTListAdpter+UICollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MTListAdpter+UICollectionView.m"; sourceTree = "<group>"; };
 		B1F3648D20844425008A1F89 /* MTListAdpter+MTListAdpterInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTListAdpter+MTListAdpterInternal.h"; sourceTree = "<group>"; };
-		B1F3648F20847EB7008A1F89 /* MTFetchResultUpdaterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MTFetchResultUpdaterDelegate.h; sourceTree = "<group>"; };
 		B1F3649020847EDC008A1F89 /* MTListUpdatingDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListUpdatingDelegate.h; sourceTree = "<group>"; };
+		B1F3649520849BE6008A1F89 /* MTListSectionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListSectionModel.h; sourceTree = "<group>"; };
+		B1F3649620849BE6008A1F89 /* MTListSectionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTListSectionModel.m; sourceTree = "<group>"; };
+		B1F364982084B2C2008A1F89 /* MTListAdpterDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListAdpterDataSource.h; sourceTree = "<group>"; };
+		B1F364992084B495008A1F89 /* MTListSectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListSectionController.h; sourceTree = "<group>"; };
+		B1F3649A2084B495008A1F89 /* MTListSectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTListSectionController.m; sourceTree = "<group>"; };
 		C8D196658357A77764BD1F13 /* Pods_FeedListDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedListDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD58B3CDB69FC8408BA5B31 /* Pods-FeedListDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedListDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -206,6 +212,10 @@
 				B12F4B9C207F666400A9D871 /* MTFetchMOCAdapterUpdater.h */,
 				B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */,
 				B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */,
+				B1F3649520849BE6008A1F89 /* MTListSectionModel.h */,
+				B1F3649620849BE6008A1F89 /* MTListSectionModel.m */,
+				B1F364992084B495008A1F89 /* MTListSectionController.h */,
+				B1F3649A2084B495008A1F89 /* MTListSectionController.m */,
 			);
 			path = MTListAdapter;
 			sourceTree = "<group>";
@@ -268,8 +278,8 @@
 		B1F3648E20847E58008A1F89 /* Protocal */ = {
 			isa = PBXGroup;
 			children = (
-				B1F3648F20847EB7008A1F89 /* MTFetchResultUpdaterDelegate.h */,
 				B1F3649020847EDC008A1F89 /* MTListUpdatingDelegate.h */,
+				B1F364982084B2C2008A1F89 /* MTListAdpterDataSource.h */,
 			);
 			path = Protocal;
 			sourceTree = "<group>";
@@ -473,8 +483,10 @@
 				B1F3648920843C51008A1F89 /* MTListAdpter.m in Sources */,
 				B12F4B9E207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */,
 				B12F4B09207DDEE200A9D871 /* main.m in Sources */,
+				B1F3649720849BE6008A1F89 /* MTListSectionModel.m in Sources */,
 				B1F3648620843C38008A1F89 /* MTListAdpterProxy.m in Sources */,
 				B12F4B5D207F11A300A9D871 /* MTRecommendModel.m in Sources */,
+				B1F3649B2084B495008A1F89 /* MTListSectionController.m in Sources */,
 				B12F4AFB207DDEE200A9D871 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

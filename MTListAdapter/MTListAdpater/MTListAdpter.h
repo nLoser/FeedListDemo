@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "MTListAdpterDataSource.h"
+
 @protocol MTListUpdatingDelegate;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -17,21 +19,13 @@ typedef void (^MTListUpdateCompletion)(BOOL finished);
 
 @interface MTListAdpter : NSObject
 
-@property (nonatomic, weak, nullable) UIViewController *viewController;
+@property (nonatomic, weak, readonly) UIViewController *viewController;
 @property (nonatomic, weak, nullable) UICollectionView *collectionView;
 
-@property (nonatomic, strong, readonly) id updater;
-
-@property (nonatomic, weak, nullable) id <UICollectionViewDelegate> collectionViewDelegate;
-@property (nonatomic, weak, nullable) id <UIScrollViewDelegate> scrollViewDelegate;
+- (instancetype)initWithController:(UIViewController<MTListAdpterDataSource>*)viewController;
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
-
-- (instancetype)initWithUpdater:(id<MTListUpdatingDelegate>)updater
-                 viewController:(UIViewController *)viewController NS_DESIGNATED_INITIALIZER;
-
-- (void)performUpdateAnimated:(BOOL)animated completion:(MTListUpdateCompletion)completion;
 
 @end
 

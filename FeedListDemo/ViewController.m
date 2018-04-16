@@ -17,10 +17,10 @@
 
 #import "FeedLiveViewCell.h"
 
-@interface ViewController ()
+@interface ViewController ()<MTListAdpterDataSource>
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext; ///< 此参数应该是代理
-@property (nonatomic, strong) MTListAdpter *adpter;
+@property (nonatomic, strong) MTListAdpter *adapter;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
@@ -33,7 +33,9 @@
     
     [self setupUI];
     [self setupManagedObjectContextWithContextName:@"FeedModel" sqliteName:@"data.sqlite"];
-    [self setupAdpter];
+    
+    self.adapter = [[MTListAdpter alloc] initWithController:self];
+    self.adapter.collectionView = self.collectionView;
 }
 
 #pragma mark - Custom Accessors
@@ -126,15 +128,6 @@
     self.managedObjectContext = context;
 }
 
-- (void)setupAdpter {
-    NSSortDescriptor *descriptor = [NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES];
-    MTFetchMOCAdapterUpdater *updater = [[MTFetchMOCAdapterUpdater alloc] initWithManagedObjectContext:self.managedObjectContext
-                                                                                            entityName:@"Recommend"
-                                                                                      sortDescriptions:@[descriptor]];
-    MTListAdpter *adpter = [[MTListAdpter alloc] initWithUpdater:updater viewController:self];
-    adpter.collectionView = self.collectionView;
-}
-
 #pragma mark - UIEvents
 
 - (void)testLoadData {
@@ -144,6 +137,26 @@
     
     [self insertDataBase:programs.programs];
     [self testDelteData];
+}
+
+#pragma mark - MTListAdpterDataSource
+
+- (NSArray<MTListSectionModel *> *)objectsForListAdpater:(MTListAdpter *)listAdapter {
+    NSMutableArray<MTListSectionModel *> *objects = [NSMutableArray arrayWithCapacity:0];
+    for (int i = 0; i < 2; i ++) {
+        MTListSectionModel *model = [MTListSectionModel new];
+        if (i == 0) {
+            model.bindCoreData = NO;
+            model.dataSources = @[@"",@"",@"",@""];
+        }else {
+            model.bindCoreData = YES;
+            model.entityName = @"Recommend";
+            model.descriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
+            model.managedObjectContext = self.managedObjectContext;
+            [objects addObject:model];
+        }
+    }
+    return objects;
 }
 
 #pragma mark - UICollectionViewDataSource

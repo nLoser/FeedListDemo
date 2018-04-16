@@ -10,7 +10,11 @@
 
 @interface MTListAdpter() {
     NSMapTable <id, id> *_viewSectionControllerMap;
+    NSMapTable <NSString *, MTListAdpter *> *_entitySectionMap;
 }
+
+@property (nonatomic, weak, readwrite) id <MTListAdpterDataSource> dataSource;
+@property (nonatomic, weak, readwrite) UIViewController *viewController;
 
 @end
 
@@ -18,22 +22,23 @@
 
 #pragma mark - LifeCycle
 
-- (instancetype)initWithUpdater:(id<MTListUpdatingDelegate>)updater
-                 viewController:(UIViewController *)viewController {
+- (instancetype)initWithController:(UIViewController<MTListAdpterDataSource> *)viewController {
     if (self = [super init]) {
-        _viewSectionControllerMap = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory|NSMapTableObjectPointerPersonality
-                                                          valueOptions:NSMapTableStrongMemory];
-        
-        _updater = updater;
+        self.dataSource = viewController;
         _viewController = viewController;
+        
+        _entitySectionMap = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory|NSMapTableObjectPointerPersonality
+                                                  valueOptions:NSMapTableStrongMemory];
+        
+        [self _bindSectionUpdater];
     }
     return self;
 }
 
-- (void)dealloc {
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 9.0) {
-        self.collectionView.dataSource = nil;
-        self.collectionView.delegate = nil;
+- (void)_bindSectionUpdater {
+    NSArray<MTListSectionModel *> *resources = [self.dataSource objectsForListAdpater:self];
+    for (MTListSectionModel *model in resources) {
+        
     }
 }
 
@@ -61,59 +66,15 @@
         _collectionView.dataSource = self; ///< Core
         [_collectionView.collectionViewLayout invalidateLayout];
         
-        [self updateCollectionVierwDelegate];
         [self updateAfterPublicSettingChange];
     }
 }
 
-- (void)setCollectionViewDelegate:(id<UICollectionViewDelegate>)collectionViewDelegate {
-    if (_collectionViewDelegate != collectionViewDelegate) {
-        _collectionViewDelegate = collectionViewDelegate;
-        [self createProxyAndUpdateCollectionViewDelegate];
-    }
-}
-
-- (void)setScrollViewDelegate:(id<UIScrollViewDelegate>)scrollViewDelegate {
-    if (_scrollViewDelegate != scrollViewDelegate) {
-        _scrollViewDelegate = scrollViewDelegate;
-        [self createProxyAndUpdateCollectionViewDelegate];
-    }
-}
-
-#pragma mark - Public
-
-- (void)performUpdateAnimated:(BOOL)animated completion:(MTListUpdateCompletion)completion {
-    UICollectionView *collectionView = self.collectionView;
-    if (collectionView == nil) {
-        if (completion) {
-            completion(NO);
-        }
-        return;
-    }
-    
-    //TODO:更新
-    [self.updater performUpdateAnimated:animated completion:^(BOOL finished) {
-        
-    }];
-}
-
 #pragma mark - Private - Supply Setter
-
-- (void)updateCollectionVierwDelegate {
-    self.collectionView.delegate = (id<UICollectionViewDelegate>)self.delegateProxy ? : self;
-}
 
 //TODO: Switch host View to handle latest change
 - (void)updateAfterPublicSettingChange {
     
-}
-
-- (void)createProxyAndUpdateCollectionViewDelegate {
-    self.collectionView.delegate = nil;
-    self.delegateProxy = [[MTListAdpterProxy alloc] initWithCollectionTarget:self.collectionViewDelegate
-                                                            scrollViewTarget:self.scrollViewDelegate
-                                                                 interceptor:self];
-    [self updateCollectionVierwDelegate];
 }
 
 @end

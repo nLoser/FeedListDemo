@@ -118,6 +118,8 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 
 - (void)perfromUpdateWithCollectionView:(UICollectionView *)collection animated:(BOOL)animated completion:(MTListUpdatingCompletion)completion {
     if(collection == nil) return;
+    if(self.updateState != MTFetchBatchUpdateStateDidChangeContext) return;
+    
     __weak typeof(self) weakSelf = self;
     void (^executeUpdateBlock)(void) = ^{
         weakSelf.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
