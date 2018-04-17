@@ -15,6 +15,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Generate a string representation of a reusable view class when registering with a UICollectionView.
+NS_INLINE NSString *IGListReusableViewIdentifier(Class viewClass, NSString * _Nullable nibName, NSString * _Nullable kind) {
+    return [NSString stringWithFormat:@"%@%@%@", kind ?: @"", nibName ?: @"", NSStringFromClass(viewClass)];
+}
+
 @interface MTListAdpter () {
     __weak UICollectionView *_collectionView;
     BOOL _isDequeueingCell;
@@ -24,6 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMutableSet<Class> *regiseterCellClass;
 @property (nonatomic, strong) NSMutableSet<NSString *> *registerNibName;
+
+- (MTListSectionController *)mapSectionController:(NSInteger)section;
+- (MTFetchMOCAdapterUpdater *)mapMOCUpdater:(NSInteger)section;
+- (NSInteger)sectionNumber;
 
 @end
 

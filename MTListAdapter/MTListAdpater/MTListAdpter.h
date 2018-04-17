@@ -27,6 +27,17 @@ typedef void (^MTListUpdateCompletion)(BOOL finished);
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
+- (UICollectionViewCell *)dequeueResuseCellOfClass:(Class)cellClass
+                              forSectionController:(MTListSectionController *)sectionController
+                                             index:(NSInteger)index;
+
+- (UICollectionViewCell *)dequeueResuseCellOfClassWithNibName:(NSString *)nibName
+                                                       bundle:(NSBundle *)bundle
+                              forSectionController:(MTListSectionController *)sectionController
+                                             index:(NSInteger)index;
+
+- (id)objectForSectionController:(MTListSectionController *)sectionController index:(NSInteger)index;
+
 @end
 
 NS_ASSUME_NONNULL_END

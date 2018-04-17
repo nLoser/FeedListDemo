@@ -54,7 +54,6 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:[UIScreen mainScreen].bounds collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.alwaysBounceVertical = YES;
-        [_collectionView registerClass:[FeedLiveViewCell class] forCellWithReuseIdentifier:kFeedLiveViewCellReuseIndentifier];
     }
     return _collectionView;
 }
@@ -148,54 +147,32 @@
     NSMutableArray<MTListSectionModel *> *objects = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < 2; i ++) {
         MTListSectionModel *model = [MTListSectionModel new];
-        if (i == 0) {
+        if (i == 10) {
             model.bindCoreData = NO;
-            model.dataSources = @[@"banner1",@"banner2",@"banner3",@"banner4"];
             model.entityName = @"Banner";
+            model.dataSources = @[@"banner1",@"banner2",@"banner3",@"banner4"];
         }else {
             model.bindCoreData = YES;
             model.entityName = @"Recommend";
             model.descriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
             model.managedObjectContext = self.managedObjectContext;
-            [objects addObject:model];
         }
+        [objects addObject:model];
     }
+    
     return objects;
 }
 
 - (MTListSectionController *)listAdapter:(MTListAdpter *)listAdapter sectionControllerForObject:(MTListSectionModel *)object {
     if ([object.entityName isEqualToString:@"Banner"]) {
-        return [[BannerSectionController alloc] init];
+        return [[BannerSectionController alloc] initWithAdpater:listAdapter];
     }else if ([object.entityName isEqualToString:@"Recommend"]) {
-        return [[RecommendSectionController alloc] init];
+        return [[RecommendSectionController alloc] initWithAdpater:listAdapter];
     }else {
-        return [[MTEmptySectionController alloc] init];
+        return [[MTEmptySectionController alloc] initWithAdpater:listAdapter];
     }
 }
 
-#pragma mark - UICollectionViewDataSource
-#if 0
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return self.updater.fetchController.sections.count;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.updater.fetchController.sections[section].numberOfObjects;
-}
-
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    FeedLiveViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kFeedLiveViewCellReuseIndentifier forIndexPath:indexPath];
-    Recommend *rec = [self.updater.fetchController objectAtIndexPath:indexPath];
-    MTRecommendLiveModel *model = [MTRecommendLiveModel modelWithJSON:rec.live];
-    cell.model = model;
-    cell.indexString = [NSString stringWithFormat:@"%ld_%d",(long)indexPath.section,rec.index];
-    return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width/2.f-0.5;
-    return CGSizeMake(width, width * 1.2);
-}
-#endif
+#pragma mark - UICollectionDelegate
 
 @end

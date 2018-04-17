@@ -152,7 +152,14 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
             completion(finished);
         }
     }];
-    
+}
+
+- (NSInteger)numberOfObjects {
+    return self.fetchController.sections.firstObject.numberOfObjects;
+}
+
+- (id)dataForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return [self.fetchController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate

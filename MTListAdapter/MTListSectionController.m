@@ -7,7 +7,30 @@
 //
 
 #import "MTListSectionController.h"
+#import "MTListAdpter.h"
+
+@interface MTListSectionController ()
+@property (nonatomic, weak, readwrite) MTListAdpter *adapter;
+@end
 
 @implementation MTListSectionController
+
+- (instancetype)initWithAdpater:(MTListAdpter *)adapter {
+    if (self = [super init]) {
+        _adapter = adapter;
+    }
+    return self;
+}
+
+#pragma mark - Need Override
+
+- (CGSize)sizeForItemItemAtIndex:(NSInteger)index {
+    return CGSizeZero;
+}
+
+- (UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index {
+    NSCAssert(NO, @"需要重写 cellForItemAtIndex");
+    return nil;
+}
 
 @end
