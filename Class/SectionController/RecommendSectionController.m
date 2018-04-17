@@ -18,7 +18,6 @@
 
 - (UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index {
     FeedLiveViewCell *cell = (id)[self.adapter dequeueResuseCellOfClass:[FeedLiveViewCell class] forSectionController:self index:index];
-    
     Recommend *model = [self.adapter objectForSectionController:self index:index];
     MTRecommendLiveModel *liveModel = [MTRecommendLiveModel modelWithJSON:model.live];
     cell.model = liveModel;

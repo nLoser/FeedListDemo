@@ -32,7 +32,7 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MTListSectionController *sectionController = [self mapSectionController:indexPath.section];
     _isDequeueingCell = YES;
-    UICollectionViewCell *cell = [sectionController cellForItemAtIndex:indexPath.item];
+    UICollectionViewCell *cell = [sectionController cellForItemAtIndex:indexPath.row];
     _isDequeueingCell = NO;
     return cell;
 }
@@ -41,7 +41,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     MTListSectionController *sectionController = [self mapSectionController:indexPath.section];
-    return [sectionController sizeForItemItemAtIndex:indexPath.item];
+    return [sectionController sizeForItemItemAtIndex:indexPath.row];
 }
 
 #if 0

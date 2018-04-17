@@ -98,13 +98,12 @@
     NSInteger section = [[_controllerSectionMap objectForKey:sectionController] integerValue];
     MTFetchMOCAdapterUpdater *updater = [_entitySectionMap objectForKey:@(section)];
     id object = [updater dataForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    
     return object;
 }
 
 - (MTListSectionModel *)sectionObjectForSection:(NSInteger)section {
-    if (section >= _resourcesArray.count) {
-        return nil;
-    }
+    if (section >= _resourcesArray.count) return nil;
     return [_resourcesArray objectAtIndex:section];
 }
 

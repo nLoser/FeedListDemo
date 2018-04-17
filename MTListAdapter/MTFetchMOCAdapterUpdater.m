@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSMutableArray *deleteArray;
 @property (nonatomic, strong) NSMutableArray *insertArray;
 @property (nonatomic, strong) NSMutableArray *updateArray;
+@property (nonatomic, strong) NSMutableArray *moveArray;
 
 @end
 
@@ -54,6 +55,7 @@
         _updateArray = [NSMutableArray array];
         _insertArray = [NSMutableArray array];
         _deleteArray = [NSMutableArray array];
+        _moveArray = [NSMutableArray array];
         
         _managedObjectContext = context;
         
@@ -132,15 +134,19 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
         _collectionView = collection;
     }
     
-    if(self.updateState != MTFetchBatchUpdateStateWillChangeContext) return;
-    
     __weak typeof(self) weakSelf = self;
     void (^executeUpdateBlock)(void) = ^{
         weakSelf.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
         
-        [collection reloadItemsAtIndexPaths:weakSelf.updateArray];
-        [collection deleteItemsAtIndexPaths:weakSelf.deleteArray];
-        [collection insertItemsAtIndexPaths:weakSelf.insertArray];
+        NSArray *updateArr = [weakSelf.updateArray copy];
+        NSArray *insertArr = [weakSelf.insertArray copy];
+        NSArray *deleteArr = [weakSelf.deleteArray copy];
+        
+        [weakSelf resetBatchUpdate];
+        
+        [collection reloadItemsAtIndexPaths:updateArr];
+        [collection insertItemsAtIndexPaths:insertArr];
+        [collection deleteItemsAtIndexPaths:deleteArr];
         
         weakSelf.updateState = MTFetchBatchUpdateStateExectedBatchUpdateBlock;
     };
@@ -159,24 +165,25 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 }
 
 - (id)dataForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return [self.fetchController objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+    return [self.fetchController objectAtIndexPath:indexPath];
 }
 
 #pragma mark - NSFetchedResultsControllerDelegate
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     self.updateState = MTFetchBatchUpdateStateWillChangeContext;
+    NSLog(@"【1】WillChangeContent");
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     if(!_collectionView) return;
     [self performUpdateWithCollectionView:_collectionView animated:YES completion:nil];
     self.updateState = MTFetchBatchUpdateStateDidChangeContext;
+    NSLog(@"【3】DidChangeContent");
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(nullable NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(nullable NSIndexPath *)newIndexPath {
     NSLog(@"【2_object】%ld_%@_%ld",newIndexPath.row,logStataus(type),(long)_section);
-    
     switch (type) {
         case NSFetchedResultsChangeDelete: {
             if(!indexPath) return;
@@ -193,7 +200,11 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
             [self.updateArray addObject:[NSIndexPath indexPathForRow:indexPath.row inSection:_section]];
         }
             break;
-            
+        case NSFetchedResultsChangeMove: {
+            if(!indexPath) return;
+            [self.moveArray addObject:[NSIndexPath indexPathForRow:indexPath.row inSection:_section]];
+        }
+            break;
         default:
             break;
     }

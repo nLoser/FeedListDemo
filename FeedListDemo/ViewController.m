@@ -150,7 +150,7 @@
     NSMutableArray<MTListSectionModel *> *objects = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < 2; i ++) {
         MTListSectionModel *model = [MTListSectionModel new];
-        if (i == 0) { //TODO:
+        if (i == 0) {
             model.bindCoreData = NO;
             model.entityName = @"Banner";
             model.dataSources = @[@"banner1"];
