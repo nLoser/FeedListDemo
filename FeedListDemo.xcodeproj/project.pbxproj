@@ -27,6 +27,7 @@
 		B12F4B94207F463400A9D871 /* FeedModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B91207F463400A9D871 /* FeedModel.xcdatamodeld */; };
 		B12F4B9E207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */; };
 		B12F4B9F207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */; };
+		B1D0FFFE2085F9B9000A401B /* MTGlobalManagedObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D0FFFD2085F9B9000A401B /* MTGlobalManagedObjectContext.m */; };
 		B1F3648620843C38008A1F89 /* MTListAdpterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3648520843C38008A1F89 /* MTListAdpterProxy.m */; };
 		B1F3648920843C51008A1F89 /* MTListAdpter.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3648820843C51008A1F89 /* MTListAdpter.m */; };
 		B1F3648C208443D9008A1F89 /* MTListAdpter+UICollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3648B208443D9008A1F89 /* MTListAdpter+UICollectionView.m */; };
@@ -91,6 +92,8 @@
 		B12F4B9C207F666400A9D871 /* MTFetchMOCAdapterUpdater.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchMOCAdapterUpdater.h; sourceTree = "<group>"; };
 		B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTFetchMOCAdapterUpdater.m; sourceTree = "<group>"; };
 		B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchBatchUpdateState.h; sourceTree = "<group>"; };
+		B1D0FFFC2085F9B9000A401B /* MTGlobalManagedObjectContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTGlobalManagedObjectContext.h; sourceTree = "<group>"; };
+		B1D0FFFD2085F9B9000A401B /* MTGlobalManagedObjectContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTGlobalManagedObjectContext.m; sourceTree = "<group>"; };
 		B1F3648420843C38008A1F89 /* MTListAdpterProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListAdpterProxy.h; sourceTree = "<group>"; };
 		B1F3648520843C38008A1F89 /* MTListAdpterProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTListAdpterProxy.m; sourceTree = "<group>"; };
 		B1F3648720843C51008A1F89 /* MTListAdpter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListAdpter.h; sourceTree = "<group>"; };
@@ -196,6 +199,8 @@
 				B12F4AFA207DDEE200A9D871 /* AppDelegate.m */,
 				B12F4AFC207DDEE200A9D871 /* ViewController.h */,
 				B12F4AFD207DDEE200A9D871 /* ViewController.m */,
+				B1D0FFFC2085F9B9000A401B /* MTGlobalManagedObjectContext.h */,
+				B1D0FFFD2085F9B9000A401B /* MTGlobalManagedObjectContext.m */,
 				B12F4AFF207DDEE200A9D871 /* Main.storyboard */,
 				B12F4B02207DDEE200A9D871 /* Assets.xcassets */,
 				B12F4B04207DDEE200A9D871 /* LaunchScreen.storyboard */,
@@ -538,6 +543,7 @@
 				B1F8A51220858F08009083E3 /* BannerSectionController.m in Sources */,
 				B12F4AFE207DDEE200A9D871 /* ViewController.m in Sources */,
 				B12F4B5E207F11A300A9D871 /* MTUserModel.m in Sources */,
+				B1D0FFFE2085F9B9000A401B /* MTGlobalManagedObjectContext.m in Sources */,
 				A9267C46207F99C40099E80D /* Recommend+CoreDataClass.m in Sources */,
 				B1F3648C208443D9008A1F89 /* MTListAdpter+UICollectionView.m in Sources */,
 				B1F3648920843C51008A1F89 /* MTListAdpter.m in Sources */,

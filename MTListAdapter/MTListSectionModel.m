@@ -7,6 +7,7 @@
 //
 
 #import "MTListSectionModel.h"
+#import "MTGlobalManagedObjectContext.h"
 
 @implementation MTListSectionModel
 
@@ -20,7 +21,7 @@
 - (NSManagedObjectContext *)managedObjectContext {
     if (!_managedObjectContext) {
         //设定全局的context，如果默认nil的时候
-        _managedObjectContext = nil;
+        _managedObjectContext = [MTGlobalManagedObjectContext shareManager].managedObjectContext;
     }
     return _managedObjectContext;
 }

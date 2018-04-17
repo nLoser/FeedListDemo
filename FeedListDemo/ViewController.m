@@ -7,26 +7,18 @@
 //
 
 #import "ViewController.h"
-#import <CoreData/CoreData.h>
-#import <YYKit/NSObject+YYModel.h>
 
-#import "MTFetchMOCAdapterUpdater.h"
+#import "MTGlobalManagedObjectContext.h"
 #import "MTListAdpter.h"
 
-#import "MTRecommendModel.h"
-
-#import "FeedLiveViewCell.h"
 #import "BannerSectionController.h"
 #import "RecommendSectionController.h"
 #import "SpinnerSectionController.h"
 
 @interface ViewController ()<MTListAdpterDataSource,UICollectionViewDelegate>
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext; 
 @property (nonatomic, strong) MTListAdpter *adapter;
-
 @property (nonatomic, strong) UICollectionView *collectionView;
-
 @property (nonatomic, assign) BOOL loading;
 
 @end
@@ -38,17 +30,13 @@
 - (instancetype)init {
     if (self = [super init]) {
         _loading = NO;
-        
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self setupUI];
-    [self setupManagedObjectContextWithContextName:@"FeedModel" sqliteName:@"data.sqlite"];
-    
+    [self.view addSubview:self.collectionView];
     self.adapter = [[MTListAdpter alloc] initWithDataSource:self];
     self.adapter.collectionView = self.collectionView;
 }
@@ -71,88 +59,15 @@
     return _collectionView;
 }
 
-#pragma mark - Private
-
-- (void)testDelteData {
-    NSFetchRequest *deleteRequest = [NSFetchRequest fetchRequestWithEntityName:@"Recommend"];
-    int index = random()%20 + 1;
-    NSPredicate *pre = [NSPredicate predicateWithFormat:@"index = %d",index];
-    deleteRequest.predicate = pre;
-    NSArray<Recommend *> *resultArray = [self.managedObjectContext executeFetchRequest:deleteRequest error:nil];
-    if(resultArray.count == 0) return;
-    NSLog(@"索引:%d 数量:%lu",index,(unsigned long)resultArray.count);
-    
-    __weak typeof(self) weakSelf = self;
-    [resultArray enumerateObjectsUsingBlock:^(Recommend * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [weakSelf.managedObjectContext deleteObject:obj];
-    }];
-    if (self.managedObjectContext.hasChanges) {
-        [self.managedObjectContext save:nil];
-    }
-}
-
-- (void)insertDataBase:(NSArray<MTRecommendItemModel *> *)programs {
-    NSInteger index = 1 + [self lookupEntitysNumber];
-    for (MTRecommendItemModel *item in programs) {
-        Recommend *recommend = [NSEntityDescription insertNewObjectForEntityForName:@"Recommend" inManagedObjectContext:self.managedObjectContext];
-        recommend.recommend_caption = item.recommend_caption;
-        recommend.recommend_cover_pic = item.recommend_cover_pic;
-        recommend.recommend_cover_pic_size = item.recommend_cover_pic_size;
-        recommend.type = item.type;
-        recommend.live = [item.live modelToJSONString];
-        recommend.index = (int32_t)index;
-        index ++;
-    }
-    if (self.managedObjectContext.hasChanges) {
-        [self.managedObjectContext save:nil];
-    }
-}
-
-- (NSInteger)lookupEntitysNumber {
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Recommend"];
-    return [self.managedObjectContext countForFetchRequest:fetchRequest error:nil];
-}
-
-#pragma mark - Private - Setup
-
-- (void)setupUI {
-    [self.view addSubview:self.collectionView];
-}
-
-- (void)setupManagedObjectContextWithContextName:(NSString *)contextName sqliteName:(NSString *)sqliteName{
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:contextName withExtension:@"momd"];
-    if(!modelURL) return;
-    NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    
-    NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-    NSString *dbPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:sqliteName];
-    NSURL *dbURL = [NSURL fileURLWithPath:dbPath];
-    
-    NSError *error = nil;
-    [coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:dbURL options:nil error:&error];
-    if (error) {
-        NSLog(@"##Open database failed : %@", error);
-        self.managedObjectContext = nil;
-        return;
-    }
-    
-    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-    context.persistentStoreCoordinator = coordinator;
-    
-    self.managedObjectContext = context;
-}
-
 #pragma mark - UIEvents
 
 - (void)testLoadData {
-    _loading = YES;
-    
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"json" ofType:@"json"];
     NSString *jsonData = [NSString stringWithContentsOfFile:dataPath encoding:NSUTF8StringEncoding error:nil];
     MTRecommendProgramsModel *programs = [MTRecommendProgramsModel modelWithJSON:jsonData];
     
-    [self insertDataBase:programs.programs];
-    [self testDelteData];
+    [[MTGlobalManagedObjectContext shareManager] insertDataBasePrograms:programs.programs];
+    [[MTGlobalManagedObjectContext shareManager] testDeleteDataBase];
     
     _loading = NO;
 }
@@ -171,7 +86,6 @@
             model.bindCoreData = YES;
             model.entityName = @"Recommend";
             model.descriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
-            model.managedObjectContext = self.managedObjectContext;
         }
         [objects addObject:model];
     }
@@ -208,7 +122,7 @@
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             sleep(2);
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.loading = NO;
+                self.loading = YES;
                 [self testLoadData];
             });
         });
