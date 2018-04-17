@@ -37,7 +37,7 @@
     [self setupUI];
     [self setupManagedObjectContextWithContextName:@"FeedModel" sqliteName:@"data.sqlite"];
     
-    self.adapter = [[MTListAdpter alloc] initWithController:self];
+    self.adapter = [[MTListAdpter alloc] initWithDataSource:self];
     self.adapter.collectionView = self.collectionView;
 }
 
@@ -147,7 +147,7 @@
     NSMutableArray<MTListSectionModel *> *objects = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < 2; i ++) {
         MTListSectionModel *model = [MTListSectionModel new];
-        if (i == 10) {
+        if (i == 10) { //TODO:
             model.bindCoreData = NO;
             model.entityName = @"Banner";
             model.dataSources = @[@"banner1",@"banner2",@"banner3",@"banner4"];

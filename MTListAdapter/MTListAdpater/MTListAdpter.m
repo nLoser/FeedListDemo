@@ -9,15 +9,12 @@
 #import "MTListAdpter+MTListAdpterInternal.h"
 
 @interface MTListAdpter() {
-    NSMapTable <id, id> *_viewSectionControllerMap;
-    
     NSMapTable<MTListSectionController *, NSNumber *> *_controllerSectionMap;
     NSMutableDictionary<NSNumber *, MTListSectionController *> *_sectionControllerMap;
     NSMutableDictionary<NSNumber *, MTFetchMOCAdapterUpdater *> *_entitySectionMap;
 }
 
-@property (nonatomic, weak, readwrite) id <MTListAdpterDataSource> dataSource;
-@property (nonatomic, weak, readwrite) UIViewController *viewController;
+@property (nonatomic, weak) id<MTListAdpterDataSource>dataSource;
 
 @end
 
@@ -25,10 +22,9 @@
 
 #pragma mark - LifeCycle
 
-- (instancetype)initWithController:(UIViewController<MTListAdpterDataSource> *)viewController {
+- (instancetype)initWithDataSource:(id<MTListAdpterDataSource>)dataSource {
     if (self = [super init]) {
-        self.dataSource = viewController;
-        _viewController = viewController;
+        _dataSource = dataSource;
         
         _entitySectionMap = [NSMutableDictionary dictionaryWithCapacity:0];
         _sectionControllerMap = [NSMutableDictionary dictionaryWithCapacity:0];

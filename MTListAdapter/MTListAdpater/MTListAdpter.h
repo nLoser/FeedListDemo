@@ -19,10 +19,9 @@ typedef void (^MTListUpdateCompletion)(BOOL finished);
 
 @interface MTListAdpter : NSObject
 
-@property (nonatomic, weak, readonly) UIViewController *viewController;
 @property (nonatomic, weak, nullable) UICollectionView *collectionView;
 
-- (instancetype)initWithController:(UIViewController<MTListAdpterDataSource>*)viewController;
+- (instancetype)initWithDataSource:(id<MTListAdpterDataSource>)dataSource;
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
