@@ -175,7 +175,7 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(nullable NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(nullable NSIndexPath *)newIndexPath {
-    NSLog(@"【2_object】%ld_%@",newIndexPath.row,logStataus(type));
+    NSLog(@"【2_object】%ld_%@_%ld",newIndexPath.row,logStataus(type),(long)_section);
     
     switch (type) {
         case NSFetchedResultsChangeDelete: {

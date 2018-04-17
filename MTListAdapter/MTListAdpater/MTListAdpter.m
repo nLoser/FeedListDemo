@@ -14,6 +14,7 @@
     NSMutableDictionary<NSNumber *, MTFetchMOCAdapterUpdater *> *_entitySectionMap;
 }
 
+@property (nonatomic, strong) NSArray<MTListSectionModel *> *resourcesArray;
 @property (nonatomic, weak) id<MTListAdpterDataSource>dataSource;
 
 @end
@@ -32,7 +33,7 @@
         _controllerSectionMap = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory
                                                       valueOptions:NSPointerFunctionsStrongMemory];
         
-        [self _bindSectionUpdater];
+        [self bindSectionUpdater];
     }
     return self;
 }
@@ -59,7 +60,6 @@
         _collectionView = collectionView;
         _collectionView.dataSource = self; ///< Core
         _collectionView.delegate = self;
-        [_collectionView.collectionViewLayout invalidateLayout];
         
         [self performUpdateAfterChange];
     }
@@ -101,6 +101,13 @@
     return object;
 }
 
+- (MTListSectionModel *)sectionObjectForSection:(NSInteger)section {
+    if (section >= _resourcesArray.count) {
+        return nil;
+    }
+    return [_resourcesArray objectAtIndex:section];
+}
+
 #pragma mark - Private
 
 - (void)performUpdateAfterChange {
@@ -124,8 +131,10 @@
 
 #pragma mark - Private - Supply Setter
 
-- (void)_bindSectionUpdater {
+- (void)bindSectionUpdater {
     NSArray<MTListSectionModel *> *resources = [self.dataSource objectsForListAdpater:self];
+    self.resourcesArray = [resources copy];
+    
     NSInteger section = 0;
     for (MTListSectionModel *model in resources) {
         MTListSectionController *sectionController = [self.dataSource listAdapter:self sectionControllerForObject:model];

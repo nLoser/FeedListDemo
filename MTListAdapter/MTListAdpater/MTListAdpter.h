@@ -37,6 +37,8 @@ typedef void (^MTListUpdateCompletion)(BOOL finished);
 
 - (id)objectForSectionController:(MTListSectionController *)sectionController index:(NSInteger)index;
 
+- (MTListSectionModel *)sectionObjectForSection:(NSInteger)section;
+
 @end
 
 NS_ASSUME_NONNULL_END

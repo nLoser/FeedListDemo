@@ -39,6 +39,9 @@
     
     self.adapter = [[MTListAdpter alloc] initWithDataSource:self];
     self.adapter.collectionView = self.collectionView;
+    
+    //NOTE:测试
+    [self.collectionView reloadData];
 }
 
 #pragma mark - Custom Accessors
@@ -147,10 +150,10 @@
     NSMutableArray<MTListSectionModel *> *objects = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < 2; i ++) {
         MTListSectionModel *model = [MTListSectionModel new];
-        if (i == 10) { //TODO:
+        if (i == 0) { //TODO:
             model.bindCoreData = NO;
             model.entityName = @"Banner";
-            model.dataSources = @[@"banner1",@"banner2",@"banner3",@"banner4"];
+            model.dataSources = @[@"banner1"];
         }else {
             model.bindCoreData = YES;
             model.entityName = @"Recommend";

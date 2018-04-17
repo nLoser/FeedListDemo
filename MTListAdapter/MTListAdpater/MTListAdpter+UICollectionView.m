@@ -15,9 +15,14 @@
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    MTFetchMOCAdapterUpdater *updater = [self mapMOCUpdater:section];
-    if(!updater) return 0;
-    return [updater numberOfObjects];
+    MTListSectionModel *sectionModel = [self sectionObjectForSection:section];
+    if (sectionModel.bindCoreData) {
+        MTFetchMOCAdapterUpdater *updater = [self mapMOCUpdater:section];
+        if(!updater) return 0;
+        return [updater numberOfObjects];
+    }else {
+        return sectionModel.dataSources.count;
+    }
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {

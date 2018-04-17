@@ -7,17 +7,19 @@
 //
 
 #import "BannerSectionController.h"
+#import "MTListAdpter.h"
 
 @implementation BannerSectionController
 
 - (UICollectionViewCell *)cellForItemAtIndex:(NSInteger)index {
-//    UICollectionViewCell *cell = (id)[self.adapter dequeueResuseCellOfClass:[UICollectionViewCell class] forSectionController:self index:index];
-    return nil;
+    UICollectionViewCell *cell = [self.adapter dequeueResuseCellOfClass:[UICollectionViewCell class] forSectionController:self index:index];
+    cell.backgroundColor = [UIColor orangeColor];
+    return cell;
 }
 
 - (CGSize)sizeForItemItemAtIndex:(NSInteger)index {
-    CGFloat width = [UIScreen mainScreen].bounds.size.width/2.f-0.5;
-    return CGSizeMake(width, width * 1.2);
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    return CGSizeMake(width, width * 0.6);
 }
 
 @end
