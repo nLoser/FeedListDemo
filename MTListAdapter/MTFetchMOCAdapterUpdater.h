@@ -11,7 +11,6 @@
 #import <CoreData/CoreData.h>
 
 #import "MTListUpdatingDelegate.h"
-#import "MTFetchBatchUpdateState.h"
 
 #import "MTListSectionController.h"
 
@@ -19,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MTFetchMOCAdapterUpdater : NSObject<MTListUpdatingDelegate>
 
-@property (nonatomic, assign, readonly) MTFetchBatchUpdateState updateState;
 @property (nonatomic, weak) UICollectionView *collectionView;
 
 - (instancetype)initWithEntityName:(NSString *)entityName

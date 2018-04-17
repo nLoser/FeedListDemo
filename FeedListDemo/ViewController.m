@@ -39,9 +39,6 @@
     
     self.adapter = [[MTListAdpter alloc] initWithDataSource:self];
     self.adapter.collectionView = self.collectionView;
-    
-    //NOTE:测试
-    [self.collectionView reloadData];
 }
 
 #pragma mark - Custom Accessors

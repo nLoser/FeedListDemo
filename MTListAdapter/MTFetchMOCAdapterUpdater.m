@@ -9,9 +9,11 @@
 #import "MTFetchMOCAdapterUpdater.h"
 #import <UIKit/UIKit.h>
 
+#import "MTFetchBatchUpdateState.h"
+
 @interface MTFetchMOCAdapterUpdater()<NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, assign, readwrite) MTFetchBatchUpdateState updateState;
+@property (nonatomic, assign) MTFetchBatchUpdateState updateState;
 
 @property (nonatomic, strong) NSString *entityName;
 @property (nonatomic, assign) NSInteger section;

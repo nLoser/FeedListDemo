@@ -35,6 +35,9 @@
 		B1F8A51220858F08009083E3 /* BannerSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F8A51120858F08009083E3 /* BannerSectionController.m */; };
 		B1F8A51520858F76009083E3 /* RecommendSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F8A51420858F76009083E3 /* RecommendSectionController.m */; };
 		B1F8A51820859010009083E3 /* MTEmptySectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F8A51720859010009083E3 /* MTEmptySectionController.m */; };
+		B1F8A5202085DBC0009083E3 /* LVInfinitelyCycleCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F8A51D2085DBC0009083E3 /* LVInfinitelyCycleCollectionCell.m */; };
+		B1F8A5212085DBC0009083E3 /* LVInfinitelyCycleView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F8A51F2085DBC0009083E3 /* LVInfinitelyCycleView.m */; };
+		B1F8A5242085DEFE009083E3 /* BannerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F8A5232085DEFE009083E3 /* BannerViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +109,12 @@
 		B1F8A51420858F76009083E3 /* RecommendSectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecommendSectionController.m; sourceTree = "<group>"; };
 		B1F8A51620859010009083E3 /* MTEmptySectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTEmptySectionController.h; sourceTree = "<group>"; };
 		B1F8A51720859010009083E3 /* MTEmptySectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTEmptySectionController.m; sourceTree = "<group>"; };
+		B1F8A51C2085DBC0009083E3 /* LVInfinitelyCycleCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVInfinitelyCycleCollectionCell.h; sourceTree = "<group>"; };
+		B1F8A51D2085DBC0009083E3 /* LVInfinitelyCycleCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVInfinitelyCycleCollectionCell.m; sourceTree = "<group>"; };
+		B1F8A51E2085DBC0009083E3 /* LVInfinitelyCycleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVInfinitelyCycleView.h; sourceTree = "<group>"; };
+		B1F8A51F2085DBC0009083E3 /* LVInfinitelyCycleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVInfinitelyCycleView.m; sourceTree = "<group>"; };
+		B1F8A5222085DEFE009083E3 /* BannerViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerViewCell.h; sourceTree = "<group>"; };
+		B1F8A5232085DEFE009083E3 /* BannerViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BannerViewCell.m; sourceTree = "<group>"; };
 		C8D196658357A77764BD1F13 /* Pods_FeedListDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FeedListDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD58B3CDB69FC8408BA5B31 /* Pods-FeedListDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FeedListDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-FeedListDemo/Pods-FeedListDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -232,6 +241,7 @@
 		B12F4B34207DF4B300A9D871 /* Class */ = {
 			isa = PBXGroup;
 			children = (
+				B1F8A51A2085DBA3009083E3 /* UIComponent */,
 				B1F8A50F20858EE6009083E3 /* SectionController */,
 				B12F4B79207F30B800A9D871 /* View */,
 				B12F4B58207F11A300A9D871 /* Model */,
@@ -259,6 +269,8 @@
 			children = (
 				B12F4B7A207F311400A9D871 /* FeedLiveViewCell.h */,
 				B12F4B7B207F311400A9D871 /* FeedLiveViewCell.m */,
+				B1F8A5222085DEFE009083E3 /* BannerViewCell.h */,
+				B1F8A5232085DEFE009083E3 /* BannerViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -305,6 +317,25 @@
 				B1F8A51720859010009083E3 /* MTEmptySectionController.m */,
 			);
 			path = SectionController;
+			sourceTree = "<group>";
+		};
+		B1F8A51A2085DBA3009083E3 /* UIComponent */ = {
+			isa = PBXGroup;
+			children = (
+				B1F8A51B2085DBB0009083E3 /* CycleBanner */,
+			);
+			path = UIComponent;
+			sourceTree = "<group>";
+		};
+		B1F8A51B2085DBB0009083E3 /* CycleBanner */ = {
+			isa = PBXGroup;
+			children = (
+				B1F8A51C2085DBC0009083E3 /* LVInfinitelyCycleCollectionCell.h */,
+				B1F8A51D2085DBC0009083E3 /* LVInfinitelyCycleCollectionCell.m */,
+				B1F8A51E2085DBC0009083E3 /* LVInfinitelyCycleView.h */,
+				B1F8A51F2085DBC0009083E3 /* LVInfinitelyCycleView.m */,
+			);
+			path = CycleBanner;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -506,6 +537,8 @@
 				A9267C46207F99C40099E80D /* Recommend+CoreDataClass.m in Sources */,
 				B1F3648C208443D9008A1F89 /* MTListAdpter+UICollectionView.m in Sources */,
 				B1F3648920843C51008A1F89 /* MTListAdpter.m in Sources */,
+				B1F8A5212085DBC0009083E3 /* LVInfinitelyCycleView.m in Sources */,
+				B1F8A5202085DBC0009083E3 /* LVInfinitelyCycleCollectionCell.m in Sources */,
 				B12F4B9E207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */,
 				B12F4B09207DDEE200A9D871 /* main.m in Sources */,
 				B1F8A51520858F76009083E3 /* RecommendSectionController.m in Sources */,
@@ -514,6 +547,7 @@
 				B12F4B5D207F11A300A9D871 /* MTRecommendModel.m in Sources */,
 				B1F3649B2084B495008A1F89 /* MTListSectionController.m in Sources */,
 				B12F4AFB207DDEE200A9D871 /* AppDelegate.m in Sources */,
+				B1F8A5242085DEFE009083E3 /* BannerViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -689,6 +723,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = T4654Y4Z9R;
 				INFOPLIST_FILE = FeedListDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

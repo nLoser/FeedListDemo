@@ -107,6 +107,10 @@
     return [_resourcesArray objectAtIndex:section];
 }
 
+- (void)reloadSection:(NSUInteger)section {
+    [_collectionView reloadSections:[NSIndexSet indexSetWithIndex:section]];
+}
+
 #pragma mark - Private
 
 - (void)performUpdateAfterChange {
