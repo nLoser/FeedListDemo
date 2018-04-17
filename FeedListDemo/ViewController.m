@@ -9,17 +9,25 @@
 #import "ViewController.h"
 
 #import "MTGlobalManagedObjectContext.h"
+#import "MTGestureHandleRefresh.h"
 #import "MTListAdpter.h"
 
 #import "BannerSectionController.h"
 #import "RecommendSectionController.h"
 #import "SpinnerSectionController.h"
 
-@interface ViewController ()<MTListAdpterDataSource,UICollectionViewDelegate>
+@interface ViewController ()
+<
+MTListAdpterDataSource,
+UICollectionViewDelegate,
+UIGestureRecognizerDelegate
+> {
+    BOOL _loading;
+}
 
-@property (nonatomic, strong) MTListAdpter *adapter;
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, assign) BOOL loading;
+@property (nonatomic, strong) MTListAdpter *adapter;
+@property (nonatomic, strong) MTGestureHandleRefresh *refresh;
 
 @end
 
@@ -37,8 +45,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.collectionView];
+    
     self.adapter = [[MTListAdpter alloc] initWithDataSource:self];
     self.adapter.collectionView = self.collectionView;
+    
+    self.refresh = [[MTGestureHandleRefresh alloc] initWithViewController:self
+                                                               scrollView:self.collectionView];
+    __weak typeof(self) weakSelf = self;
+    self.refresh.refresh = ^(BOOL refresh) {
+        if(refresh) {
+            [weakSelf refreshData];
+        }
+    };
 }
 
 #pragma mark - Custom Accessors
@@ -60,6 +78,10 @@
 }
 
 #pragma mark - UIEvents
+
+- (void)refreshData {
+    [[MTGlobalManagedObjectContext shareManager] removeAllDataBase];
+}
 
 - (void)testLoadData {
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"json" ofType:@"json"];
@@ -115,6 +137,14 @@
     return [self.adapter sizeForSectionAtIndexPath:indexPath];
 }
 
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y <= 0) {
+        scrollView.contentOffset = CGPointZero;
+    }
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     CGFloat distance = scrollView.contentSize.height - (targetContentOffset->y + scrollView.bounds.size.height);
     
@@ -122,7 +152,7 @@
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             sleep(2);
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.loading = YES;
+                self->_loading = YES;
                 [self testLoadData];
             });
         });

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import <YYKit/NSObject+YYModel.h>
 
@@ -19,6 +20,8 @@
 - (void)insertDataBasePrograms:(NSArray<MTRecommendItemModel *> *)programs;
 
 - (void)testDeleteDataBase;
+
+- (void)removeAllDataBase;
 
 + (instancetype)shareManager;
 

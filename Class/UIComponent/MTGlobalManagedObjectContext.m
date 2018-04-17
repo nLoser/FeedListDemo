@@ -51,12 +51,31 @@
     }
 }
 
+- (void)removeAllDataBase {
+    NSFetchRequest *reqauest = [[NSFetchRequest alloc] initWithEntityName:@"Recommend"];
+//    if (@available(iOS 9.0, *)) {
+//        NSBatchDeleteRequest *deleteRequest = [[NSBatchDeleteRequest alloc] initWithFetchRequest:reqauest];
+//        [self.managedObjectContext.persistentStoreCoordinator executeRequest:deleteRequest withContext:self.managedObjectContext error:nil];
+//        [self.managedObjectContext save:nil];
+//    } else {
+//        // Fallback on earlier versions
+//    }
+//
+    NSArray *result = [[self.managedObjectContext executeFetchRequest:reqauest error:nil] copy];
+    [result enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.managedObjectContext deleteObject:obj];
+    }];
+    if ([self.managedObjectContext hasChanges]) {
+        [self.managedObjectContext save:nil];
+    }
+}
+
 - (void)testDeleteDataBase {
     NSFetchRequest *deleteRequest = [NSFetchRequest fetchRequestWithEntityName:@"Recommend"];
     int index = random()%20 + 1;
     NSPredicate *pre = [NSPredicate predicateWithFormat:@"index = %d",index];
     deleteRequest.predicate = pre;
-    NSArray<Recommend *> *resultArray = [[[MTGlobalManagedObjectContext shareManager].managedObjectContext executeFetchRequest:deleteRequest error:nil] copy];
+    NSArray<Recommend *> *resultArray = [[self.managedObjectContext executeFetchRequest:deleteRequest error:nil] copy];
     if(resultArray.count == 0) return;
     
     [resultArray enumerateObjectsUsingBlock:^(Recommend * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
