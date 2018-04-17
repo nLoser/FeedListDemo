@@ -21,11 +21,17 @@ typedef void (^MTListUpdateCompletion)(BOOL finished);
 
 @property (nonatomic, weak, nullable) UICollectionView *collectionView;
 
+/**
+ * Initialize
+ */
 - (instancetype)initWithDataSource:(id<MTListAdpterDataSource>)dataSource NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
+/**
+ * DataSources
+ */
 - (UICollectionViewCell *)dequeueResuseCellOfClass:(Class)cellClass
                               forSectionController:(MTListSectionController *)sectionController
                                              index:(NSInteger)index;
@@ -35,10 +41,17 @@ typedef void (^MTListUpdateCompletion)(BOOL finished);
                                          forSectionController:(MTListSectionController *)sectionController
                                                         index:(NSInteger)index;
 
+/**
+ * Delegate
+ */
 - (id)objectForSectionController:(MTListSectionController *)sectionController index:(NSInteger)index;
-
 - (MTListSectionModel *)sectionObjectForSection:(NSInteger)section;
+- (MTListSectionController *)mapSectionController:(NSInteger)section;
+- (CGSize)sizeForSectionAtIndexPath:(NSIndexPath *)indexPath;
 
+/**
+ * Opertion
+ */
 - (void)reloadSection:(NSUInteger)section;
 
 @end

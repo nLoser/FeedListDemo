@@ -1,5 +1,5 @@
 //
-//  MTEmptySectionController.h
+//  SpinnerSectionController.h
 //  FeedListDemo
 //
 //  Created by meipai_lv on 2018/4/17.
@@ -8,6 +8,6 @@
 
 #import "MTListSectionController.h"
 
-@interface MTEmptySectionController : MTListSectionController
+@interface SpinnerSectionController : MTListSectionController
 
 @end

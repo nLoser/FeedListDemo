@@ -30,7 +30,6 @@ NS_INLINE NSString *IGListReusableViewIdentifier(Class viewClass, NSString * _Nu
 @property (nonatomic, strong) NSMutableSet<Class> *regiseterCellClass;
 @property (nonatomic, strong) NSMutableSet<NSString *> *registerNibName;
 
-- (MTListSectionController *)mapSectionController:(NSInteger)section;
 - (MTFetchMOCAdapterUpdater *)mapMOCUpdater:(NSInteger)section;
 - (NSInteger)sectionNumber;
 

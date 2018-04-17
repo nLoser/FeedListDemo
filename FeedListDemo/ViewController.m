@@ -18,18 +18,30 @@
 #import "FeedLiveViewCell.h"
 #import "BannerSectionController.h"
 #import "RecommendSectionController.h"
-#import "MTEmptySectionController.h"
+#import "SpinnerSectionController.h"
 
-@interface ViewController ()<MTListAdpterDataSource>
+@interface ViewController ()<MTListAdpterDataSource,UICollectionViewDelegate>
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext; 
 @property (nonatomic, strong) MTListAdpter *adapter;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
+@property (nonatomic, assign) BOOL loading;
+
 @end
 
 @implementation ViewController
+
+#pragma mark - LifeCycle
+
+- (instancetype)init {
+    if (self = [super init]) {
+        _loading = NO;
+        
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,6 +66,7 @@
         _collectionView = [[UICollectionView alloc] initWithFrame:[UIScreen mainScreen].bounds collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.alwaysBounceVertical = YES;
+        _collectionView.delegate = self;
     }
     return _collectionView;
 }
@@ -104,7 +117,6 @@
 
 - (void)setupUI {
     [self.view addSubview:self.collectionView];
-    [self.collectionView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(testLoadData)]];
 }
 
 - (void)setupManagedObjectContextWithContextName:(NSString *)contextName sqliteName:(NSString *)sqliteName{
@@ -133,18 +145,22 @@
 #pragma mark - UIEvents
 
 - (void)testLoadData {
+    _loading = YES;
+    
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"json" ofType:@"json"];
     NSString *jsonData = [NSString stringWithContentsOfFile:dataPath encoding:NSUTF8StringEncoding error:nil];
     MTRecommendProgramsModel *programs = [MTRecommendProgramsModel modelWithJSON:jsonData];
     
     [self insertDataBase:programs.programs];
     [self testDelteData];
+    
+    _loading = NO;
 }
 
 #pragma mark - MTListAdpterDataSource
 
 - (NSArray<MTListSectionModel *> *)objectsForListAdpater:(MTListAdpter *)listAdapter {
-    NSMutableArray<MTListSectionModel *> *objects = [NSMutableArray arrayWithCapacity:0];
+    NSMutableArray<MTListSectionModel *> *objects = [NSMutableArray array];
     for (int i = 0; i < 2; i ++) {
         MTListSectionModel *model = [MTListSectionModel new];
         if (i == 0) {
@@ -159,7 +175,11 @@
         }
         [objects addObject:model];
     }
-    
+    MTListSectionModel *model = [MTListSectionModel new];
+    model.bindCoreData = NO;
+    model.entityName = @"Spinner";
+    model.dataSources = @[@"占位"];
+    [objects addObject:model];
     return objects;
 }
 
@@ -168,11 +188,31 @@
         return [[BannerSectionController alloc] initWithAdpater:listAdapter];
     }else if ([object.entityName isEqualToString:@"Recommend"]) {
         return [[RecommendSectionController alloc] initWithAdpater:listAdapter];
+    }else if ([object.entityName isEqualToString:@"Spinner"]){
+        return [[SpinnerSectionController alloc] initWithAdpater:listAdapter];
     }else {
-        return [[MTEmptySectionController alloc] initWithAdpater:listAdapter];
+        return nil;
     }
 }
 
 #pragma mark - UICollectionDelegate
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return [self.adapter sizeForSectionAtIndexPath:indexPath];
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    CGFloat distance = scrollView.contentSize.height - (targetContentOffset->y + scrollView.bounds.size.height);
+    
+    if (!_loading && distance < 200) {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            sleep(2);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.loading = NO;
+                [self testLoadData];
+            });
+        });
+    }
+}
 
 @end

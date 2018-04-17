@@ -37,6 +37,7 @@
     return cell;
 }
 
+#if 0
 #pragma mark - UICollectionViewDelegateFlowLayout
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -44,7 +45,6 @@
     return [sectionController sizeForItemItemAtIndex:indexPath.row];
 }
 
-#if 0
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsZero;
 }

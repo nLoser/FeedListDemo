@@ -59,7 +59,7 @@
         
         _collectionView = collectionView;
         _collectionView.dataSource = self; ///< Core
-        _collectionView.delegate = self;
+        //_collectionView.delegate = self;
         
         [self performUpdateAfterChange];
     }
@@ -105,6 +105,11 @@
 - (MTListSectionModel *)sectionObjectForSection:(NSInteger)section {
     if (section >= _resourcesArray.count) return nil;
     return [_resourcesArray objectAtIndex:section];
+}
+
+- (CGSize)sizeForSectionAtIndexPath:(NSIndexPath *)indexPath {
+    MTListSectionController *sectionController = [self mapSectionController:indexPath.section];
+    return [sectionController sizeForItemItemAtIndex:indexPath.row];
 }
 
 - (void)reloadSection:(NSUInteger)section {
