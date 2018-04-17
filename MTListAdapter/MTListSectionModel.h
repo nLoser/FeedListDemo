@@ -14,9 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface MTListSectionModel : NSObject
 
 @property (nonatomic, assign) BOOL bindCoreData;
-@property (nonatomic, copy) NSString *entityName;
+@property (nonatomic, copy) NSString *entityName; 
 
 @property (nonatomic, nullable, strong) NSArray *dataSources;
+
 @property (nonatomic, nullable, strong) NSArray <NSSortDescriptor *> *descriptors;
 @property (nonatomic, nullable, weak) NSManagedObjectContext *managedObjectContext;
 

@@ -10,7 +10,8 @@
 
 @interface MTListAdpter() {
     NSMapTable <id, id> *_viewSectionControllerMap;
-    NSMapTable <NSString *, MTListAdpter *> *_entitySectionMap;
+    NSMutableDictionary<NSNumber *, MTListSectionController *> *_sectionControllerMap;
+    NSMutableDictionary<NSNumber *, MTFetchMOCAdapterUpdater *> *_entitySectionMap;
 }
 
 @property (nonatomic, weak, readwrite) id <MTListAdpterDataSource> dataSource;
@@ -27,19 +28,12 @@
         self.dataSource = viewController;
         _viewController = viewController;
         
-        _entitySectionMap = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory|NSMapTableObjectPointerPersonality
-                                                  valueOptions:NSMapTableStrongMemory];
+        _entitySectionMap = [NSMutableDictionary dictionaryWithCapacity:0];
+        _sectionControllerMap = [NSMutableDictionary dictionaryWithCapacity:0];
         
         [self _bindSectionUpdater];
     }
     return self;
-}
-
-- (void)_bindSectionUpdater {
-    NSArray<MTListSectionModel *> *resources = [self.dataSource objectsForListAdpater:self];
-    for (MTListSectionModel *model in resources) {
-        
-    }
 }
 
 #pragma mark - Custom Accessors
@@ -50,7 +44,6 @@
 
 - (void)setCollectionView:(UICollectionView *)collectionView {
     if (_collectionView != collectionView || _collectionView.dataSource != self) {
-        //Global
         static NSMapTable<UICollectionView * , MTListAdpter *> *globalCollectionViewAdpaterMap = nil;
         if (globalCollectionViewAdpaterMap == nil) {
             globalCollectionViewAdpaterMap = [NSMapTable weakToWeakObjectsMapTable];
@@ -66,15 +59,36 @@
         _collectionView.dataSource = self; ///< Core
         [_collectionView.collectionViewLayout invalidateLayout];
         
-        [self updateAfterPublicSettingChange];
+        [self performUpdateAfterChange];
     }
+}
+
+- (void)performUpdateAfterChange {
+    __weak typeof(self) weakSelf = self;
+    [_entitySectionMap enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, MTFetchMOCAdapterUpdater * _Nonnull obj, BOOL * _Nonnull stop) {
+        [obj performUpdateWithCollectionView:weakSelf.collectionView animated:YES completion:nil];
+    }];
 }
 
 #pragma mark - Private - Supply Setter
 
-//TODO: Switch host View to handle latest change
-- (void)updateAfterPublicSettingChange {
-    
+- (void)_bindSectionUpdater {
+    NSArray<MTListSectionModel *> *resources = [self.dataSource objectsForListAdpater:self];
+    NSInteger section = 0;
+    for (MTListSectionModel *model in resources) {
+        MTListSectionController *sectionController = [self.dataSource listAdapter:self sectionControllerForObject:model];
+        [_sectionControllerMap setObject:sectionController forKey:@(section)];
+        
+        if (model.bindCoreData) {
+            MTFetchMOCAdapterUpdater *updater = [[MTFetchMOCAdapterUpdater alloc] initWithManagedObjectContext:model.managedObjectContext
+                                                                                                    entityName:model.entityName
+                                                                                              sortDescriptions:model.descriptors
+                                                                                             sectionController:sectionController
+                                                                                                       section:section];
+            [_entitySectionMap setObject:updater forKey:@(section)];
+        }
+        section ++;
+    }
 }
 
 @end

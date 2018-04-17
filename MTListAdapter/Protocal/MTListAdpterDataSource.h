@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray<MTListSectionModel *> *)objectsForListAdpater:(MTListAdpter *)listAdapter;
 
+- (MTListSectionController *)listAdapter:(MTListAdpter *)listAdapter sectionControllerForObject:(MTListSectionModel *)object;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -11,6 +11,8 @@
 #import "MTListAdpterProxy.h"
 #import "MTListAdpter+UICollectionView.h"
 
+#import "MTFetchMOCAdapterUpdater.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MTListAdpter () {

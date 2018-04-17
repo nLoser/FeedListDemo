@@ -16,10 +16,13 @@
 #import "MTRecommendModel.h"
 
 #import "FeedLiveViewCell.h"
+#import "BannerSectionController.h"
+#import "RecommendSectionController.h"
+#import "MTEmptySectionController.h"
 
 @interface ViewController ()<MTListAdpterDataSource>
 
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext; ///< 此参数应该是代理
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext; 
 @property (nonatomic, strong) MTListAdpter *adapter;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
@@ -147,7 +150,8 @@
         MTListSectionModel *model = [MTListSectionModel new];
         if (i == 0) {
             model.bindCoreData = NO;
-            model.dataSources = @[@"",@"",@"",@""];
+            model.dataSources = @[@"banner1",@"banner2",@"banner3",@"banner4"];
+            model.entityName = @"Banner";
         }else {
             model.bindCoreData = YES;
             model.entityName = @"Recommend";
@@ -157,6 +161,16 @@
         }
     }
     return objects;
+}
+
+- (MTListSectionController *)listAdapter:(MTListAdpter *)listAdapter sectionControllerForObject:(MTListSectionModel *)object {
+    if ([object.entityName isEqualToString:@"Banner"]) {
+        return [[BannerSectionController alloc] init];
+    }else if ([object.entityName isEqualToString:@"Recommend"]) {
+        return [[RecommendSectionController alloc] init];
+    }else {
+        return [[MTEmptySectionController alloc] init];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource

@@ -14,7 +14,7 @@ typedef void (^MTListUpdatingCompletion) (BOOL finished);
 
 @protocol MTListUpdatingDelegate <NSObject>
 
-- (void)perfromUpdateWithCollectionView:(UICollectionView *)collection
+- (void)performUpdateWithCollectionView:(UICollectionView *)collection
                                animated:(BOOL)animated
                              completion:(nullable MTListUpdatingCompletion)completion;
 

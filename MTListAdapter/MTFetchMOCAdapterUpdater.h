@@ -13,23 +13,25 @@
 #import "MTListUpdatingDelegate.h"
 #import "MTFetchBatchUpdateState.h"
 
+#import "MTListSectionController.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MTFetchMOCAdapterUpdater : NSObject<MTListUpdatingDelegate>
 
 @property (nonatomic, assign, readonly) MTFetchBatchUpdateState updateState;
-
-//以下属性后续不不能暴漏
-@property (nonatomic, weak, readonly) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, strong, readonly) NSFetchedResultsController *fetchController;
-
+@property (nonatomic, weak) UICollectionView *collectionView;
 
 - (instancetype)initWithEntityName:(NSString *)entityName
-                  sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions;
+                  sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
+                 sectionController:(MTListSectionController *)sectionController
+                           section:(NSInteger)section;
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context
                                   entityName:(NSString *)entityName
-                            sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions NS_DESIGNATED_INITIALIZER;
+                            sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
+                           sectionController:(MTListSectionController *)sectionController
+                                     section:(NSInteger)section NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
