@@ -333,11 +333,11 @@
 		B1F8A51A2085DBA3009083E3 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
-				B1D0FFFC2085F9B9000A401B /* MTGlobalManagedObjectContext.h */,
-				B1D0FFFD2085F9B9000A401B /* MTGlobalManagedObjectContext.m */,
 				B1F8A51B2085DBB0009083E3 /* CycleBanner */,
 				B107D9D82086017C000ED295 /* MTGestureHandleRefresh.h */,
 				B107D9D92086017C000ED295 /* MTGestureHandleRefresh.m */,
+				B1D0FFFC2085F9B9000A401B /* MTGlobalManagedObjectContext.h */,
+				B1D0FFFD2085F9B9000A401B /* MTGlobalManagedObjectContext.m */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";

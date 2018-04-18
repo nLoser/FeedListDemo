@@ -12,6 +12,8 @@
     CGFloat _slideDistance;
     CGFloat _beganY;
     CGFloat _parallax;
+    CGFloat _transitionY;
+    BOOL _transitionFlag;
 }
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, weak) UIViewController *viewController;
@@ -28,6 +30,8 @@
         
         _slideDistance = 100.f;
         _beganY = 0.f;
+        _transitionY = 0.f;
+        _transitionFlag = NO;
         
         UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(refresh:)];
         panGestureRecognizer.delegate = self;
@@ -40,14 +44,24 @@
 
 - (void)refresh:(UIPanGestureRecognizer *)gesture {
     CGPoint location = [gesture locationInView:gesture.view.superview];
+    CGPoint velocity = [gesture velocityInView:self.viewController.view];
     
     if (gesture.state == UIGestureRecognizerStateBegan) {
         _beganY = location.y;
         [self.viewController.view addSubview:self.refreshHintLabel];
         
     } else if (gesture.state == UIGestureRecognizerStateChanged) {
-        _parallax = MAX(location.y - _beganY, 0);
+        _transitionFlag = velocity.y <= 0?YES:NO;
+        if (_transitionFlag) _transitionY = location.y;
+        
+        if (_transitionFlag && _transitionY - location.y  >= _slideDistance) {
+            _parallax = 0;
+        }else {
+            _parallax = MAX(location.y - _beganY, 0);
+        }
+        
         self.refreshHintLabel.alpha = _parallax/_slideDistance;
+        self.scrollView.contentOffset = CGPointZero;
         
         if (_parallax == 0) {
             gesture.enabled = NO;
@@ -57,11 +71,10 @@
               gesture.state == UIGestureRecognizerStateCancelled) {
         self.scrollView.scrollEnabled = YES;
         gesture.enabled = YES;
+        
         [self.refreshHintLabel removeFromSuperview];
         
-        if (gesture.state == UIGestureRecognizerStateEnded &&
-            _parallax >= _slideDistance) {
-            NSLog(@"##刷新##");
+        if (gesture.state == UIGestureRecognizerStateEnded && _parallax >= _slideDistance) {
             self.refresh(YES);
         }
     }
@@ -83,30 +96,20 @@
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
-    NSLog(@"---");
-    if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-        CGPoint velocity = [((UIPanGestureRecognizer *)gestureRecognizer) velocityInView:self.viewController.view];
-        if (velocity.y >= 0 && self.scrollView.contentOffset.y <= 0) {
-            return YES;
-        }
+    if (self.scrollView.contentOffset.y > 0 && [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         return NO;
     }
     return YES;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    NSLog(@"000");
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         CGPoint velocity = [((UIPanGestureRecognizer *)gestureRecognizer) velocityInView:self.viewController.view];
         if (velocity.y >= 0 && self.scrollView.contentOffset.y <= 0) {
-            self.scrollView.scrollEnabled = NO;
             return YES;
         }
     }
-    if ([otherGestureRecognizer.view isKindOfClass:[UIScrollView class]]) {
-        return YES;
-    }
-    return NO;
+    return YES;
 }
 
 
