@@ -7,8 +7,6 @@
 //
 
 #import "MTListAdpter.h"
-
-#import "MTListAdpterProxy.h"
 #import "MTListAdpter+UICollectionView.h"
 
 #import "MTFetchMOCAdapterUpdater.h"
@@ -20,12 +18,9 @@ NS_INLINE NSString *IGListReusableViewIdentifier(Class viewClass, NSString * _Nu
     return [NSString stringWithFormat:@"%@%@%@", kind ?: @"", nibName ?: @"", NSStringFromClass(viewClass)];
 }
 
-@interface MTListAdpter () {
-    __weak UICollectionView *_collectionView;
-    BOOL _isDequeueingCell;
-}
+@interface MTListAdpter ()
 
-@property (nonatomic, strong, nullable) MTListAdpterProxy *delegateProxy;
+@property (nonatomic, assign) BOOL isDequeueingCell;
 
 @property (nonatomic, strong) NSMutableSet<Class> *regiseterCellClass;
 @property (nonatomic, strong) NSMutableSet<NSString *> *registerNibName;

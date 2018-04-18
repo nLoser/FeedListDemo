@@ -31,10 +31,6 @@
 
 #pragma mark - LifeCycle
 
-- (void)dealloc {
-    [_scrollView removeObserver:self forKeyPath:@"panGestureRecognizer.state"];
-}
-
 - (instancetype)initWithViewController:(UIViewController *)viewController
                             scrollView:(UIScrollView *)scrollView {
     if (self = [super init]) {

@@ -29,7 +29,6 @@
 		B12F4B9E207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */; };
 		B12F4B9F207F666400A9D871 /* MTFetchMOCAdapterUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = B12F4B9D207F666400A9D871 /* MTFetchMOCAdapterUpdater.m */; };
 		B1D0FFFE2085F9B9000A401B /* MTGlobalManagedObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D0FFFD2085F9B9000A401B /* MTGlobalManagedObjectContext.m */; };
-		B1F3648620843C38008A1F89 /* MTListAdpterProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3648520843C38008A1F89 /* MTListAdpterProxy.m */; };
 		B1F3648920843C51008A1F89 /* MTListAdpter.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3648820843C51008A1F89 /* MTListAdpter.m */; };
 		B1F3648C208443D9008A1F89 /* MTListAdpter+UICollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3648B208443D9008A1F89 /* MTListAdpter+UICollectionView.m */; };
 		B1F3649720849BE6008A1F89 /* MTListSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B1F3649620849BE6008A1F89 /* MTListSectionModel.m */; };
@@ -97,8 +96,6 @@
 		B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchBatchUpdateState.h; sourceTree = "<group>"; };
 		B1D0FFFC2085F9B9000A401B /* MTGlobalManagedObjectContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTGlobalManagedObjectContext.h; sourceTree = "<group>"; };
 		B1D0FFFD2085F9B9000A401B /* MTGlobalManagedObjectContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTGlobalManagedObjectContext.m; sourceTree = "<group>"; };
-		B1F3648420843C38008A1F89 /* MTListAdpterProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListAdpterProxy.h; sourceTree = "<group>"; };
-		B1F3648520843C38008A1F89 /* MTListAdpterProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTListAdpterProxy.m; sourceTree = "<group>"; };
 		B1F3648720843C51008A1F89 /* MTListAdpter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListAdpter.h; sourceTree = "<group>"; };
 		B1F3648820843C51008A1F89 /* MTListAdpter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTListAdpter.m; sourceTree = "<group>"; };
 		B1F3648A208443D9008A1F89 /* MTListAdpter+UICollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MTListAdpter+UICollectionView.h"; sourceTree = "<group>"; };
@@ -300,8 +297,6 @@
 				B1F3648A208443D9008A1F89 /* MTListAdpter+UICollectionView.h */,
 				B1F3648B208443D9008A1F89 /* MTListAdpter+UICollectionView.m */,
 				B1F3648D20844425008A1F89 /* MTListAdpter+MTListAdpterInternal.h */,
-				B1F3648420843C38008A1F89 /* MTListAdpterProxy.h */,
-				B1F3648520843C38008A1F89 /* MTListAdpterProxy.m */,
 				B1F3648720843C51008A1F89 /* MTListAdpter.h */,
 				B1F3648820843C51008A1F89 /* MTListAdpter.m */,
 			);
@@ -566,7 +561,6 @@
 				B12F4B09207DDEE200A9D871 /* main.m in Sources */,
 				B1F8A51520858F76009083E3 /* RecommendSectionController.m in Sources */,
 				B1F3649720849BE6008A1F89 /* MTListSectionModel.m in Sources */,
-				B1F3648620843C38008A1F89 /* MTListAdpterProxy.m in Sources */,
 				B12F4B5D207F11A300A9D871 /* MTRecommendModel.m in Sources */,
 				B1F8A52D2085EE49009083E3 /* SpinnerSectionController.m in Sources */,
 				B1F3649B2084B495008A1F89 /* MTListSectionController.m in Sources */,

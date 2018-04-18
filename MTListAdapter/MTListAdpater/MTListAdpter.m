@@ -20,6 +20,7 @@
 @end
 
 @implementation MTListAdpter
+@synthesize collectionView = _collectionView;
 
 #pragma mark - LifeCycle
 
@@ -113,7 +114,7 @@
 }
 
 - (void)reloadSection:(NSUInteger)section {
-    [_collectionView reloadSections:[NSIndexSet indexSetWithIndex:section]];
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:section]];
 }
 
 #pragma mark - Private

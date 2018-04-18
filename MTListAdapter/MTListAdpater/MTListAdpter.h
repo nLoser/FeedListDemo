@@ -32,11 +32,11 @@ typedef void (^MTListUpdateCompletion)(BOOL finished);
 /**
  * DataSources
  */
-- (UICollectionViewCell *)dequeueResuseCellOfClass:(Class)cellClass
+- (__kindof UICollectionViewCell *)dequeueResuseCellOfClass:(Class)cellClass
                               forSectionController:(MTListSectionController *)sectionController
                                              index:(NSInteger)index;
 
-- (UICollectionViewCell *)dequeueResuseCellOfClassWithNibName:(NSString *)nibName
+- (__kindof UICollectionViewCell *)dequeueResuseCellOfClassWithNibName:(NSString *)nibName
                                                        bundle:(NSBundle *)bundle
                                          forSectionController:(MTListSectionController *)sectionController
                                                         index:(NSInteger)index;

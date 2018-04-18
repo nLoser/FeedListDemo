@@ -31,9 +31,9 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MTListSectionController *sectionController = [self mapSectionController:indexPath.section];
-    _isDequeueingCell = YES;
+    self.isDequeueingCell = YES;
     UICollectionViewCell *cell = [sectionController cellForItemAtIndex:indexPath.row];
-    _isDequeueingCell = NO;
+    self.isDequeueingCell = NO;
     return cell;
 }
 
