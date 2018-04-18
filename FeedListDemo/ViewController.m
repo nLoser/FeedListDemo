@@ -16,12 +16,11 @@
 #import "RecommendSectionController.h"
 #import "SpinnerSectionController.h"
 
-@interface ViewController ()
-<
-MTListAdpterDataSource,
-UICollectionViewDelegate,
-UIGestureRecognizerDelegate
-> {
+@interface ViewController () <
+    MTListAdpterDataSource,
+    UICollectionViewDelegate,
+    UIGestureRecognizerDelegate>
+{
     BOOL _loading;
 }
 

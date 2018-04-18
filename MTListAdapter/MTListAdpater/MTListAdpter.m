@@ -15,7 +15,7 @@
 }
 
 @property (nonatomic, strong) NSArray<MTListSectionModel *> *resourcesArray;
-@property (nonatomic, weak) id<MTListAdpterDataSource>dataSource;
+@property (nonatomic, weak) id<MTListAdpterDataSource> dataSource;
 
 @end
 

@@ -16,7 +16,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MTFetchMOCAdapterUpdater : NSObject<MTListUpdatingDelegate>
+@interface MTFetchMOCAdapterUpdater : NSObject <MTListUpdatingDelegate>
 
 @property (nonatomic, weak) UICollectionView *collectionView;
 

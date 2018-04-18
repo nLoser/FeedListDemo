@@ -11,11 +11,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MTListAdpter (UICollectionView)
-<
-UICollectionViewDataSource,
-UICollectionViewDelegateFlowLayout
->
+@interface MTListAdpter (UICollectionView) <
+    UICollectionViewDataSource,
+    UICollectionViewDelegateFlowLayout>
 @end
 
 NS_ASSUME_NONNULL_END

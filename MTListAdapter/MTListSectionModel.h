@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, nullable, strong) NSArray *dataSources;
 
-@property (nonatomic, nullable, strong) NSArray <NSSortDescriptor *> *descriptors;
+@property (nonatomic, nullable, strong) NSArray<NSSortDescriptor *> *descriptors;
 @property (nonatomic, nullable, weak) NSManagedObjectContext *managedObjectContext;
 
 @end

@@ -9,7 +9,9 @@
 #import "SpinnerCollectionViewCell.h"
 
 @interface SpinnerCollectionViewCell()
+
 @property (nonatomic, strong) UIActivityIndicatorView *indictorView;
+
 @end
 
 @implementation SpinnerCollectionViewCell

@@ -11,7 +11,7 @@
 
 #import "MTFetchBatchUpdateState.h"
 
-@interface MTFetchMOCAdapterUpdater()<NSFetchedResultsControllerDelegate>
+@interface MTFetchMOCAdapterUpdater() <NSFetchedResultsControllerDelegate>
 
 @property (nonatomic, assign) MTFetchBatchUpdateState updateState;
 
