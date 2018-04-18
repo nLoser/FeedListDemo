@@ -17,12 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MTListAdpterProxy : NSProxy
 
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)new NS_UNAVAILABLE;
-
 - (instancetype)initWithCollectionTarget:(nullable id<UICollectionViewDelegate>)collectionViewTarget
                         scrollViewTarget:(nullable id<UIScrollViewDelegate>)scrollViewTarget
                              interceptor:(MTListAdpter *)interceptor;
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
 
 @end
 

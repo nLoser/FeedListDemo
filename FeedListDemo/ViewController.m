@@ -37,6 +37,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         _loading = NO;
+        self.automaticallyAdjustsScrollViewInsets = NO;
     }
     return self;
 }
@@ -142,12 +143,6 @@
 }
 
 #pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView.contentOffset.y <= 0) {
-        scrollView.contentOffset = CGPointZero;
-    }
-}
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
     CGFloat distance = scrollView.contentSize.height - (targetContentOffset->y + scrollView.bounds.size.height);

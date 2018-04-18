@@ -22,3 +22,13 @@ typedef void(^refreshBlock) (BOOL);
 + (instancetype)new NS_UNAVAILABLE;
 
 @end
+
+@interface MTGestureHandleRefreshProxy : NSProxy
+
+- (instancetype)initWithScrollViewTarget:(nullable id)scrollViewTarget
+                             interceptor:(MTGestureHandleRefresh *)interceptor;
+
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
+@end

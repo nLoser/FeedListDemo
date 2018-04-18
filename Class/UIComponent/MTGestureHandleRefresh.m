@@ -8,19 +8,32 @@
 
 #import "MTGestureHandleRefresh.h"
 
-@interface MTGestureHandleRefresh()<UIGestureRecognizerDelegate> {
+@class MTGestureHandleRefreshProxy;
+
+@interface MTGestureHandleRefresh()<UIGestureRecognizerDelegate, UIScrollViewDelegate> {
     CGFloat _slideDistance;
     CGFloat _beganY;
     CGFloat _parallax;
     CGFloat _transitionY;
     BOOL _transitionFlag;
+
+    BOOL _canRespondsScrollViewDidScroll;
+    BOOL _canScroll;
 }
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, weak) UIViewController *viewController;
 @property (nonatomic, strong) UILabel *refreshHintLabel;
+@property (nonatomic, strong) MTGestureHandleRefreshProxy *proxy;
+
 @end
 
 @implementation MTGestureHandleRefresh
+
+#pragma mark - LifeCycle
+
+- (void)dealloc {
+    [_scrollView removeObserver:self forKeyPath:@"panGestureRecognizer.state"];
+}
 
 - (instancetype)initWithViewController:(UIViewController *)viewController
                             scrollView:(UIScrollView *)scrollView {
@@ -32,52 +45,21 @@
         _beganY = 0.f;
         _transitionY = 0.f;
         _transitionFlag = NO;
+        _canScroll = YES;
         
-        UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(refresh:)];
+        _proxy = [[MTGestureHandleRefreshProxy alloc] initWithScrollViewTarget:viewController
+                                                                   interceptor:self];
+        _scrollView.delegate = (id<UIScrollViewDelegate>)_proxy ? (id<UIScrollViewDelegate>)_proxy : (id<UIScrollViewDelegate>)viewController;
+        
+        if ([_viewController respondsToSelector:@selector(scrollViewDidScroll:)]) {
+            _canRespondsScrollViewDidScroll = YES;
+        }
+
+        UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panScroViewRefresh:)];
         panGestureRecognizer.delegate = self;
         [_viewController.view addGestureRecognizer:panGestureRecognizer];
     }
     return self;
-}
-
-#pragma mark - UIEvents
-
-- (void)refresh:(UIPanGestureRecognizer *)gesture {
-    CGPoint location = [gesture locationInView:gesture.view.superview];
-    CGPoint velocity = [gesture velocityInView:self.viewController.view];
-    
-    if (gesture.state == UIGestureRecognizerStateBegan) {
-        _beganY = location.y;
-        [self.viewController.view addSubview:self.refreshHintLabel];
-        
-    } else if (gesture.state == UIGestureRecognizerStateChanged) {
-        _transitionFlag = velocity.y <= 0?YES:NO;
-        if (_transitionFlag) _transitionY = location.y;
-        
-        if (_transitionFlag && _transitionY - location.y  >= _slideDistance) {
-            _parallax = 0;
-        }else {
-            _parallax = MAX(location.y - _beganY, 0);
-        }
-        
-        self.refreshHintLabel.alpha = _parallax/_slideDistance;
-        self.scrollView.contentOffset = CGPointZero;
-        
-        if (_parallax == 0) {
-            gesture.enabled = NO;
-            return;
-        }
-    } else if (gesture.state == UIGestureRecognizerStateEnded ||
-              gesture.state == UIGestureRecognizerStateCancelled) {
-        self.scrollView.scrollEnabled = YES;
-        gesture.enabled = YES;
-        
-        [self.refreshHintLabel removeFromSuperview];
-        
-        if (gesture.state == UIGestureRecognizerStateEnded && _parallax >= _slideDistance) {
-            self.refresh(YES);
-        }
-    }
 }
 
 #pragma mark - Custom Accessors
@@ -91,6 +73,46 @@
         _refreshHintLabel.font = [UIFont boldSystemFontOfSize:18];
     }
     return _refreshHintLabel;
+}
+
+#pragma mark -
+
+- (void)panScroViewRefresh:(UIPanGestureRecognizer *)gesture {
+    CGPoint location = [gesture locationInView:gesture.view.superview];
+    CGPoint velocity = [gesture velocityInView:self.viewController.view];
+    
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        _canScroll = NO;
+        _beganY = location.y;
+        
+        [self.viewController.view addSubview:self.refreshHintLabel];
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
+        _transitionFlag = velocity.y <= 0?YES:NO;
+        if (_transitionFlag) _transitionY = location.y;
+        
+        if (_transitionFlag && _transitionY - location.y  >= _slideDistance) {
+            _parallax = 0;
+        }else {
+            _parallax = MAX(location.y - _beganY, 0);
+        }
+        
+        self.refreshHintLabel.alpha = _parallax/_slideDistance;
+        
+        if (_parallax == 0) {
+            _canScroll = YES;
+            _beganY = location.y;
+            return;
+        }
+    } else if (gesture.state == UIGestureRecognizerStateEnded ||
+               gesture.state == UIGestureRecognizerStateCancelled) {
+        
+        _canScroll = YES;
+        [self.refreshHintLabel removeFromSuperview];
+        
+        if (gesture.state == UIGestureRecognizerStateEnded && _parallax >= _slideDistance) {
+            self.refresh(YES);
+        }
+    }
 }
 
 #pragma mark - UIGestureRecognizerDelegate
@@ -112,5 +134,69 @@
     return YES;
 }
 
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y <= 0 || !_canScroll) {
+        scrollView.contentOffset = CGPointZero;
+    }
+    if (_canRespondsScrollViewDidScroll) {
+        [(id<UIScrollViewDelegate>)_viewController scrollViewDidScroll:scrollView];
+    }
+}
+
+@end
+
+@interface MTGestureHandleRefreshProxy() {
+    __weak id _scrollViewTarget;
+    __weak MTGestureHandleRefresh *_interceptor;
+}
+
+@end
+
+static BOOL isInterceptedSelector(SEL sel) {
+    return(
+           // UIScrollViewDelegate
+           sel == @selector(scrollViewDidScroll:)
+           );
+}
+
+@implementation MTGestureHandleRefreshProxy
+
+- (instancetype)initWithScrollViewTarget:(nullable id)scrollViewTarget
+                             interceptor:(MTGestureHandleRefresh *)interceptor{
+    if (self) {
+        _scrollViewTarget = scrollViewTarget;
+        _interceptor = interceptor;
+    }
+    return self;
+}
+
+#pragma mark - Runtime
+
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    
+    return isInterceptedSelector(aSelector)
+    || [_scrollViewTarget respondsToSelector:aSelector];
+}
+
+- (id)forwardingTargetForSelector:(SEL)aSelector {
+    if (isInterceptedSelector(aSelector)) {
+        return _interceptor;
+    }else if ([_scrollViewTarget respondsToSelector:aSelector]) {
+        return _scrollViewTarget;
+    }
+    return nil;
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation {
+    void *nullPointer = NULL;
+    [invocation setReturnValue:&nullPointer];
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
+    return [NSObject instanceMethodSignatureForSelector:sel];
+}
 
 @end
