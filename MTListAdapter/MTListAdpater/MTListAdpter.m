@@ -150,11 +150,12 @@
         [_controllerSectionMap setObject:@(section) forKey:sectionController];
         
         if (model.bindCoreData) {
-            MTFetchMOCAdapterUpdater *updater = [[MTFetchMOCAdapterUpdater alloc] initWithManagedObjectContext:model.managedObjectContext
-                                                                                                    entityName:model.entityName
-                                                                                              sortDescriptions:model.descriptors
-                                                                                             sectionController:sectionController
-                                                                                                       section:section];
+            MTFetchMOCAdapterUpdater *updater = \
+            [[MTFetchMOCAdapterUpdater alloc] initWithManagedObjectContext:model.managedObjectContext
+                                                                entityName:model.entityName
+                                                          sortDescriptions:model.descriptors
+                                                         sectionController:sectionController
+                                                                   section:section];
             [_entitySectionMap setObject:updater forKey:@(section)];
         }
         section ++;

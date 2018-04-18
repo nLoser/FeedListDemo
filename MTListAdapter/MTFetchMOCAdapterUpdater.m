@@ -9,6 +9,8 @@
 #import "MTFetchMOCAdapterUpdater.h"
 #import <UIKit/UIKit.h>
 
+#import "MTGlobalManagedObjectContext.h"
+
 #import "MTFetchBatchUpdateState.h"
 
 @interface MTFetchMOCAdapterUpdater() <NSFetchedResultsControllerDelegate>
@@ -37,8 +39,7 @@
                   sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
                  sectionController:(MTListSectionController *)sectionController
                            section:(NSInteger)section{
-    //Global MOC
-    NSManagedObjectContext *mainContext = nil;
+    NSManagedObjectContext *mainContext = [MTGlobalManagedObjectContext shareManager].managedObjectContext;
     return [self initWithManagedObjectContext:mainContext
                                    entityName:entityName
                              sortDescriptions:sortDescriptions
@@ -83,9 +84,9 @@
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:self.entityName];
     request.sortDescriptors = sortDescs;
     self.fetchController = [[NSFetchedResultsController alloc] initWithFetchRequest:request
-                                                                   managedObjectContext:self.managedObjectContext
-                                                                     sectionNameKeyPath:nil
-                                                                              cacheName:nil];
+                                                               managedObjectContext:self.managedObjectContext
+                                                                 sectionNameKeyPath:nil
+                                                                          cacheName:nil];
     
     self.fetchController.delegate = self;
     NSError *error = nil;

@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol MTListAdpterDataSource <NSObject>
 
+@required
+
 - (NSArray<MTListSectionModel *> *)objectsForListAdpater:(MTListAdpter *)listAdapter;
 
 - (MTListSectionController *)listAdapter:(MTListAdpter *)listAdapter sectionControllerForObject:(MTListSectionModel *)object;
