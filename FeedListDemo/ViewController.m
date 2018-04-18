@@ -104,7 +104,7 @@ UIGestureRecognizerDelegate
             model.bindCoreData = NO;
             model.entityName = @"Banner";
             model.dataSources = @[@"banner1"];
-        }else {
+        } else {
             model.bindCoreData = YES;
             model.entityName = @"Recommend";
             model.descriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
@@ -122,11 +122,11 @@ UIGestureRecognizerDelegate
 - (MTListSectionController *)listAdapter:(MTListAdpter *)listAdapter sectionControllerForObject:(MTListSectionModel *)object {
     if ([object.entityName isEqualToString:@"Banner"]) {
         return [[BannerSectionController alloc] initWithAdpater:listAdapter];
-    }else if ([object.entityName isEqualToString:@"Recommend"]) {
+    } else if ([object.entityName isEqualToString:@"Recommend"]) {
         return [[RecommendSectionController alloc] initWithAdpater:listAdapter];
-    }else if ([object.entityName isEqualToString:@"Spinner"]){
+    } else if ([object.entityName isEqualToString:@"Spinner"]){
         return [[SpinnerSectionController alloc] initWithAdpater:listAdapter];
-    }else {
+    } else {
         return nil;
     }
 }

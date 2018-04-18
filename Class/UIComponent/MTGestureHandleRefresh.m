@@ -45,7 +45,7 @@
         _beganY = location.y;
         [self.viewController.view addSubview:self.refreshHintLabel];
         
-    }else if (gesture.state == UIGestureRecognizerStateChanged) {
+    } else if (gesture.state == UIGestureRecognizerStateChanged) {
         _parallax = MAX(location.y - _beganY, 0);
         self.refreshHintLabel.alpha = _parallax/_slideDistance;
         
@@ -53,7 +53,7 @@
             gesture.enabled = NO;
             return;
         }
-    }else if (gesture.state == UIGestureRecognizerStateEnded ||
+    } else if (gesture.state == UIGestureRecognizerStateEnded ||
               gesture.state == UIGestureRecognizerStateCancelled) {
         self.scrollView.scrollEnabled = YES;
         gesture.enabled = YES;

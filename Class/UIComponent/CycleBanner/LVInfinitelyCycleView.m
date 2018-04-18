@@ -70,7 +70,7 @@
     if (imageUrlGroup.count == 1) {
         [_dataArray addObjectsFromArray:imageUrlGroup];
         _collectionView.scrollEnabled = NO;
-    }else {
+    } else {
         NSString * leadingModel = imageUrlGroup.lastObject;
         NSString * trailingModel = imageUrlGroup.firstObject;
         [_dataArray addObject:leadingModel];
@@ -85,7 +85,7 @@
     _pageControl.numberOfPages = imageUrlGroupCount;
     if (imageUrlGroupCount <= 1) {
         _pageControl.hidden = YES;
-    }else {
+    } else {
         _pageControl.hidden = NO;
     }
 }
@@ -121,9 +121,9 @@
 - (void)_changePageContorl:(int)index {
     if (index == 0) {
         _pageControl.currentPage = _pageControl.numberOfPages-1;
-    }else if (index == _totalItemsCount-1) {
+    } else if (index == _totalItemsCount-1) {
         _pageControl.currentPage = 0;
-    }else {
+    } else {
         _pageControl.currentPage = index-1;
     }
 }
@@ -135,7 +135,7 @@
     if (index == 0) {
         [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_totalItemsCount-2 inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
-    }else if (index == _totalItemsCount-1) {
+    } else if (index == _totalItemsCount-1) {
         [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0]
                                 atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
     }

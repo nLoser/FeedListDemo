@@ -20,7 +20,7 @@
         MTFetchMOCAdapterUpdater *updater = [self mapMOCUpdater:section];
         if(!updater) return 0;
         return [updater numberOfObjects];
-    }else {
+    } else {
         return sectionModel.dataSources.count;
     }
 }
