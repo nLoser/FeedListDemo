@@ -97,6 +97,7 @@
 		B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchBatchUpdateState.h; sourceTree = "<group>"; };
 		B1468A8A20883195002CD2C7 /* MTFetchResultDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTFetchResultDataSource.h; sourceTree = "<group>"; };
 		B1468A8B20883195002CD2C7 /* MTFetchResultDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTFetchResultDataSource.m; sourceTree = "<group>"; };
+		B1468A8D208851FB002CD2C7 /* MTListUpdaterDataSourceDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListUpdaterDataSourceDelegate.h; sourceTree = "<group>"; };
 		B1D0FFFC2085F9B9000A401B /* MTGlobalManagedObjectContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTGlobalManagedObjectContext.h; sourceTree = "<group>"; };
 		B1D0FFFD2085F9B9000A401B /* MTGlobalManagedObjectContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MTGlobalManagedObjectContext.m; sourceTree = "<group>"; };
 		B1F3648720843C51008A1F89 /* MTListAdpter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MTListAdpter.h; sourceTree = "<group>"; };
@@ -313,6 +314,7 @@
 			children = (
 				B1F3649020847EDC008A1F89 /* MTListUpdatingDelegate.h */,
 				B1F364982084B2C2008A1F89 /* MTListAdpterDataSource.h */,
+				B1468A8D208851FB002CD2C7 /* MTListUpdaterDataSourceDelegate.h */,
 			);
 			path = Protocal;
 			sourceTree = "<group>";

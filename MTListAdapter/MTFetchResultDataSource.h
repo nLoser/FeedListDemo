@@ -12,15 +12,9 @@
 
 #import "MTFetchBatchUpdateState.h"
 
+#import "MTListUpdaterDataSourceDelegate.h"
+
 NS_ASSUME_NONNULL_BEGIN
-
-@protocol MTFetchResultDataSourceDelegate <NSObject>
-
-@required
-
-- (void)update:(NSArray *)updateArray delete:(NSArray *)deleteArray insert:(NSArray *)insertArray;
-
-@end
 
 @interface MTFetchResultDataSource : NSObject <NSFetchedResultsControllerDelegate>
 
@@ -28,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, readonly) NSMutableArray *insertArray;
 @property (nonatomic, strong, readonly) NSMutableArray *updateArray;
 
-@property (nonatomic, weak) id <MTFetchResultDataSourceDelegate> delegate;
+@property (nonatomic, weak) id <MTListUpdaterDataSourceDelegate> delegate;
 
 @property (nonatomic, assign) MTFetchBatchUpdateState updateState;
 

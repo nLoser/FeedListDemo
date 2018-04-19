@@ -12,7 +12,7 @@
 #import "MTGlobalManagedObjectContext.h"
 #import "MTFetchResultDataSource.h"
 
-@interface MTListUpdater() <MTFetchResultDataSourceDelegate>
+@interface MTListUpdater() <MTListUpdaterDataSourceDelegate>
 
 @property (nonatomic, weak) UICollectionView *collectionView;
 
