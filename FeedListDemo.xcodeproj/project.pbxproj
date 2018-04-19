@@ -241,11 +241,11 @@
 				B12F4B9D207F666400A9D871 /* MTListUpdater.m */,
 				B1468A8A20883195002CD2C7 /* MTFetchResultDataSource.h */,
 				B1468A8B20883195002CD2C7 /* MTFetchResultDataSource.m */,
-				B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */,
 				B1F3649520849BE6008A1F89 /* MTListSectionModel.h */,
 				B1F3649620849BE6008A1F89 /* MTListSectionModel.m */,
 				B1F364992084B495008A1F89 /* MTListSectionController.h */,
 				B1F3649A2084B495008A1F89 /* MTListSectionController.m */,
+				B12F4BA8207F763F00A9D871 /* MTFetchBatchUpdateState.h */,
 			);
 			path = MTListAdapter;
 			sourceTree = "<group>";

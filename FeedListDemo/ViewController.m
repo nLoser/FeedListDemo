@@ -114,7 +114,7 @@
         if (i == 0) {
             model.bindCoreData = NO;
             model.entityName = @"Banner";
-            model.dataSources = @[@"banner1"];
+            model.dataSources = @[@"占位1"];
         } else {
             model.bindCoreData = YES;
             model.entityName = @"Recommend";
@@ -125,7 +125,7 @@
     MTListSectionModel *model = [MTListSectionModel new];
     model.bindCoreData = NO;
     model.entityName = @"Spinner";
-    model.dataSources = @[@"占位"];
+    model.dataSources = @[@"占位1"];
     [objects addObject:model];
     return objects;
 }
