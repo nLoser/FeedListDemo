@@ -9,7 +9,7 @@
 #import "MTListAdpter.h"
 #import "MTListAdpter+UICollectionView.h"
 
-#import "MTFetchMOCAdapterUpdater.h"
+#import "MTListUpdater.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,7 +25,7 @@ NS_INLINE NSString *IGListReusableViewIdentifier(Class viewClass, NSString * _Nu
 @property (nonatomic, strong) NSMutableSet<Class> *regiseterCellClass;
 @property (nonatomic, strong) NSMutableSet<NSString *> *registerNibName;
 
-- (MTFetchMOCAdapterUpdater *)mapMOCUpdater:(NSInteger)section;
+- (MTListUpdater *)mapMOCUpdater:(NSInteger)section;
 - (NSInteger)sectionNumber;
 
 @end

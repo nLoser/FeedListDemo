@@ -17,7 +17,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     MTListSectionModel *sectionModel = [self sectionObjectForSection:section];
     if (sectionModel.bindCoreData) {
-        MTFetchMOCAdapterUpdater *updater = [self mapMOCUpdater:section];
+        MTListUpdater *updater = [self mapMOCUpdater:section];
         if(!updater) return 0;
         return [updater numberOfObjects];
     } else {

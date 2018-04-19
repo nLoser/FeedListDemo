@@ -11,7 +11,7 @@
 @interface MTListAdpter() {
     NSMapTable<MTListSectionController *, NSNumber *> *_controllerSectionMap;
     NSMutableDictionary<NSNumber *, MTListSectionController *> *_sectionControllerMap;
-    NSMutableDictionary<NSNumber *, MTFetchMOCAdapterUpdater *> *_entitySectionMap;
+    NSMutableDictionary<NSNumber *, MTListUpdater *> *_entitySectionMap;
 }
 
 @property (nonatomic, strong) NSArray<MTListSectionModel *> *resourcesArray;
@@ -97,7 +97,7 @@
 
 - (id)objectForSectionController:(MTListSectionController *)sectionController index:(NSInteger)index {
     NSInteger section = [[_controllerSectionMap objectForKey:sectionController] integerValue];
-    MTFetchMOCAdapterUpdater *updater = [_entitySectionMap objectForKey:@(section)];
+    MTListUpdater *updater = [_entitySectionMap objectForKey:@(section)];
     id object = [updater dataForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     
     return object;
@@ -121,7 +121,7 @@
 
 - (void)performUpdateAfterChange {
     __weak typeof(self) weakSelf = self;
-    [_entitySectionMap enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, MTFetchMOCAdapterUpdater * _Nonnull obj, BOOL * _Nonnull stop) {
+    [_entitySectionMap enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, MTListUpdater * _Nonnull obj, BOOL * _Nonnull stop) {
         [obj performUpdateWithCollectionView:weakSelf.collectionView animated:YES completion:nil];
     }];
 }
@@ -130,7 +130,7 @@
     return [_sectionControllerMap objectForKey:@(section)];
 }
 
-- (MTFetchMOCAdapterUpdater *)mapMOCUpdater:(NSInteger)section {
+- (MTListUpdater *)mapMOCUpdater:(NSInteger)section {
     return [_entitySectionMap objectForKey:@(section)];
 }
 
@@ -151,11 +151,10 @@
         [_controllerSectionMap setObject:@(section) forKey:sectionController];
         
         if (model.bindCoreData) {
-            MTFetchMOCAdapterUpdater *updater = \
-            [[MTFetchMOCAdapterUpdater alloc] initWithManagedObjectContext:model.managedObjectContext
+            MTListUpdater *updater = \
+            [[MTListUpdater alloc] initWithManagedObjectContext:model.managedObjectContext
                                                                 entityName:model.entityName
                                                           sortDescriptions:model.descriptors
-                                                         sectionController:sectionController
                                                                    section:section];
             [_entitySectionMap setObject:updater forKey:@(section)];
         }

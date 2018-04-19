@@ -1,80 +1,61 @@
 //
-//  MTFetchResultController.m
+//  MTFetchResultDataSource.m
 //  FeedListDemo
 //
-//  Created by meipai_lv on 2018/4/12.
+//  Created by meipai_lv on 2018/4/19.
 //  Copyright © 2018年 MT.inc. All rights reserved.
 //
 
-#import "MTFetchMOCAdapterUpdater.h"
-#import <UIKit/UIKit.h>
+#import "MTFetchResultDataSource.h"
 
-#import "MTGlobalManagedObjectContext.h"
-
-#import "MTFetchBatchUpdateState.h"
-
-@interface MTFetchMOCAdapterUpdater() <NSFetchedResultsControllerDelegate>
-
-@property (nonatomic, assign) MTFetchBatchUpdateState updateState;
-
-@property (nonatomic, strong) NSString *entityName;
-@property (nonatomic, assign) NSInteger section;
-@property (nonatomic, weak) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, weak) MTListSectionController *sectionController;
-
-@property (nonatomic, strong) NSFetchedResultsController *fetchController;
+@interface MTFetchResultDataSource ()
 
 @property (nonatomic, strong) NSMutableArray *deleteArray;
 @property (nonatomic, strong) NSMutableArray *insertArray;
 @property (nonatomic, strong) NSMutableArray *updateArray;
-@property (nonatomic, strong) NSMutableArray *moveArray;
+
+@property (nonatomic, assign) NSInteger section;
 
 @end
 
-@implementation MTFetchMOCAdapterUpdater
+@implementation MTFetchResultDataSource
 
 #pragma mark - LifeCycle
-
-- (instancetype)initWithEntityName:(NSString *)entityName
-                  sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
-                 sectionController:(MTListSectionController *)sectionController
-                           section:(NSInteger)section{
-    NSManagedObjectContext *mainContext = [MTGlobalManagedObjectContext shareManager].managedObjectContext;
-    return [self initWithManagedObjectContext:mainContext
-                                   entityName:entityName
-                             sortDescriptions:sortDescriptions
-                            sectionController:sectionController
-                                      section:section];
-}
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context
                                   entityName:(NSString *)entityName
                             sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
-                           sectionController:(MTListSectionController *)sectionController
-                                     section:(NSInteger)section{
-    if (self = [super init]) {
-        _updateState = MTFetchBatchUpdateStateIdle;
+                                     section:(NSInteger)section {
+    self = [super init];
+    if (self) {
+        _managedObjectContext = context;
+        _entityName = entityName;
+        _section = section;
         
         _updateArray = [NSMutableArray array];
         _insertArray = [NSMutableArray array];
         _deleteArray = [NSMutableArray array];
-        _moveArray = [NSMutableArray array];
         
-        _managedObjectContext = context;
-        
-        _entityName = entityName;
-        _sectionController = sectionController;
-        _section = section;
+        _updateState = MTFetchBatchUpdateStateIdle;
         
         [self bindMangedObjectContextBySortDescs:sortDescriptions];
     }
     return self;
-};
+}
 
-#pragma mark - Custom Accessors
+#pragma mark - Public
 
-- (NSInteger)entitysNumber {
-    return [self lookupEntitysNumber];
+- (NSUInteger)numberOfEntityObjects {
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:self.entityName];
+    return [self.managedObjectContext countForFetchRequest:fetchRequest error:nil];
+}
+
+- (NSUInteger)numberOfObjects {
+    return self.fetchController.sections.firstObject.numberOfObjects;
+}
+
+- (id)objectAtIndexPath:(NSIndexPath *)indexPath {
+    return [self.fetchController objectAtIndexPath:indexPath];
 }
 
 #pragma mark - Private
@@ -129,48 +110,6 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
     }
 }
 
-#pragma mark - MTListUpdatingDelegate
-
-- (void)performUpdateWithCollectionView:(UICollectionView *)collection animated:(BOOL)animated completion:(MTListUpdatingCompletion)completion {
-    if(collection == nil) return;
-    if (_collectionView != collection) {
-        _collectionView = collection;
-    }
-    
-    __weak typeof(self) weakSelf = self;
-    void (^executeUpdateBlock)(void) = ^{
-        weakSelf.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
-        
-        NSArray *updateArr = [weakSelf.updateArray copy];
-        NSArray *insertArr = [weakSelf.insertArray copy];
-        NSArray *deleteArr = [weakSelf.deleteArray copy];
-        
-        [weakSelf resetBatchUpdate];
-        
-        [collection reloadItemsAtIndexPaths:updateArr];
-        [collection insertItemsAtIndexPaths:insertArr];
-        [collection deleteItemsAtIndexPaths:deleteArr];
-        
-        weakSelf.updateState = MTFetchBatchUpdateStateExectedBatchUpdateBlock;
-    };
-    
-    [collection performBatchUpdates:executeUpdateBlock completion:^(BOOL finished) {
-        weakSelf.updateState = MTFetchBatchUpdateStateIdle;
-        [weakSelf resetBatchUpdate];
-        if (completion) {
-            completion(finished);
-        }
-    }];
-}
-
-- (NSInteger)numberOfObjects {
-    return self.fetchController.sections.firstObject.numberOfObjects;
-}
-
-- (id)dataForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return [self.fetchController objectAtIndexPath:indexPath];
-}
-
 #pragma mark - NSFetchedResultsControllerDelegate
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
@@ -179,9 +118,8 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    if(!_collectionView) return;
-    [self performUpdateWithCollectionView:_collectionView animated:YES completion:nil];
     self.updateState = MTFetchBatchUpdateStateDidChangeContext;
+    //[self performUpdateWithCollectionView:_collectionView animated:YES completion:nil];
     NSLog(@"【3】DidChangeContent");
 }
 
@@ -203,10 +141,6 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
             [self.updateArray addObject:[NSIndexPath indexPathForRow:indexPath.row inSection:_section]];
         }
             break;
-        case NSFetchedResultsChangeMove: {
-            if(!indexPath) return;
-            [self.moveArray addObject:[NSIndexPath indexPathForRow:indexPath.row inSection:_section]];
-        }
             break;
         default:
             break;
