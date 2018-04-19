@@ -12,7 +12,7 @@
 #import "MTGlobalManagedObjectContext.h"
 #import "MTFetchResultDataSource.h"
 
-@interface MTListUpdater()
+@interface MTListUpdater() <MTFetchResultDataSourceDelegate>
 
 @property (nonatomic, weak) UICollectionView *collectionView;
 
@@ -51,30 +51,32 @@
                                                                           entityName:entityName
                                                                     sortDescriptions:sortDescriptions
                                                                              section:section];
-        
-        __weak typeof(self) weakSelf = self;
-        UICollectionView *collection = weakSelf.collectionView;
-        _fetchResult.updaterBlock = ^(NSArray * _Nonnull updateArray, NSArray * _Nonnull insertArray, NSArray * _Nonnull deleteArray) {
-            void (^executeUpdateBlock)(void) = ^{
-                weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
-                
-                [collection deleteItemsAtIndexPaths:deleteArray];
-                [collection reloadItemsAtIndexPaths:updateArray];
-                [collection insertItemsAtIndexPaths:insertArray];
-                
-                weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectedBatchUpdateBlock;
-            };
-            [collection performBatchUpdates:executeUpdateBlock completion:^(BOOL finished) {
-                weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateIdle;
-                if (weakSelf.updateCompletion) {
-                    weakSelf.updateCompletion(finished);
-                }
-            }];
-        };
-        
+        _fetchResult.delegate = self;
     }
     return self;
 };
+
+#pragma mark - MTFetchResultDataSourceDelegate
+
+- (void)update:(NSArray *)updateArray delete:(NSArray *)deleteArray insert:(NSArray *)insertArray {
+    __weak typeof(self) weakSelf = self;
+    UICollectionView *collection = weakSelf.collectionView;
+    void (^executeUpdateBlock)(void) = ^{
+        weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
+        
+        [collection deleteItemsAtIndexPaths:deleteArray];
+        [collection reloadItemsAtIndexPaths:updateArray];
+        [collection insertItemsAtIndexPaths:insertArray];
+        
+        weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectedBatchUpdateBlock;
+    };
+    [collection performBatchUpdates:executeUpdateBlock completion:^(BOOL finished) {
+        weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateIdle;
+        if (weakSelf.updateCompletion) {
+            weakSelf.updateCompletion(finished);
+        }
+    }];
+}
 
 #pragma mark - MTListUpdatingDelegate
 
@@ -88,7 +90,7 @@
     return self.fetchResult.numberOfObjects;
 }
 
-- (id)dataForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (id)objectAtIndexPath:(NSIndexPath *)indexPath {
     return [self.fetchResult objectAtIndexPath:indexPath];
 }
 

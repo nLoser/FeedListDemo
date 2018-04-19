@@ -123,17 +123,12 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     self.updateState = MTFetchBatchUpdateStateDidChangeContext;
-    
-    if (self.updaterBlock) {
-        NSArray *updateArr = [self.updateArray copy];
-        NSArray *deleteArr = [self.deleteArray copy];
-        NSArray *insertArr = [self.insertArray copy];
-        
-        self.updaterBlock(updateArr, insertArr, deleteArr);
-        
-        [self resetBatchUpdate];
+    if (self.delegate) {
+        [self.delegate update:[self.updateArray copy]
+                       delete:[self.deleteArray copy]
+                       insert:[self.insertArray copy]];
     }
-    
+    [self resetBatchUpdate];
     NSLog(@"【3】DidChangeContent");
 }
 

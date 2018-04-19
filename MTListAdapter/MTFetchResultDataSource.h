@@ -14,11 +14,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void (^updaterBlock)(NSArray *updateArray, NSArray *insertArray, NSArray *deleteArray);
+@protocol MTFetchResultDataSourceDelegate <NSObject>
+
+@required
+
+- (void)update:(NSArray *)updateArray delete:(NSArray *)deleteArray insert:(NSArray *)insertArray;
+
+@end
 
 @interface MTFetchResultDataSource : NSObject <NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, copy) updaterBlock updaterBlock;
+@property (nonatomic, weak) id <MTFetchResultDataSourceDelegate> delegate;
 
 @property (nonatomic, assign) MTFetchBatchUpdateState updateState;
 
