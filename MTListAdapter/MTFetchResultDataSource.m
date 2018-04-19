@@ -126,11 +126,12 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
     
     if (self.updaterBlock) {
         NSArray *updateArr = [self.updateArray copy];
-        NSArray *insertArr = [self.insertArray copy];
         NSArray *deleteArr = [self.deleteArray copy];
-        [self resetBatchUpdate];
+        NSArray *insertArr = [self.insertArray copy];
         
         self.updaterBlock(updateArr, insertArr, deleteArr);
+        
+        [self resetBatchUpdate];
     }
     
     NSLog(@"【3】DidChangeContent");

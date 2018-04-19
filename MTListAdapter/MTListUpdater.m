@@ -58,9 +58,9 @@
             void (^executeUpdateBlock)(void) = ^{
                 weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
                 
+                [collection deleteItemsAtIndexPaths:deleteArray];
                 [collection reloadItemsAtIndexPaths:updateArray];
                 [collection insertItemsAtIndexPaths:insertArray];
-                [collection deleteItemsAtIndexPaths:deleteArray];
                 
                 weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectedBatchUpdateBlock;
             };
@@ -84,7 +84,7 @@
     }
 }
 
-- (NSInteger)numberOfObjects {
+- (NSUInteger)numberOfObjects {
     return self.fetchResult.numberOfObjects;
 }
 

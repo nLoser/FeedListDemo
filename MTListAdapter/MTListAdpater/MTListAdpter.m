@@ -98,8 +98,7 @@
 - (id)objectForSectionController:(MTListSectionController *)sectionController index:(NSInteger)index {
     NSInteger section = [[_controllerSectionMap objectForKey:sectionController] integerValue];
     MTListUpdater *updater = [_entitySectionMap objectForKey:@(section)];
-    id object = [updater dataForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
-    
+    id object = [updater objectAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     return object;
 }
 

@@ -18,9 +18,9 @@ typedef void (^MTListUpdatingCompletion) (BOOL finished);
                                animated:(BOOL)animated
                              completion:(nullable MTListUpdatingCompletion)completion;
 
-- (NSInteger)numberOfObjects;
+- (NSUInteger)numberOfObjects;
 
-- (id)dataForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (id)objectAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
