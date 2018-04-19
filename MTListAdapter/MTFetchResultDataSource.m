@@ -14,9 +14,9 @@
 @property (nonatomic, strong) NSFetchedResultsController *fetchController;
 @property (nonatomic, weak) NSManagedObjectContext *managedObjectContext;
 
-@property (nonatomic, strong) NSMutableArray *deleteArray;
-@property (nonatomic, strong) NSMutableArray *insertArray;
-@property (nonatomic, strong) NSMutableArray *updateArray;
+@property (nonatomic, strong, readwrite) NSMutableArray *deleteArray;
+@property (nonatomic, strong, readwrite) NSMutableArray *insertArray;
+@property (nonatomic, strong, readwrite) NSMutableArray *updateArray;
 
 @property (nonatomic, assign) NSInteger section;
 

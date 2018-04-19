@@ -19,7 +19,7 @@ typedef void (^MTListUpdateCompletion)(BOOL finished);
 
 @interface MTListAdpter : NSObject
 
-@property (nonatomic, weak, nullable) UICollectionView *collectionView;
+@property (nonatomic, weak) UICollectionView *collectionView;
 
 /**
  * Initialize

@@ -60,18 +60,19 @@
 
 - (void)update:(NSArray *)updateArray delete:(NSArray *)deleteArray insert:(NSArray *)insertArray {
     __weak typeof(self) weakSelf = self;
-    UICollectionView *collection = weakSelf.collectionView;
+    
     void (^executeUpdateBlock)(void) = ^{
         weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
         
-        [collection deleteItemsAtIndexPaths:deleteArray];
-        [collection reloadItemsAtIndexPaths:updateArray];
-        [collection insertItemsAtIndexPaths:insertArray];
+        [weakSelf.collectionView reloadItemsAtIndexPaths:updateArray];
+        [weakSelf.collectionView insertItemsAtIndexPaths:insertArray];
+        [weakSelf.collectionView deleteItemsAtIndexPaths:deleteArray];
         
         weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectedBatchUpdateBlock;
     };
-    [collection performBatchUpdates:executeUpdateBlock completion:^(BOOL finished) {
+    [self.collectionView performBatchUpdates:executeUpdateBlock completion:^(BOOL finished) {
         weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateIdle;
+        
         if (weakSelf.updateCompletion) {
             weakSelf.updateCompletion(finished);
         }
@@ -81,9 +82,13 @@
 #pragma mark - MTListUpdatingDelegate
 
 - (void)performUpdateWithCollectionView:(UICollectionView *)collection animated:(BOOL)animated completion:(MTListUpdatingCompletion)completion {
+    //TODO:PageSize & PageIndex
     if (completion) {
         self.updateCompletion = completion;
     }
+    [self update:self.fetchResult.updateArray
+          delete:self.fetchResult.deleteArray
+          insert:self.fetchResult.insertArray];
 }
 
 - (NSUInteger)numberOfObjects {

@@ -59,7 +59,6 @@
         _collectionView = collectionView;
         _collectionView.dataSource = self; ///< Core
         
-        //NOTE:need unbind
         [self bindSectionUpdater];
         
         [self performUpdateAfterChange];
@@ -152,9 +151,9 @@
         if (model.bindCoreData) {
             MTListUpdater *updater = \
             [[MTListUpdater alloc] initWithManagedObjectContext:model.managedObjectContext
-                                                                entityName:model.entityName
-                                                          sortDescriptions:model.descriptors
-                                                                   section:section
+                                                     entityName:model.entityName
+                                               sortDescriptions:model.descriptors
+                                                        section:section
                                                  collectionView:self.collectionView];
             [_entitySectionMap setObject:updater forKey:@(section)];
         }

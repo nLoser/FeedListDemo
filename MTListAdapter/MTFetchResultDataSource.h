@@ -24,6 +24,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MTFetchResultDataSource : NSObject <NSFetchedResultsControllerDelegate>
 
+@property (nonatomic, strong, readonly) NSMutableArray *deleteArray;
+@property (nonatomic, strong, readonly) NSMutableArray *insertArray;
+@property (nonatomic, strong, readonly) NSMutableArray *updateArray;
+
 @property (nonatomic, weak) id <MTFetchResultDataSourceDelegate> delegate;
 
 @property (nonatomic, assign) MTFetchBatchUpdateState updateState;
@@ -46,6 +50,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readonly) NSUInteger numberOfEntityObjects; ///< DBTable
 
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void)resetBatchUpdate;
 
 @end
 
