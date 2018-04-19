@@ -10,6 +10,10 @@
 
 @interface MTFetchResultDataSource ()
 
+@property (nonatomic, strong) NSString *entityName;
+@property (nonatomic, strong) NSFetchedResultsController *fetchController;
+@property (nonatomic, weak) NSManagedObjectContext *managedObjectContext;
+
 @property (nonatomic, strong) NSMutableArray *deleteArray;
 @property (nonatomic, strong) NSMutableArray *insertArray;
 @property (nonatomic, strong) NSMutableArray *updateArray;
@@ -119,7 +123,16 @@ static NSString * logStataus(NSFetchedResultsChangeType type) {
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     self.updateState = MTFetchBatchUpdateStateDidChangeContext;
-    //[self performUpdateWithCollectionView:_collectionView animated:YES completion:nil];
+    
+    if (self.updaterBlock) {
+        NSArray *updateArr = [self.updateArray copy];
+        NSArray *insertArr = [self.insertArray copy];
+        NSArray *deleteArr = [self.deleteArray copy];
+        [self resetBatchUpdate];
+        
+        self.updaterBlock(updateArr, insertArr, deleteArr);
+    }
+    
     NSLog(@"【3】DidChangeContent");
 }
 

@@ -33,8 +33,6 @@
         
         _controllerSectionMap = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory
                                                       valueOptions:NSPointerFunctionsStrongMemory];
-        
-        [self bindSectionUpdater];
     }
     return self;
 }
@@ -60,7 +58,9 @@
         
         _collectionView = collectionView;
         _collectionView.dataSource = self; ///< Core
-        //_collectionView.delegate = self;
+        
+        //NOTE:need unbind
+        [self bindSectionUpdater];
         
         [self performUpdateAfterChange];
     }
@@ -155,7 +155,8 @@
             [[MTListUpdater alloc] initWithManagedObjectContext:model.managedObjectContext
                                                                 entityName:model.entityName
                                                           sortDescriptions:model.descriptors
-                                                                   section:section];
+                                                                   section:section
+                                                 collectionView:self.collectionView];
             [_entitySectionMap setObject:updater forKey:@(section)];
         }
         section ++;

@@ -14,6 +14,9 @@
 
 @interface MTListUpdater()
 
+@property (nonatomic, weak) UICollectionView *collectionView;
+
+@property (nonatomic, copy) MTListUpdatingCompletion updateCompletion;
 @property (nonatomic, strong) MTFetchResultDataSource *fetchResult;
 @property (nonatomic, assign) NSInteger section;
 
@@ -25,24 +28,50 @@
 
 - (instancetype)initWithEntityName:(NSString *)entityName
                   sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
-                           section:(NSInteger)section{
+                           section:(NSInteger)section
+                    collectionView:(nonnull UICollectionView *)collectionView{
     NSManagedObjectContext *mainContext = [MTGlobalManagedObjectContext shareManager].managedObjectContext;
     return [self initWithManagedObjectContext:mainContext
                                    entityName:entityName
                              sortDescriptions:sortDescriptions
-                                      section:section];
+                                      section:section
+                               collectionView:collectionView];
 }
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context
                                   entityName:(NSString *)entityName
                             sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
-                                     section:(NSInteger)section{
+                                     section:(NSInteger)section
+                              collectionView:(nonnull UICollectionView *)collectionView{
     if (self = [super init]) {
         _section = section;
+        _collectionView = collectionView;
+        
         _fetchResult = [[MTFetchResultDataSource alloc] initWithManagedObjectContext:context
                                                                           entityName:entityName
                                                                     sortDescriptions:sortDescriptions
                                                                              section:section];
+        
+        __weak typeof(self) weakSelf = self;
+        UICollectionView *collection = weakSelf.collectionView;
+        _fetchResult.updaterBlock = ^(NSArray * _Nonnull updateArray, NSArray * _Nonnull insertArray, NSArray * _Nonnull deleteArray) {
+            void (^executeUpdateBlock)(void) = ^{
+                weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
+                
+                [collection reloadItemsAtIndexPaths:updateArray];
+                [collection insertItemsAtIndexPaths:insertArray];
+                [collection deleteItemsAtIndexPaths:deleteArray];
+                
+                weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateExectedBatchUpdateBlock;
+            };
+            [collection performBatchUpdates:executeUpdateBlock completion:^(BOOL finished) {
+                weakSelf.fetchResult.updateState = MTFetchBatchUpdateStateIdle;
+                if (weakSelf.updateCompletion) {
+                    weakSelf.updateCompletion(finished);
+                }
+            }];
+        };
+        
     }
     return self;
 };
@@ -50,37 +79,9 @@
 #pragma mark - MTListUpdatingDelegate
 
 - (void)performUpdateWithCollectionView:(UICollectionView *)collection animated:(BOOL)animated completion:(MTListUpdatingCompletion)completion {
-#if 0
-    if(collection == nil) return;
-    if (_collectionView != collection) {
-        _collectionView = collection;
+    if (completion) {
+        self.updateCompletion = completion;
     }
-    
-    __weak typeof(self) weakSelf = self;
-    void (^executeUpdateBlock)(void) = ^{
-        weakSelf.updateState = MTFetchBatchUpdateStateExectingBatchUpdateBlock;
-        
-        NSArray *updateArr = [weakSelf.updateArray copy];
-        NSArray *insertArr = [weakSelf.insertArray copy];
-        NSArray *deleteArr = [weakSelf.deleteArray copy];
-        
-        [weakSelf resetBatchUpdate];
-        
-        [collection reloadItemsAtIndexPaths:updateArr];
-        [collection insertItemsAtIndexPaths:insertArr];
-        [collection deleteItemsAtIndexPaths:deleteArr];
-        
-        weakSelf.updateState = MTFetchBatchUpdateStateExectedBatchUpdateBlock;
-    };
-    
-    [collection performBatchUpdates:executeUpdateBlock completion:^(BOOL finished) {
-        weakSelf.updateState = MTFetchBatchUpdateStateIdle;
-        [weakSelf resetBatchUpdate];
-        if (completion) {
-            completion(finished);
-        }
-    }];
-#endif
 }
 
 - (NSInteger)numberOfObjects {

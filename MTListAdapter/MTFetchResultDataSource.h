@@ -12,14 +12,15 @@
 
 #import "MTFetchBatchUpdateState.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
+typedef void (^updaterBlock)(NSArray *updateArray, NSArray *insertArray, NSArray *deleteArray);
+
 @interface MTFetchResultDataSource : NSObject <NSFetchedResultsControllerDelegate>
 
-@property (nonatomic, strong) NSString *entityName;
-@property (nonatomic, strong) NSFetchedResultsController *fetchController;
-@property (nonatomic, weak) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, copy) updaterBlock updaterBlock;
 
 @property (nonatomic, assign) MTFetchBatchUpdateState updateState;
-
 
 /**
  Initialize
@@ -41,3 +42,5 @@
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
+
+NS_ASSUME_NONNULL_END

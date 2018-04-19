@@ -18,16 +18,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MTListUpdater : NSObject <MTListUpdatingDelegate>
 
-@property (nonatomic, weak) UICollectionView *collectionView;
-
 - (instancetype)initWithEntityName:(NSString *)entityName
                   sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
-                           section:(NSInteger)section;
+                           section:(NSInteger)section
+                    collectionView:(UICollectionView *)collectionView;
 
 - (instancetype)initWithManagedObjectContext:(NSManagedObjectContext *)context
                                   entityName:(NSString *)entityName
                             sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
-                                     section:(NSInteger)section NS_DESIGNATED_INITIALIZER;
+                                     section:(NSInteger)section
+                              collectionView:(UICollectionView *)collectionView NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;

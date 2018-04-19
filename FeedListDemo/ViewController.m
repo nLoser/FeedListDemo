@@ -38,26 +38,32 @@
     if (self = [super init]) {
         _loading = NO;
         self.automaticallyAdjustsScrollViewInsets = NO;
+        self.adapter = [[MTListAdpter alloc] initWithDataSource:self];
     }
     return self;
+}
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    _loading = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.adapter = [[MTListAdpter alloc] initWithDataSource:self];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.collectionView];
     
-    self.adapter = [[MTListAdpter alloc] initWithDataSource:self];
     self.adapter.collectionView = self.collectionView;
     
     self.refresh = [[MTGestureHandleRefresh alloc] initWithViewController:self
                                                                scrollView:self.collectionView];
     __weak typeof(self) weakSelf = self;
     self.refresh.refresh = ^(BOOL refresh) {
-        if(refresh) {
-            [weakSelf refreshData];
-        }
+        [weakSelf refreshData];
     };
     
+    //NOTE:test
     [self refreshData];
 }
 
