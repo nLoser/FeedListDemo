@@ -51,8 +51,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
 
-- (void)resetBatchUpdate;
-
 @end
 
 NS_ASSUME_NONNULL_END

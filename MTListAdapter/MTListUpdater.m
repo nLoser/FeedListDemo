@@ -52,6 +52,8 @@
                                                                     sortDescriptions:sortDescriptions
                                                                              section:section];
         _fetchResult.delegate = self;
+        
+        _pageSize = 10;
     }
     return self;
 };

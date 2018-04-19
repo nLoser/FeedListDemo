@@ -18,6 +18,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface MTListUpdater : NSObject <MTListUpdatingDelegate>
 
+@property (nonatomic, assign) NSInteger pageSize;
+
+/**
+ Initialize
+ */
 - (instancetype)initWithEntityName:(NSString *)entityName
                   sortDescriptions:(NSArray<NSSortDescriptor *> *)sortDescriptions
                            section:(NSInteger)section

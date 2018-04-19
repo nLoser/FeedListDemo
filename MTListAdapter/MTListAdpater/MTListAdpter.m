@@ -59,7 +59,7 @@
         _collectionView = collectionView;
         _collectionView.dataSource = self; ///< Core
         
-        [self bindSectionUpdater];
+        [self bindUpdaterDataSource];
         
         [self performUpdateAfterChange];
     }
@@ -138,7 +138,7 @@
 
 #pragma mark - Private - Supply Setter
 
-- (void)bindSectionUpdater {
+- (void)bindUpdaterDataSource {
     NSArray<MTListSectionModel *> *resources = [self.dataSource objectsForListAdpater:self];
     self.resourcesArray = [resources copy];
     
